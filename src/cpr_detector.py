@@ -1,4 +1,5 @@
 from enum import Flag, auto
+from functools import reduce
 
 
 class DetectorState(Flag):
@@ -15,12 +16,13 @@ class DetectorState(Flag):
     MATCH = auto()
 
 
-def CPRNumber:
+class CPRNumber:
     def __init__(self, cpr):
         self._cpr = cpr
 
     def __str__(self):
-        return ""
+        return reduce(lambda a, b: a + b,
+                      (c for c in self._cpr.values()))
 
 
 def init_cpr():
