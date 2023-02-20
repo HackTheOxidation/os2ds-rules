@@ -7,14 +7,6 @@
 #include <optional>
 #include <string>
 
-enum class CPRDetectorState : unsigned char {
-  Empty,
-  Day,
-  Month,
-  Year,
-  Complete,
-  Control,
-};
 
 struct CPRResult {
   constexpr CPRResult(const size_t start, const size_t end) noexcept
@@ -24,6 +16,27 @@ struct CPRResult {
 };
 
 class CPRDetector {
+private:
+  enum class CPRDetectorState : unsigned char {
+    Empty,
+    First,
+    Second,
+    Third,
+    Fourth,
+    Fifth,
+    Sixth,
+    Seventh,
+    Eighth,
+    Nineth,
+    Match,
+  };
+
+  CPRDetectorState state_;
+  bool check_mod11_;
+  void reset() noexcept;
+  void update() noexcept;
+  void check_day_month() noexcept;
+
 public:
   constexpr CPRDetector(bool check_mod11,
 			CPRDetectorState initial_state = CPRDetectorState::Empty) noexcept
@@ -36,16 +49,7 @@ public:
   constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
   ~CPRDetector() = default; 
 
-  std::optional<CPRResult> search(const std::string&) noexcept;
-
-private:
-  CPRDetectorState state_;
-  bool check_mod11_;
-  void reset();
-  void read_day(std::string::iterator&, std::string::iterator&) noexcept;
-  void read_month(std::string::iterator&, std::string::iterator&) noexcept;
-  void read_year(std::string::iterator&, std::string::iterator) noexcept;
-  void clear() noexcept;
+  void find_matches(const std::string&) noexcept;
 };
 
 #endif

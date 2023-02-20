@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <string>
 
+
 constexpr CPRDetector::CPRDetector(CPRDetector&& other) noexcept
   : state_(std::move(other.state_)), check_mod11_(std::move(other.check_mod11_)) {}
 
@@ -14,28 +15,24 @@ constexpr CPRDetector& CPRDetector::operator=(CPRDetector&& other) noexcept {
   return *this;
 }
 
-std::optional<CPRResult> search(const std::string text) noexcept {
-  if (text.size() < 10)
-    return std::nullopt;
+void CPRDetector::find_matches(const std::string& content) noexcept {
+  auto content_length = content.size();
+  if (content_length < 10) {
+    return;
+  }
 
-  auto cursor = text.begin();
-  auto stop = text.end();
+  // TODO: find a reasonable data type to store a CPR-number.
+  char cpr[10] = {0};
+  char* previous = nullptr;
+  size_t begin = 0;
+  bool allow_separator = false;
 
-  return std::nullopt;
+  for(auto it = std::begin(content); it != std::end(content); ++it) {
+    switch (state_) {
+    case CPRDetectorState::Empty:
+      break;
+    default:
+      break;
+    }
+  }
 }
-
-void CPRDetector::read_day(std::string::iterator& cursor,
-			   std::string::iterator& stop) noexcept {
-  
-}
-
-void CPRDetector::read_month(std::string::iterator& cursor,
-			     std::string::iterator& stop) noexcept {
-
-}
-
-void CPRDetector::read_year(std::string::iterator& cursor,
-			    std::string::iterator& stop) noexcept {
-
-}
-
