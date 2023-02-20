@@ -41,7 +41,7 @@ class CPRNumber:
         '''Returns the year of the DDMMYY part.'''
         return int(self._cpr[4] + self._cpr[5])
 
-    def control(self, ret_type = str) -> ret_type:
+    def control(self, ret_type = str):
         '''Returns the control part of DDMMYY-CCCC. The return-type can be altered with the "ret_type" parameter.'''
         cpr = self._cpr[6] + self._cpr[7] + self._cpr[8] + self._cpr[9]
         return ret_type(cpr) 
@@ -50,7 +50,7 @@ class CPRNumber:
         return reduce(lambda a, b: a + b,
                       (c for c in self._cpr.values()))
 
-    def __eq__(self, other: CPRNumber) -> bool:
+    def __eq__(self, other) -> bool:
         if isinstance(other, CPRNumber):
             return (
                 self.day() == other.day() and
@@ -85,7 +85,7 @@ class CPRDetector:
         '''Resets the internal DetectorState to EMPTY.'''
         self._state = self._State.EMPTY
 
-    def _update(self, c: str, new_state: self._State, accepted: Iterable) -> str:
+    def _update(self, c: str, new_state, accepted: Iterable) -> str:
         '''Updates the internal state to "new_state" if "c" is in the collection of acceptable inputs.'''
         if c in accepted:
             self._state = new_state
@@ -217,7 +217,7 @@ class CPRDetector:
                     # We won't accept XXXXXX-0000 as a valid CPR-number.
                     control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
 
-                    if control <= 0:
+                    if control > 0:
                         yield {
                             "cpr": CPRNumber(cpr),
                             "begin": begin,
