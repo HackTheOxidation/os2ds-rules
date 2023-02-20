@@ -1,5 +1,6 @@
 from enum import Flag, auto
 from functools import reduce
+from typing import Iterable
 
 
 class DetectorState(Flag):
@@ -24,8 +25,20 @@ class CPRNumber:
         return reduce(lambda a, b: a + b,
                       (c for c in self._cpr.values()))
 
+    def day(self) -> int:
+        '''Returns the day of the DDMMYY part.'''
+        return int(self._cpr[0] + self._cpr[1])
 
-def init_cpr():
+    def month(self) -> int:
+        '''Returns the month of the DDMMYY part.'''
+        return int(self._cpr[2] + self._cpr[3])
+
+    def year(self) -> int:
+        '''Returns the year of the DDMMYY part.'''
+        return int(self._cpr[4] + self._cpr[5])
+
+
+def init_cpr() -> dict[int, str | None]:
     ''''''
     return {
             0: None, 1: None, 
@@ -36,37 +49,40 @@ def init_cpr():
             }
 
 
-def digits():
+def digits() -> str:
     ''''''
     return "0" + nonzero_digits()
 
-def nonzero_digits():
+def nonzero_digits() -> str:
     ''''''
     return "123456789"
 
 
-def delimiters():
+def separators() -> str:
     ''''''
     return ' -/'
 
 
 class CPRDetector:
-    ''''''
+    '''Utility class for detecting Danish CPR-numbers (personnummer) in text.'''
     def __init__(self):
         self._state = DetectorState.EMPTY
 
     def _reset(self):
+        '''Resets the internal DetectorState to EMPTY.'''
         self._state = DetectorState.EMPTY
 
-    def _update(self, c: str, new_state: DetectorState, accepted):
+    def _update(self, c: str, new_state: DetectorState, accepted: Iterable) -> str:
+        '''Updates the internal state to "new_state" if "c" is in the collection of acceptable inputs.'''
         if c in accepted:
             self._state = new_state
             return c
         else:
             self._reset()
-            return None
+            return ""
 
-    def _check_day_month(self, cpr):
+    def _check_day_month(self, cpr) -> bool:
+        '''Checks that the first four digits of the supplied CPR-number constitutes a valid day-month pair.'''
         day = int(cpr[0] + cpr[1])
         month = int(cpr[2] + cpr[3])
 
@@ -80,12 +96,18 @@ class CPRDetector:
 
         return False
 
-    def find_match(self, content: str, reset: bool = True):
+    def find_matches(self, content: str) -> Iterable:
+        '''Finds all occurances of a CPR-number in content string.'''
+
+        # If the string is too short to contain a CPR-number then return.
         if content is None or len(content) < 10:
             return
 
-        cpr = init_cpr()
-        previous = None
+        cpr: dict[int, str | None] = init_cpr()
+        previous: str = ""
+        begin: int = 0
+        allow_separator: bool = False
+
         for i, c in enumerate(content):
             match self._state:
                 case DetectorState.EMPTY:
@@ -100,11 +122,17 @@ class CPRDetector:
                     elif previous == "0":
                         accepted = nonzero_digits()
                     elif previous == "3":
-                        accepted = '0' | '1'
+                        accepted = '01'
 
                     previous = cpr[1] = self._update(c, DetectorState.SECOND, accepted)
 
+                    allow_separator = True
+
                 case DetectorState.SECOND:
+                    if c == " " and allow_separator:
+                        allow_separator = False
+                        continue
+                    
                     previous = cpr[2] = self._update(c, DetectorState.THIRD, '01')
 
                 case DetectorState.THIRD:
@@ -118,7 +146,13 @@ class CPRDetector:
                     previous = cpr[3] = self._update(c, DetectorState.FOURTH, accepted)
                     leap_year = self._check_day_month(cpr)
 
+                    allow_separator = True
+
                 case DetectorState.FOURTH:
+                    if c == " " and allow_separator:
+                        allow_separator = False
+                        continue
+                    
                     previous = cpr[4] = self._update(c, DetectorState.FIFTH, digits())
 
                 case DetectorState.FIFTH:
@@ -136,24 +170,31 @@ class CPRDetector:
                         if year % 4 != 0:
                            self._reset() 
 
+                    allow_separator = True
+
                 case DetectorState.SIXTH:
-                    previous = cpr[6] = self._update(c, DetectorState.SEVENTH, accepted)
+                    if allow_separator and c in separators():
+                        allow_separator = False
+                        continue
+                    
+                    previous = cpr[6] = self._update(c, DetectorState.SEVENTH, digits())
+
                 case DetectorState.SEVENTH:
-                    previous = cpr[7] = self._update(c, DetectorState.EIGHTH, accepted)
+                    previous = cpr[7] = self._update(c, DetectorState.EIGHTH, digits())
+
                 case DetectorState.EIGHTH:
-                    previous = cpr[8] = self._update(c, DetectorState.MATCH, accepted)
+                    previous = cpr[8] = self._update(c, DetectorState.MATCH, digits())
+
                 case DetectorState.MATCH:
-                    previous = cpr[9] = self._update(c, DetectorState.MATCH, accepted)
+                    previous = cpr[9] = self._update(c, DetectorState.MATCH, digits())
 
                     control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
 
                     if control <= 0:
-                        self._reset()
-                        continue
+                        yield {
+                            "cpr": CPRNumber(cpr),
+                            "begin": begin,
+                            "end": i,
+                            }
 
-                    return {
-                        "cpr": cpr,
-                        "begin": begin,
-                        "end": i,
-                        }
-
+                    self._reset()
