@@ -25,6 +25,15 @@ def _init_cpr() -> dict[int, str | None]:
             }
 
 
+def string_to_cpr_dict(string: str):
+    '''Takes a string and converts it to a dictionary.'''
+    cpr = {}
+    for i, c in enumerate(string):
+        cpr[i] = c
+
+    return cpr
+
+
 class CPRNumber:
     def __init__(self, cpr):
         self._cpr = cpr
@@ -124,10 +133,11 @@ class CPRDetector:
         for i, c in enumerate(content):
             match self._state:
                 case self._State.EMPTY:
-                    previous = cpr[0] = self._update(c, self._State.FIRST, '0123')
+                    previous = self._update(c, self._State.FIRST, '0123')
 
-                    # Record the index of the first matching symbol.
+                    # Record the the first matching symbol and its index.
                     if previous:
+                        cpr[0] = previous
                         begin = i
 
                 case self._State.FIRST:
@@ -219,9 +229,11 @@ class CPRDetector:
 
                     if control > 0:
                         yield {
-                            "cpr": CPRNumber(cpr),
+                            "cpr": cpr,
                             "begin": begin,
                             "end": i,
                             }
 
+                    previous = ""
+                    cpr = _init_cpr()
                     self._reset()
