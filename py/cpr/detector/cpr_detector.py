@@ -3,27 +3,31 @@ from functools import reduce
 from typing import Iterable
 
 
-class DetectorState(Flag):
+__all__ = [
+    'CPRNumber',
+    'CPRDetector',
+    ]
+
+
+_nonzero_digits: str = "123456789"
+_digits: str = "0" + _nonzero_digits
+_separators: str = ' -/'
+
+
+def _init_cpr() -> dict[int, str | None]:
     ''''''
-    EMPTY = auto()
-    FIRST = auto()
-    SECOND = auto()
-    THIRD = auto()
-    FOURTH = auto()
-    FIFTH = auto()
-    SIXTH = auto()
-    SEVENTH = auto()
-    EIGHTH = auto()
-    MATCH = auto()
+    return {
+            0: None, 1: None, 
+            2: None, 3: None, 
+            4: None, 5: None, 
+            6: None, 7: None, 
+            8: None, 9: None, 
+            }
 
 
 class CPRNumber:
     def __init__(self, cpr):
         self._cpr = cpr
-
-    def __str__(self):
-        return reduce(lambda a, b: a + b,
-                      (c for c in self._cpr.values()))
 
     def day(self) -> int:
         '''Returns the day of the DDMMYY part.'''
@@ -37,42 +41,51 @@ class CPRNumber:
         '''Returns the year of the DDMMYY part.'''
         return int(self._cpr[4] + self._cpr[5])
 
+    def control(self, ret_type = str) -> ret_type:
+        '''Returns the control part of DDMMYY-CCCC. The return-type can be altered with the "ret_type" parameter.'''
+        cpr = self._cpr[6] + self._cpr[7] + self._cpr[8] + self._cpr[9]
+        return ret_type(cpr) 
 
-def init_cpr() -> dict[int, str | None]:
-    ''''''
-    return {
-            0: None, 1: None, 
-            2: None, 3: None, 
-            4: None, 5: None, 
-            6: None, 7: None, 
-            8: None, 9: None, 
-            }
+    def __str__(self) -> str:
+        return reduce(lambda a, b: a + b,
+                      (c for c in self._cpr.values()))
 
+    def __eq__(self, other: CPRNumber) -> bool:
+        if isinstance(other, CPRNumber):
+            return (
+                self.day() == other.day() and
+                self.month() == other.month() and
+                self.year() == other.year() and
+                self.control() == other.control()
+                    )
 
-def digits() -> str:
-    ''''''
-    return "0" + nonzero_digits()
-
-def nonzero_digits() -> str:
-    ''''''
-    return "123456789"
-
-
-def separators() -> str:
-    ''''''
-    return ' -/'
+        return False
 
 
 class CPRDetector:
     '''Utility class for detecting Danish CPR-numbers (personnummer) in text.'''
+
+    class _State(Flag):
+        '''Internal State for tracking progress of detection.'''
+        EMPTY = auto()
+        FIRST = auto()
+        SECOND = auto()
+        THIRD = auto()
+        FOURTH = auto()
+        FIFTH = auto()
+        SIXTH = auto()
+        SEVENTH = auto()
+        EIGHTH = auto()
+        MATCH = auto()
+
     def __init__(self):
-        self._state = DetectorState.EMPTY
+        self._state = self._State.EMPTY
 
     def _reset(self):
         '''Resets the internal DetectorState to EMPTY.'''
-        self._state = DetectorState.EMPTY
+        self._state = self._State.EMPTY
 
-    def _update(self, c: str, new_state: DetectorState, accepted: Iterable) -> str:
+    def _update(self, c: str, new_state: self._State, accepted: Iterable) -> str:
         '''Updates the internal state to "new_state" if "c" is in the collection of acceptable inputs.'''
         if c in accepted:
             self._state = new_state
@@ -103,91 +116,105 @@ class CPRDetector:
         if content is None or len(content) < 10:
             return
 
-        cpr: dict[int, str | None] = init_cpr()
+        cpr: dict[int, str | None] = _init_cpr()
         previous: str = ""
         begin: int = 0
         allow_separator: bool = False
 
         for i, c in enumerate(content):
             match self._state:
-                case DetectorState.EMPTY:
-                    previous = cpr[0] = self._update(c, DetectorState.FIRST, '0123')
+                case self._State.EMPTY:
+                    previous = cpr[0] = self._update(c, self._State.FIRST, '0123')
+
+                    # Record the index of the first matching symbol.
                     if previous:
                         begin = i
 
-                case DetectorState.FIRST:
+                case self._State.FIRST:
                     accepted = []
                     if previous in "12":
-                        accepted = digits()
+                        accepted = _digits
                     elif previous == "0":
-                        accepted = nonzero_digits()
+                        accepted = _nonzero_digits
                     elif previous == "3":
                         accepted = '01'
 
-                    previous = cpr[1] = self._update(c, DetectorState.SECOND, accepted)
+                    previous = cpr[1] = self._update(c, self._State.SECOND, accepted)
 
-                    allow_separator = True
+                    if previous:
+                        allow_separator = True
 
-                case DetectorState.SECOND:
+                case self._State.SECOND:
+                    # We may skip a space.
                     if c == " " and allow_separator:
                         allow_separator = False
                         continue
                     
-                    previous = cpr[2] = self._update(c, DetectorState.THIRD, '01')
+                    previous = cpr[2] = self._update(c, self._State.THIRD, '01')
 
-                case DetectorState.THIRD:
+                case self._State.THIRD:
                     accepted = []
                     match previous:
                         case '0':
-                            accepted = nonzero_digits()
+                            accepted = _nonzero_digits
                         case '1':
                             accepted = '012'
                             
-                    previous = cpr[3] = self._update(c, DetectorState.FOURTH, accepted)
+                    previous = cpr[3] = self._update(c, self._State.FOURTH, accepted)
+
+                    # Check that the day-month combination is valid.
+                    # If it is February 29th, raise a flag so that we can check for leap year later.
                     leap_year = self._check_day_month(cpr)
 
-                    allow_separator = True
+                    if previous:
+                        allow_separator = True
 
-                case DetectorState.FOURTH:
+                case self._State.FOURTH:
+                    # We may skip a space.
                     if c == " " and allow_separator:
                         allow_separator = False
                         continue
                     
-                    previous = cpr[4] = self._update(c, DetectorState.FIFTH, digits())
+                    previous = cpr[4] = self._update(c, self._State.FIFTH, _digits)
 
-                case DetectorState.FIFTH:
+                case self._State.FIFTH:
                     accepted = []
                     match previous:
                         case '0':
-                            accepted = nonzero_digits()
+                            accepted = _nonzero_digits
                         case '1':
-                            accepted = digits()
+                            accepted = _digits
 
-                    previous = cpr[5] = self._update(c, DetectorState.SIXTH, accepted)
+                    previous = cpr[5] = self._update(c, self._State.SIXTH, accepted)
 
+                    # This may be a leap, so check if it is.
                     if leap_year:
                         year = int(cpr[4] + cpr[5])
                         if year % 4 != 0:
-                           self._reset() 
+                            # Nope, not a leap year. This is invalid.
+                            self._reset() 
 
-                    allow_separator = True
+                    if previous:
+                        allow_separator = True
 
-                case DetectorState.SIXTH:
-                    if allow_separator and c in separators():
+                case self._State.SIXTH:
+                    # We may skip one of the separator symbols.
+                    if allow_separator and c in _separators:
                         allow_separator = False
                         continue
                     
-                    previous = cpr[6] = self._update(c, DetectorState.SEVENTH, digits())
+                    previous = cpr[6] = self._update(c, self._State.SEVENTH, _digits)
 
-                case DetectorState.SEVENTH:
-                    previous = cpr[7] = self._update(c, DetectorState.EIGHTH, digits())
+                case self._State.SEVENTH:
+                    previous = cpr[7] = self._update(c, self._State.EIGHTH, _digits)
 
-                case DetectorState.EIGHTH:
-                    previous = cpr[8] = self._update(c, DetectorState.MATCH, digits())
+                case self._State.EIGHTH:
+                    previous = cpr[8] = self._update(c, self._State.MATCH, _digits)
 
-                case DetectorState.MATCH:
-                    previous = cpr[9] = self._update(c, DetectorState.MATCH, digits())
+                case self._State.MATCH:
+                    previous = cpr[9] = self._update(c, self._State.MATCH, _digits)
 
+                    # We won't accept XXXXXX-0000 as a valid CPR-number.
                     control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
 
                     if control <= 0:
