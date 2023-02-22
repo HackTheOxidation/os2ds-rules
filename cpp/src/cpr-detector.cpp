@@ -1,4 +1,5 @@
 #include <cpr-detector.hpp>
+#include <iterator>
 
 
 namespace CPRDetector {
@@ -95,11 +96,17 @@ namespace CPRDetector {
     for(auto it = std::begin(content); it != std::end(content); ++it) {
       switch (state_) {
       case CPRDetectorState::Empty:
+	if (!is_previous_ok(previous)) {
+	  previous = *it;
+	  continue;
+	}
+	  
 	is_acceptable = make_predicate('0', '1', '2', '3');
-	previous = update(*it, CPRDetectorState::First, is_acceptable);
+	update(*it, CPRDetectorState::First, is_acceptable);
+	previous = *it;
 
-	if (previous != 0) {
-	  cpr[0] = previous;
+	if (state_ == CPRDetectorState::First) {
+	  cpr[0] = *it;
 	  begin = std::distance(content.begin(), it);
 	}
 
@@ -113,7 +120,7 @@ namespace CPRDetector {
 	  is_acceptable = make_predicate('0', '1');
 	} else {
 	  reset();
-	  previous = 0;
+	  previous = *it;
 	  continue;
 	}
 
@@ -170,13 +177,9 @@ namespace CPRDetector {
       case CPRDetectorState::Fifth:
 	if (previous == '0') {
 	  is_acceptable = is_nonzero_digit;
-	} else if (previous == '1') {
-	  is_acceptable = is_digit;
 	} else {
-	  reset();
-	  previous = 0;
-	  continue;
-	}
+	  is_acceptable = is_digit;
+	} 
 
 	previous = cpr[5] = update(*it, CPRDetectorState::Sixth, is_acceptable);
 
@@ -211,11 +214,13 @@ namespace CPRDetector {
 	break;
       case CPRDetectorState::Match:
 	is_acceptable = is_digit;
-	previous = cpr[9] = update(*it, CPRDetectorState::Match, is_acceptable);
+	cpr[9] = update(*it, CPRDetectorState::Match, is_acceptable);
 
-	check_and_append_cpr(cpr, results, begin, std::distance(content.begin(), it));
+	if (is_previous_ok(*(it + 1)))
+	  check_and_append_cpr(cpr, results, begin, std::distance(content.begin(), it));
 
-	previous = 0;
+	previous = *it;
+	allow_separator = false;
 	reset();
 
 	break;

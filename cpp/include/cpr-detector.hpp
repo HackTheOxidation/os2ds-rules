@@ -36,6 +36,8 @@ namespace CPRDetector {
 
   const auto is_separator = make_predicate(' ', '-', '/');
 
+  const auto is_previous_ok = make_predicate(char(0), ' ', '\n', '\t', '\0');
+
   constexpr bool is_space(const char c) noexcept {
     return c == ' ';
   }
