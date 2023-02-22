@@ -30,8 +30,8 @@ namespace CPRDetector {
   }
 
   bool CPRDetector::check_day_month(const std::string& cpr) noexcept {
-    int day = std::stoi(std::string(cpr[0], cpr[1]));
-    int month = std::stoi(std::string(cpr[2], cpr[3]));
+    int day = std::stoi(std::string(cpr, 0, 2));
+    int month = std::stoi(std::string(cpr, 2, 2));
 
     if (month == 2) {
       if (day == 29)
@@ -48,14 +48,14 @@ namespace CPRDetector {
   }
 
   void CPRDetector::check_leap_year(const std::string& cpr) noexcept {
-    int year = std::stoi(std::string(cpr[4], cpr[5]));
+    int year = std::stoi(std::string(cpr, 4, 2));
 
     if (year % 4 != 0)
       reset();
   }
 
   void CPRDetector::check_and_append_cpr(std::string& cpr, CPRResults& results, size_t begin, size_t end) noexcept {
-    int control = std::stoi(std::string(cpr[6], cpr[9]));
+    int control = std::stoi(std::string(cpr, 6, 4));
 
     if (control > 0) {
       CPRResult result(cpr, begin, end);
