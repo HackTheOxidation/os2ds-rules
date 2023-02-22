@@ -1,55 +1,99 @@
 #ifndef CPR_DETECTOR_HPP
 #define CPR_DETECTOR_HPP
 
-#include <cstddef>
-#include <list>
-#include <memory_resource>
-#include <optional>
+#include <concepts>
+#include <functional>
 #include <string>
+#include <vector>
 
+namespace CPRDetector {
 
-struct CPRResult {
-  constexpr CPRResult(const size_t start, const size_t end) noexcept
-    : start_(start), end_(end) {};
-  const size_t start_;
-  const size_t end_;
-};
+  using Predicate = std::function<bool(char)>;
+  using ComposerOp = std::function<bool(bool, bool)>;
 
-class CPRDetector {
-private:
-  enum class CPRDetectorState : unsigned char {
-    Empty,
-    First,
-    Second,
-    Third,
-    Fourth,
-    Fifth,
-    Sixth,
-    Seventh,
-    Eighth,
-    Nineth,
-    Match,
+  const Predicate compose_or(Predicate p, Predicate q) noexcept {
+    // Composes two predicate functions into one.
+    return [p, q](char c) { return p(c) || q(c); };
+  }
+
+  template<typename T>
+  requires std::same_as<T, char>
+  constexpr Predicate make_predicate(T d) noexcept {
+    return [d](T c) { return c == d; };
+  }
+
+  template<typename T, typename... Args>
+  constexpr Predicate make_predicate(T d, Args... ds) noexcept {
+    if constexpr(sizeof...(ds) > 0) {
+      return [d, ds...](T c) {
+	return make_predicate(d)(c) || make_predicate(ds...)(c);
+      };
+    } else
+      return make_predicate(d);
+  }
+
+  constexpr bool is_nonzero_digit(char c) noexcept {
+    return '0' < c && c <= '9';
+  }
+
+  constexpr bool is_digit(char c) noexcept {
+    return '0' <= c && c <= '9';
+  }
+
+  const auto is_separator = make_predicate(' ', '-', '/');
+
+  constexpr bool is_space(const char c) noexcept {
+    return c == ' ';
+  }
+
+  struct CPRResult {
+    CPRResult(const std::string cpr, const size_t start, const size_t end) noexcept
+      : start_(start), end_(end), cpr_{cpr} {
+    };
+    const size_t start_;
+    const size_t end_;
+    const std::string cpr_;
   };
 
-  CPRDetectorState state_;
-  bool check_mod11_;
-  void reset() noexcept;
-  void update() noexcept;
-  void check_day_month() noexcept;
+  using CPRResults = std::vector<CPRResult>;
 
-public:
-  constexpr CPRDetector(bool check_mod11,
-			CPRDetectorState initial_state = CPRDetectorState::Empty) noexcept
-    : state_(initial_state), check_mod11_(check_mod11) {}
+  class CPRDetector {
+  private:
+    enum class CPRDetectorState : unsigned char {
+      Empty,
+      First,
+      Second,
+      Third,
+      Fourth,
+      Fifth,
+      Sixth,
+      Seventh,
+      Eighth,
+      Match,
+    };
 
-  CPRDetector(const CPRDetector&) = delete;
-  CPRDetector& operator=(const CPRDetector&) = delete;
+    CPRDetectorState state_;
+    bool check_mod11_;
+    void reset() noexcept;
+    char update(char c, CPRDetectorState new_state, Predicate is_acceptable) noexcept;
+    bool check_day_month(const std::string&) noexcept;
+    void check_leap_year(const std::string&) noexcept;
+    void check_and_append_cpr(std::string&, CPRResults&, size_t, size_t) noexcept;
 
-  constexpr CPRDetector(CPRDetector&&) noexcept;
-  constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
-  ~CPRDetector() = default; 
+  public:
+    constexpr CPRDetector(bool check_mod11,
+			  CPRDetectorState initial_state = CPRDetectorState::Empty) noexcept
+      : state_(initial_state), check_mod11_(check_mod11) {}
 
-  void find_matches(const std::string&) noexcept;
+    CPRDetector(const CPRDetector&) = delete;
+    CPRDetector& operator=(const CPRDetector&) = delete;
+
+    constexpr CPRDetector(CPRDetector&&) noexcept;
+    constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
+    ~CPRDetector() = default; 
+
+    CPRResults find_matches(const std::string&) noexcept;
+  };
 };
 
 #endif
