@@ -9,12 +9,6 @@
 namespace CPRDetector {
 
   using Predicate = std::function<bool(char)>;
-  using ComposerOp = std::function<bool(bool, bool)>;
-
-  const Predicate compose_or(Predicate p, Predicate q) noexcept {
-    // Composes two predicate functions into one.
-    return [p, q](char c) { return p(c) || q(c); };
-  }
 
   template<typename T>
   requires std::same_as<T, char>
