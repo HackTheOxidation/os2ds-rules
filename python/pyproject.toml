@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cpr_detector"
+version = "0.0.1"
+authors = [
+  { name="HackTheOxidation", email="tomas.hagenau@protonmail.ch" },
+]
+description = "Text processing tool for detecting Danish CPR-numbers."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.6"
+classifiers = [
+  "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+"Homepage" = "https://codeberg.org/HackTheOxidation/cpr-detector"
+"Bug Tracker" = "https://codeberg.org/HackTheOxidation/cpr-detector/issues"
