@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cpr_detector"
+name = "cprdetector"
 version = "0.0.1"
 authors = [
   { name="HackTheOxidation", email="tomas.hagenau@protonmail.ch" },
