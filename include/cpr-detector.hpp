@@ -2,6 +2,7 @@
 #define CPR_DETECTOR_HPP
 
 #include <concepts>
+#include <cstddef>
 #include <functional>
 #include <string>
 #include <vector>
@@ -75,6 +76,7 @@ namespace CPRDetector {
     bool check_day_month(const std::string&) noexcept;
     void check_leap_year(const std::string&) noexcept;
     void check_and_append_cpr(std::string&, CPRResults&, size_t, size_t) noexcept;
+    void search(CPRResults&, char*, std::string&, char&, size_t&, bool&, bool&, Predicate&) noexcept;
 
   public:
     constexpr CPRDetector(bool check_mod11,
@@ -88,7 +90,10 @@ namespace CPRDetector {
     constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
     ~CPRDetector() = default; 
 
+    [[maybe_unused]]
     CPRResults find_matches(const std::string&) noexcept;
+    [[maybe_unused]]
+    CPRResults find_matches(const char*, size_t) noexcept;
   };
 };
 

@@ -77,6 +77,7 @@ namespace CPRDetector {
     }
   }
 
+  [[maybe_unused]]
   CPRResults CPRDetector::find_matches(const std::string& content) noexcept {
     CPRResults results;
 

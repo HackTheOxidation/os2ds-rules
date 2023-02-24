@@ -4,6 +4,7 @@
 #include <cpr-detector.hpp>
 #include <cstddef>
 #include <iostream>
+#include <string>
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,7 +17,10 @@ extern "C" {
     if (!PyArg_ParseTuple(args, "s", &content))
       return NULL;
 
-    std::cout << "Called find_matches with: " << content << '\n';
+    CPRDetector::CPRDetector detector(false);
+    std::string search_space(content);
+
+    detector.find_matches(search_space);
 
     Py_RETURN_NONE;
   }
