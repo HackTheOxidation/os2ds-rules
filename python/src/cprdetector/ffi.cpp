@@ -20,9 +20,9 @@ extern "C" {
     CPRDetector::CPRDetector detector(false);
     std::string search_space(content);
 
-    detector.find_matches(search_space);
+    auto results = detector.find_matches(search_space);
 
-    Py_RETURN_NONE;
+    return PyLong_FromSize_t(results.size());
   }
 
   static PyMethodDef DetectorMethods[] = {
