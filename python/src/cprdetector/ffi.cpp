@@ -21,8 +21,17 @@ extern "C" {
     std::string search_space(content);
 
     auto results = detector.find_matches(search_space);
+    Py_ssize_t len = Py_ssize_t(results.size());
 
-    return PyLong_FromLong(results.size());
+    PyObject* list_of_results = PyList_New(len);
+
+    for (Py_ssize_t i = 0; i < len; ++i) {
+      auto res = results[i];
+      PyObject* obj = Py_BuildValue("{s:s, s:i, s:i}", "cpr", res.cpr_.c_str(), "start", res.start_, "end", res.end_);
+      PyList_SetItem(list_of_results, i, obj);
+    }
+
+    return list_of_results;
   }
 
   static PyMethodDef DetectorMethods[] = {
