@@ -89,7 +89,6 @@ namespace CPRDetector {
     constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
     ~CPRDetector() = default; 
 
-    [[maybe_unused]]
     CPRResults find_matches(const std::string&) noexcept;
   };
 };

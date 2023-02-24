@@ -22,7 +22,7 @@ extern "C" {
 
     auto results = detector.find_matches(search_space);
 
-    return PyLong_FromSize_t(results.size());
+    return PyLong_FromLong(results.size());
   }
 
   static PyMethodDef DetectorMethods[] = {
