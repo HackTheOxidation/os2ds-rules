@@ -76,7 +76,6 @@ namespace CPRDetector {
     bool check_day_month(const std::string&) noexcept;
     void check_leap_year(const std::string&) noexcept;
     void check_and_append_cpr(std::string&, CPRResults&, size_t, size_t) noexcept;
-    void search(CPRResults&, char*, std::string&, char&, size_t&, bool&, bool&, Predicate&) noexcept;
 
   public:
     constexpr CPRDetector(bool check_mod11,
@@ -92,8 +91,6 @@ namespace CPRDetector {
 
     [[maybe_unused]]
     CPRResults find_matches(const std::string&) noexcept;
-    [[maybe_unused]]
-    CPRResults find_matches(const char*, size_t) noexcept;
   };
 };
 
