@@ -69,21 +69,20 @@ namespace CPRDetector {
       Match,
     };
 
-    CPRDetectorState state_;
     bool check_mod11_;
-    void reset() noexcept;
-    char update(char c, CPRDetectorState new_state, Predicate is_acceptable) noexcept;
-    bool check_day_month(const std::string&) noexcept;
-    void check_leap_year(const std::string&) noexcept;
+    bool examine_context_;
+    void reset(CPRDetectorState& state) noexcept;
+    char update(char, CPRDetectorState, CPRDetectorState&, Predicate) noexcept;
+    bool check_day_month(const std::string&, CPRDetectorState&) noexcept;
+    void check_leap_year(const std::string&, CPRDetectorState&) noexcept;
     void check_and_append_cpr(std::string&, CPRResults&, size_t, size_t) noexcept;
 
   public:
-    constexpr CPRDetector(bool check_mod11,
-			  CPRDetectorState initial_state = CPRDetectorState::Empty) noexcept
-      : state_(initial_state), check_mod11_(check_mod11) {}
+    constexpr CPRDetector(bool check_mod11 = false, bool examine_context = false) noexcept
+      : check_mod11_(check_mod11), examine_context_(examine_context) {}
 
-    CPRDetector(const CPRDetector&) = delete;
-    CPRDetector& operator=(const CPRDetector&) = delete;
+    constexpr CPRDetector(const CPRDetector&) noexcept;
+    constexpr CPRDetector& operator=(const CPRDetector&) noexcept;
 
     constexpr CPRDetector(CPRDetector&&) noexcept;
     constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
