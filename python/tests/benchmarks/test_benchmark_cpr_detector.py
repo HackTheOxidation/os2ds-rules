@@ -1,4 +1,4 @@
-from cprdetector.detector import find_matches
+from os2ds_rules.cpr_detector import find_matches
 from .utilities import HTML_CONTENT
 
 

@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+using namespace OS2DSRules::CPRDetector;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -17,7 +19,7 @@ extern "C" {
     if (!PyArg_ParseTuple(args, "s", &content))
       return NULL;
 
-    CPRDetector::CPRDetector detector(false);
+    CPRDetector detector(false);
 
     auto results = detector.find_matches(content);
     Py_ssize_t len = Py_ssize_t(results.size());
@@ -47,7 +49,7 @@ extern "C" {
     DetectorMethods
   };
 
-  PyMODINIT_FUNC PyInit_detector(void) {
+  PyMODINIT_FUNC PyInit_cpr_detector(void) {
     return PyModule_Create(&detectormodule);
   }
 

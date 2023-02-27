@@ -1,9 +1,9 @@
 from setuptools import Extension, setup
 
-libcprdetector = Extension(name="cprdetector.detector",
+libcprdetector = Extension(name="os2ds_rules.cpr_detector",
                            language="c++",
                            include_dirs=["../include/"],
-                           sources=["src/cprdetector/ffi.cpp", "../lib/cpr-detector.cpp"],
+                           sources=["src/os2ds_rules/ffi.cpp", "../lib/cpr-detector.cpp"],
                            extra_compile_args=["-O3", "-std=c++20"])
 
 setup(ext_modules=[libcprdetector])

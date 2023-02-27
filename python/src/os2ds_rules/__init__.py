@@ -1,4 +1,4 @@
-from .detector import find_matches
+from .cpr_detector import find_matches
 
 
 class CPRDetector:
