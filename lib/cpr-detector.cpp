@@ -113,6 +113,7 @@ namespace CPRDetector {
     CPRDetectorState state = CPRDetectorState::Empty;
     std::string cpr(10, 0);
     char previous = 0;
+    size_t count = 0;
     size_t begin = 0;
     bool allow_separator = false;
     bool leap_year = false;
@@ -132,7 +133,7 @@ namespace CPRDetector {
 
 	if (state == CPRDetectorState::First) {
 	  cpr[0] = *it;
-	  begin = std::distance(it_begin, it);
+	  begin = count;
 	}
 
 	break;
@@ -243,7 +244,7 @@ namespace CPRDetector {
 
 	std::istreambuf_iterator<char> ahead = it;
 	if (is_previous_ok(*(++ahead)))
-	  check_and_append_cpr(cpr, results, begin, std::distance(it_begin, it));
+	  check_and_append_cpr(cpr, results, begin, count);
 
 	previous = *it;
 	allow_separator = false;
@@ -251,6 +252,8 @@ namespace CPRDetector {
 
 	break;
       }
+
+      ++count;
     }
 
     return results;
