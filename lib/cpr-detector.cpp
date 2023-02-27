@@ -1,5 +1,6 @@
 #include <cpr-detector.hpp>
 #include <iterator>
+#include <sstream>
 
 
 namespace CPRDetector {
@@ -91,13 +92,22 @@ namespace CPRDetector {
     }
   }
 
+  CPRResults CPRDetector::find_matches(const char* content) noexcept {
+    return find_matches(std::istringstream(content));
+  }
+
   CPRResults CPRDetector::find_matches(const std::string& content) noexcept {
+    if (content.size() < 10)
+      return CPRResults();
+
+    return find_matches(std::istringstream(content));
+  }
+
+  CPRResults CPRDetector::find_matches(std::istringstream stream) noexcept {
     CPRResults results;
 
-    // If the content is too short to contain a match, return early.
-    if (content.size() < 10) {
-      return results;
-    }
+    std::istreambuf_iterator<char> it_begin(stream);
+    std::istreambuf_iterator<char> it_end;
 
     // Initialize.
     CPRDetectorState state = CPRDetectorState::Empty;
@@ -108,7 +118,7 @@ namespace CPRDetector {
     bool leap_year = false;
     Predicate is_acceptable = [](char) { return false; };
 
-    for(auto it = std::begin(content); it != std::end(content); ++it) {
+    for(auto it = it_begin; it != it_end; ++it) {
       switch (state) {
       case CPRDetectorState::Empty:
 	if (!is_previous_ok(previous)) {
@@ -122,7 +132,7 @@ namespace CPRDetector {
 
 	if (state == CPRDetectorState::First) {
 	  cpr[0] = *it;
-	  begin = std::distance(content.begin(), it);
+	  begin = std::distance(it_begin, it);
 	}
 
 	break;
@@ -231,16 +241,14 @@ namespace CPRDetector {
 	is_acceptable = is_digit;
 	cpr[9] = update(*it, CPRDetectorState::Match, state, is_acceptable);
 
-	if (is_previous_ok(*(it + 1)))
-	  check_and_append_cpr(cpr, results, begin, std::distance(content.begin(), it));
+	std::istreambuf_iterator<char> ahead = it;
+	if (is_previous_ok(*(++ahead)))
+	  check_and_append_cpr(cpr, results, begin, std::distance(it_begin, it));
 
 	previous = *it;
 	allow_separator = false;
 	reset(state);
 
-	break;
-      default:
-	reset(state);
 	break;
       }
     }

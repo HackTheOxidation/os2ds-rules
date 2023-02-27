@@ -18,9 +18,8 @@ extern "C" {
       return NULL;
 
     CPRDetector::CPRDetector detector(false);
-    std::string search_space(content);
 
-    auto results = detector.find_matches(search_space);
+    auto results = detector.find_matches(content);
     Py_ssize_t len = Py_ssize_t(results.size());
 
     PyObject* list_of_results = PyList_New(len);
