@@ -1,9 +1,11 @@
 #ifndef OS2DSRULES_HPP_
 #define OS2DSRULES_HPP_
 
+#include "cpr-detector.hpp"
 #include <concepts>
 #include <cstddef>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace OS2DSRules {
@@ -54,6 +56,12 @@ namespace OS2DSRules {
   };
 
   using MatchResults = std::vector<MatchResult>;
+
+  template<typename Rule>
+  concept ScannerRule = requires(Rule rule, std::string s) {
+    { Rule::sensitivity } -> std::same_as<Sensitivity>;
+    { rule.find_matches(s) } -> std::same_as<MatchResults>;
+  };
 
 };
 
