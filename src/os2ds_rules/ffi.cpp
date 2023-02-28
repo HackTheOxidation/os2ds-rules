@@ -30,7 +30,7 @@ extern "C" {
 
     for (Py_ssize_t i = 0; i < len; ++i) {
       auto res = results[i];
-      PyObject* obj = Py_BuildValue("{s:s, s:i, s:i}", "cpr", res.cpr_.c_str(), "start", res.start_, "end", res.end_);
+      PyObject* obj = Py_BuildValue("{s:s, s:i, s:i}", "match", res.match_.c_str(), "start", res.start_, "end", res.end_);
       PyList_SetItem(list_of_results, i, obj);
     }
 

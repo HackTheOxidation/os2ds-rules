@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include "os2dsrules.hpp"
+
 namespace OS2DSRules {
 
   namespace CPRDetector {
@@ -48,17 +50,6 @@ namespace OS2DSRules {
 
     const int modulus11_factors[] = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
 
-    struct CPRResult {
-      CPRResult(const std::string cpr, const size_t start, const size_t end) noexcept
-	: start_(start), end_(end), cpr_{cpr} {
-      };
-      const size_t start_;
-      const size_t end_;
-      const std::string cpr_;
-    };
-
-    using CPRResults = std::vector<CPRResult>;
-
     class CPRDetector {
     private:
       enum class CPRDetectorState : unsigned char {
@@ -80,8 +71,8 @@ namespace OS2DSRules {
       char update(char, CPRDetectorState, CPRDetectorState&, Predicate) noexcept;
       bool check_day_month(const std::string&, CPRDetectorState&) noexcept;
       void check_leap_year(const std::string&, CPRDetectorState&) noexcept;
-      void check_and_append_cpr(std::string&, CPRResults&, size_t, size_t) noexcept;
-      bool check_mod11(const CPRResult&) noexcept;
+      void check_and_append_cpr(std::string&, MatchResults&, size_t, size_t) noexcept;
+      bool check_mod11(const MatchResult&) noexcept;
 
     public:
       constexpr CPRDetector(bool check_mod11 = false, bool examine_context = false) noexcept
@@ -94,7 +85,7 @@ namespace OS2DSRules {
       constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
       ~CPRDetector() = default; 
 
-      CPRResults find_matches(const std::string&) noexcept;
+      MatchResults find_matches(const std::string&) noexcept;
     };
   }; // namespace CPRDetector
 

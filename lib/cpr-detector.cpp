@@ -85,13 +85,16 @@ namespace OS2DSRules {
 	reset(state);
     }
 
-    void CPRDetector::check_and_append_cpr(std::string& cpr, CPRResults& results, size_t begin, size_t end) noexcept {
+    void CPRDetector::check_and_append_cpr(std::string& cpr,
+					   MatchResults& results,
+					   size_t begin,
+					   size_t end) noexcept {
       // Convert the 4 control digits to an int.
       int control = std::stoi(std::string(cpr, 6, 4));
 
       // We reject the control sequence '0000'.
       if (control > 0) {
-	CPRResult result(cpr, begin, end);
+	MatchResult result(cpr, begin, end);
 
 	if (check_mod11_ && !check_mod11(result))
 	  return;
@@ -100,13 +103,13 @@ namespace OS2DSRules {
       }
     }
 
-    bool CPRDetector::check_mod11(const CPRResult& result) noexcept {
+    bool CPRDetector::check_mod11(const MatchResult& result) noexcept {
       // Perform the modulus 11 rule check
       int factors[10] = {0};
 
       // Convert every digit to an integer and multiply by the mod11 factor.
       for (auto i = 0; i < 10; ++i) {
-	factors[i] = static_cast<int>(result.cpr_[i] - '0') * modulus11_factors[i];
+	factors[i] = static_cast<int>(result.match_[i] - '0') * modulus11_factors[i];
       }
 
       // Take the sum of all factors.
@@ -116,8 +119,8 @@ namespace OS2DSRules {
       return sum % 11 == 0;
     }
 
-    CPRResults CPRDetector::find_matches(const std::string& content) noexcept {
-      CPRResults results;
+    MatchResults CPRDetector::find_matches(const std::string& content) noexcept {
+      MatchResults results;
 
       auto it_begin = content.begin();
       auto it_end = content.end();
