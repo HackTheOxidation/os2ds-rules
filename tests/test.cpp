@@ -7,7 +7,7 @@ using namespace OS2DSRules::CPRDetector;
 
 int main(void) {
   std::string content = "1111111118 2304516782";
-  CPRDetector detector(false);
+  CPRDetector detector(true);
 
   auto result = detector.find_matches(content);
 

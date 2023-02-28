@@ -1,6 +1,9 @@
-#include <cpr-detector.hpp>
+#include <algorithm>
 #include <iterator>
-#include <sstream>
+#include <iostream>
+#include <numeric>
+
+#include <cpr-detector.hpp>
 
 namespace OS2DSRules {
 
@@ -89,8 +92,28 @@ namespace OS2DSRules {
       // We reject the control sequence '0000'.
       if (control > 0) {
 	CPRResult result(cpr, begin, end);
+
+	if (check_mod11_ && !check_mod11(result))
+	  return;
+
 	results.push_back(result);
       }
+    }
+
+    bool CPRDetector::check_mod11(const CPRResult& result) noexcept {
+      // Perform the modulus 11 rule check
+      int factors[10] = {0};
+
+      // Convert every digit to an integer and multiply by the mod11 factor.
+      for (auto i = 0; i < 10; ++i) {
+	factors[i] = static_cast<int>(result.cpr_[i] - '0') * modulus11_factors[i];
+      }
+
+      // Take the sum of all factors.
+      auto sum = std::accumulate(std::begin(factors), std::end(factors), 0);
+
+      // Check that the sum is ok.
+      return sum % 11 == 0;
     }
 
     CPRResults CPRDetector::find_matches(const std::string& content) noexcept {

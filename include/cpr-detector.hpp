@@ -46,6 +46,8 @@ namespace OS2DSRules {
       return c == ' ';
     }
 
+    const int modulus11_factors[] = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
+
     struct CPRResult {
       CPRResult(const std::string cpr, const size_t start, const size_t end) noexcept
 	: start_(start), end_(end), cpr_{cpr} {
@@ -79,6 +81,7 @@ namespace OS2DSRules {
       bool check_day_month(const std::string&, CPRDetectorState&) noexcept;
       void check_leap_year(const std::string&, CPRDetectorState&) noexcept;
       void check_and_append_cpr(std::string&, CPRResults&, size_t, size_t) noexcept;
+      bool check_mod11(const CPRResult&) noexcept;
 
     public:
       constexpr CPRDetector(bool check_mod11 = false, bool examine_context = false) noexcept
