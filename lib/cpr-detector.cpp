@@ -109,7 +109,7 @@ namespace OS2DSRules {
 
       // Convert every digit to an integer and multiply by the mod11 factor.
       for (auto i = 0; i < 10; ++i) {
-	factors[i] = static_cast<int>(result.match_[i] - '0') * modulus11_factors[i];
+	factors[i] = static_cast<int>(result.match()[i] - '0') * modulus11_factors[i];
       }
 
       // Take the sum of all factors.

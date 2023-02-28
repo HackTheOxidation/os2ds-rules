@@ -13,6 +13,6 @@ int main(void) {
 
   std::cout << "Found results: " << result.size() << '\n';
   for (auto res : result) {
-    std::cout << res.match_ << '\n';
+    std::cout << res.match() << '\n';
   }
 }
