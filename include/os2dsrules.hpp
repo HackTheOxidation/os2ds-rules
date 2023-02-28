@@ -9,7 +9,11 @@
 namespace OS2DSRules {
 
   enum class Sensitivity {
-    Critical
+    Information = 0,
+    Notice = 250,
+    Warning = 500,
+    Problem = 750,
+    Critical = 1000,
   };
 
   struct MatchResult {

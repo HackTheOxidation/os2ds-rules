@@ -86,6 +86,8 @@ namespace OS2DSRules {
       ~CPRDetector() = default; 
 
       MatchResults find_matches(const std::string&) noexcept;
+
+      static const Sensitivity sensitivity = Sensitivity::Critical;
     };
   }; // namespace CPRDetector
 

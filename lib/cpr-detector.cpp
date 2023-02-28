@@ -94,7 +94,7 @@ namespace OS2DSRules {
 
       // We reject the control sequence '0000'.
       if (control > 0) {
-	MatchResult result(cpr, begin, end);
+	MatchResult result(cpr, begin, end, CPRDetector::sensitivity);
 
 	if (check_mod11_ && !check_mod11(result))
 	  return;
