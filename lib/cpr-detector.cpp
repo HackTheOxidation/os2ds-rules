@@ -93,22 +93,11 @@ namespace OS2DSRules {
       }
     }
 
-    CPRResults CPRDetector::find_matches(const char* content) noexcept {
-      return find_matches(std::istringstream(content));
-    }
-
     CPRResults CPRDetector::find_matches(const std::string& content) noexcept {
-      if (content.size() < 10)
-	return CPRResults();
-
-      return find_matches(std::istringstream(content));
-    }
-
-    CPRResults CPRDetector::find_matches(std::istringstream stream) noexcept {
       CPRResults results;
 
-      std::istreambuf_iterator<char> it_begin(stream);
-      std::istreambuf_iterator<char> it_end;
+      auto it_begin = content.begin();
+      auto it_end = content.end();
 
       // Initialize.
       CPRDetectorState state = CPRDetectorState::Empty;
@@ -243,7 +232,7 @@ namespace OS2DSRules {
 	  is_acceptable = is_digit;
 	  cpr[9] = update(*it, CPRDetectorState::Match, state, is_acceptable);
 
-	  std::istreambuf_iterator<char> ahead = it;
+	  auto ahead = it;
 	  if (is_previous_ok(*(++ahead)))
 	    check_and_append_cpr(cpr, results, begin, count);
 

@@ -5,7 +5,6 @@
 #include <cstddef>
 #include <functional>
 #include <iterator>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -92,8 +91,6 @@ namespace OS2DSRules {
       constexpr CPRDetector& operator=(CPRDetector&&) noexcept;
       ~CPRDetector() = default; 
 
-      CPRResults find_matches(std::istringstream) noexcept;
-      CPRResults find_matches(const char*) noexcept;
       CPRResults find_matches(const std::string&) noexcept;
     };
   }; // namespace CPRDetector
