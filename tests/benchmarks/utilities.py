@@ -9,14 +9,16 @@ THIS = os.path.dirname(__file__)
 BIG_HTML = os.path.join(THIS, 'data/list_9_11_victims.html')
 
 
-def read_content(path):
+def read_content(times=1, path=BIG_HTML):
     """Helper function that reads some content into memory."""
     content = ""
     with open(path, "r", encoding="utf-8",
                    errors="ignore") as file_pointer:
-        content = file_pointer.read()
+        text = file_pointer.read()
+        for _ in range(times):
+            content += text
 
     return content
 
 # Read the contents into memory. Yes, this will hurt.
-HTML_CONTENT = read_content(BIG_HTML)
+HTML_CONTENT = read_content(times=1000)
