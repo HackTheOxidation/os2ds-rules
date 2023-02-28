@@ -15,11 +15,13 @@ extern "C" {
   static PyObject *
   detector_find_matches(PyObject *self, PyObject *args) {
     const char* content;
+    bool check_mod11 = false;
+    bool examine_context = false;
 
     if (!PyArg_ParseTuple(args, "s", &content))
       return NULL;
 
-    CPRDetector detector(false);
+    CPRDetector detector(check_mod11, examine_context);
     std::string text(content);
     auto results = detector.find_matches(text);
     Py_ssize_t len = Py_ssize_t(results.size());
