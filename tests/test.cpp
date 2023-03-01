@@ -1,8 +1,8 @@
 #include <cpr-detector.hpp>
 #include <exception>
-#include <string>
-#include <iostream>
 #include <gtest/gtest.h>
+#include <iostream>
+#include <string>
 
 using namespace OS2DSRules::CPRDetector;
 
