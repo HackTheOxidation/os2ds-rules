@@ -6,3 +6,6 @@ build
 dist
 *pytest*
 *.dblite*
+CMakeCache.txt
+CMakeFiles
+CPPBuild
