@@ -22,9 +22,11 @@ target_link_libraries(os2dsrules PUBLIC os2dsrules_compiler_flags)
 
 # Compile test suite.
 enable_testing()
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(testsuite tests/test.cpp)
 target_include_directories(testsuite PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
-target_link_libraries(testsuite os2dsrules os2dsrules_compiler_flags)
+target_link_libraries(testsuite ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
 add_test(unittests testsuite)
 
 # Install library on system.
