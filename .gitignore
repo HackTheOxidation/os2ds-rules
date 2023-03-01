@@ -9,3 +9,4 @@ dist
 CMakeCache.txt
 CMakeFiles
 CPPBuild
+compile_commands.json
