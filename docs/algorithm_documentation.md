@@ -1,0 +1,1 @@
+/home/hacker/repos/i7bac-bachelor-project/artifacts/algorithm_documentation.md
