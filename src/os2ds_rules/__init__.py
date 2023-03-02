@@ -9,4 +9,4 @@ class CPRDetector:
         self._examine_context = examine_context
 
     def find_matches(self, content: str):
-        yield from find_matches(content)
+        yield from find_matches(content, self._check_mod11, self._examine_context)
