@@ -36,8 +36,8 @@ To build, run the following:
 
 ```sh
 # Make a build directory 
-mkdir CPPBuild
-cd CPPBuild
+mkdir build_cmake
+cd build_cmake
 cmake ..
 cmake --build .
 ```

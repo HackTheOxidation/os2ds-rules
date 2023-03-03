@@ -2,12 +2,11 @@
 *.o
 *__pycache__*
 *.egg*
-build
+build*
 dist
 *pytest*
 *.dblite*
 .cache
 CMakeCache.txt
 CMakeFiles
-CPPBuild
 compile_commands.json
