@@ -127,8 +127,9 @@ bool CPRDetector::check_mod11(const MatchResult &result) noexcept {
 MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
   MatchResults results;
 
-  auto it_begin = content.begin();
-  auto it_end = content.end();
+  if (content.size() < 10) {
+    return results;
+  }
 
   // Initialize.
   CPRDetectorState state = CPRDetectorState::Empty;
@@ -140,7 +141,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
   bool leap_year = false;
   Predicate is_acceptable = [](char) { return false; };
 
-  for (auto it = it_begin; it != it_end; ++it) {
+  for (auto it = std::begin(content); it != std::end(content); ++it) {
     switch (state) {
     case CPRDetectorState::Empty:
       if (!is_previous_ok(previous)) {
