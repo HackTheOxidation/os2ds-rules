@@ -1,11 +1,13 @@
 #ifndef CPR_DETECTOR_HPP
 #define CPR_DETECTOR_HPP
 
+#include <array>
 #include <concepts>
 #include <cstddef>
 #include <functional>
 #include <iterator>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "os2dsrules.hpp"
@@ -13,6 +15,13 @@
 namespace OS2DSRules {
 
 namespace CPRDetector {
+
+constexpr std::array<std::string_view, 17> blacklist_words = {
+  "p-nr", "p.nr", "p-nummer", "pnr", "customer no",
+  "customer-no", "bilagsnummer", "order number", "ordrenummer",
+  "fakturanummer", "faknr", "fak-nr", "tullstatistisk",
+  "tullstatistik", "test report no", "protocol no.", "dhk:tx"
+};
 
 using Predicate = std::function<bool(char)>;
 
