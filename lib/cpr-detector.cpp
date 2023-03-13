@@ -83,10 +83,12 @@ void CPRDetector::check_leap_year(const std::string &cpr,
                                   CPRDetectorState &state) noexcept {
   // Convert the digits representing a year to an int.
   int year = std::stoi(std::string(cpr, 4, 2));
+  int control = std::stoi(std::string(cpr, 6, 1));
 
   // If it is not a leap year, then reset.
-  // Note that since we cannot tell the century, we assume that 00 is a leap
-  // year.
+  if (control < 4 && year == 0)
+    reset(state);
+
   if (year % 4 != 0)
     reset(state);
 }
@@ -236,9 +238,6 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       previous = cpr[5] =
           update(*it, CPRDetectorState::Sixth, state, is_acceptable);
 
-      if (leap_year)
-        check_leap_year(cpr, state);
-
       if (previous != 0)
         // Next time we allow one of the valid separators.
         allow_separator = true;
@@ -254,6 +253,9 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       is_acceptable = is_digit;
       previous = cpr[6] =
           update(*it, CPRDetectorState::Seventh, state, is_acceptable);
+
+      if (leap_year)
+        check_leap_year(cpr, state);
 
       break;
     case CPRDetectorState::Seventh:
