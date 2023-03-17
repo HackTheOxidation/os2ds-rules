@@ -1,6 +1,6 @@
 import unittest
 
-from ..detector.cpr_detector import CPRDetector, string_to_cpr_dict
+from ..detector.cpr_detector import CPRDetector, CPRNumber, string_to_cpr_dict
 
 
 class TestCPRDetector(unittest.TestCase):
@@ -95,3 +95,13 @@ class TestCPRDetector(unittest.TestCase):
         actual_end = m["end"]
         self.assertEqual(expected_end, actual_end)
         
+    def test_previous_not_ok_does_not_match(self):
+        # Arrange
+        content = "91111111118"
+        detector = CPRDetector()
+
+        # Act
+        matches = list(detector.find_matches(content))
+
+        # Assert
+        self.assertEqual(0, len(matches))

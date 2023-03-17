@@ -266,11 +266,11 @@ def find_cpr_numbers(content: str) -> [Result]:
 				is_acceptable = is_digit
 				cpr[7], state = update(c, State.Eighth, state, is_acceptable)
 				previous = cpr[7]
-			case Eighth:
+			case State.Eighth:
 				is_acceptable = is_digit
 				cpr[8], state = update(c, State.Match, state, is_acceptable)
 				previous = cpr[8]
-			case Match:
+			case State.Match:
 				cpr[9] = c if is_digit(c) else ''
 				
 				if is_next_ok(content[i+1])
@@ -283,7 +283,6 @@ def find_cpr_numbers(content: str) -> [Result]:
 				state = reset()
 			
 	return results
-}
 ```
 
 In the code above, besides using a finite automaton as a basis, a few other interesting

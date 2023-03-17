@@ -94,14 +94,14 @@ class CPRDetector:
         '''Resets the internal DetectorState to EMPTY.'''
         self._state = self._State.EMPTY
 
-    def _update(self, c: str, new_state, accepted: Iterable) -> str:
+    def _update(self, c: str, new_state, accepted: Iterable) -> bool:
         '''Updates the internal state to "new_state" if "c" is in the collection of acceptable inputs.'''
         if c in accepted:
             self._state = new_state
-            return c
+            return True
         else:
             self._reset()
-            return ""
+            return False
 
     def _check_day_month(self, cpr) -> bool:
         '''Checks that the first four digits of the supplied CPR-number constitutes a valid day-month pair.'''
@@ -118,6 +118,26 @@ class CPRDetector:
 
         return False
 
+    def _check_leap_year(self, cpr):
+        year = int(cpr[4] + cpr[5])
+        control = int(cpr[6])
+
+        if control < 4 and year == 0:
+            self._reset()
+
+        if year % 4 != 0:
+            # Nope, not a leap year. This is invalid.
+            self._reset() 
+
+    def _is_previous_ok(self, previous) -> bool:
+        return previous in ' \n\t\0'
+
+    def _is_next_ok(self, content, i) -> bool:
+        if len(content) > i + 1:
+            return self._is_previous_ok(content[i + 1])
+
+        return True
+
     def find_matches(self, content: str) -> Iterable:
         '''Finds all occurances of a CPR-number in content string.'''
 
@@ -133,11 +153,16 @@ class CPRDetector:
         for i, c in enumerate(content):
             match self._state:
                 case self._State.EMPTY:
-                    previous = self._update(c, self._State.FIRST, '0123')
+                    if not self._is_previous_ok(previous):
+                        previous = c
+                        continue
+                    
+                    ok = self._update(c, self._State.FIRST, '0123')
+                    previous = c
 
                     # Record the the first matching symbol and its index.
-                    if previous:
-                        cpr[0] = previous
+                    if ok:
+                        cpr[0] = c
                         begin = i
 
                 case self._State.FIRST:
@@ -149,9 +174,11 @@ class CPRDetector:
                     elif previous == "3":
                         accepted = '01'
 
-                    previous = cpr[1] = self._update(c, self._State.SECOND, accepted)
+                    ok = self._update(c, self._State.SECOND, accepted)
+                    previous = c
 
-                    if previous:
+                    if ok:
+                        cpr[1] = c
                         allow_separator = True
 
                 case self._State.SECOND:
@@ -160,7 +187,11 @@ class CPRDetector:
                         allow_separator = False
                         continue
                     
-                    previous = cpr[2] = self._update(c, self._State.THIRD, '01')
+                    ok = self._update(c, self._State.THIRD, '01')
+                    previous = c
+
+                    if ok:
+                        cpr[2] = c
 
                 case self._State.THIRD:
                     accepted = []
@@ -170,14 +201,16 @@ class CPRDetector:
                         case '1':
                             accepted = '012'
                             
-                    previous = cpr[3] = self._update(c, self._State.FOURTH, accepted)
+                    ok = self._update(c, self._State.FOURTH, accepted)
+                    previous = c
 
                     # Check that the day-month combination is valid.
                     # If it is February 29th, raise a flag so that we can check for leap year later.
-                    leap_year = self._check_day_month(cpr)
 
-                    if previous:
+                    if ok:
+                        cpr[3] = c
                         allow_separator = True
+                        leap_year = self._check_day_month(cpr)
 
                 case self._State.FOURTH:
                     # We may skip a space.
@@ -185,7 +218,11 @@ class CPRDetector:
                         allow_separator = False
                         continue
                     
-                    previous = cpr[4] = self._update(c, self._State.FIFTH, _digits)
+                    ok = self._update(c, self._State.FIFTH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[4] = c
 
                 case self._State.FIFTH:
                     accepted = []
@@ -195,16 +232,11 @@ class CPRDetector:
                         case '1':
                             accepted = _digits
 
-                    previous = cpr[5] = self._update(c, self._State.SIXTH, accepted)
+                    ok = self._update(c, self._State.SIXTH, accepted)
+                    previous = c
 
-                    # This may be a leap, so check if it is.
-                    if leap_year:
-                        year = int(cpr[4] + cpr[5])
-                        if year % 4 != 0:
-                            # Nope, not a leap year. This is invalid.
-                            self._reset() 
-
-                    if previous:
+                    if ok:
+                        cpr[5] = c
                         allow_separator = True
 
                 case self._State.SIXTH:
@@ -212,17 +244,37 @@ class CPRDetector:
                     if allow_separator and c in _separators:
                         allow_separator = False
                         continue
-                    
-                    previous = cpr[6] = self._update(c, self._State.SEVENTH, _digits)
+                   
+                    ok = self._update(c, self._State.SEVENTH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[6] = c
+
+                    # This may be a leap, so check if it is.
+                    if leap_year:
+                        self._check_leap_year(cpr)
 
                 case self._State.SEVENTH:
-                    previous = cpr[7] = self._update(c, self._State.EIGHTH, _digits)
+                    ok = self._update(c, self._State.EIGHTH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[7] = c
 
                 case self._State.EIGHTH:
-                    previous = cpr[8] = self._update(c, self._State.MATCH, _digits)
+                    ok = self._update(c, self._State.MATCH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[8] = c
 
                 case self._State.MATCH:
-                    previous = cpr[9] = self._update(c, self._State.MATCH, _digits)
+                    ok = self._update(c, self._State.MATCH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[9] = c
 
                     # We won't accept XXXXXX-0000 as a valid CPR-number.
                     control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
