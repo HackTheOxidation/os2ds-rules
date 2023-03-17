@@ -112,7 +112,7 @@ TEST_F(CPRDetectorTest, Test_Reject_CPR_Number_With_Invalid_Leap_Year) {
 }
 
 TEST_F(CPRDetectorTest, Test_Reject_CPR_Number_With_Control_All_Zeros) {
-  std::string content = "2902110000";
+  std::string content = "1111110000";
   CPRDetector detector(false);
 
   auto results = detector.find_matches(content);

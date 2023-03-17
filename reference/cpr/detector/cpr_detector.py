@@ -14,6 +14,13 @@ _digits: str = "0" + _nonzero_digits
 _separators: str = ' -/'
 
 
+def _print_debug(state, c, cpr, previous):
+    print(f"state = {state}\n"
+          f"c = {c}\n"
+          f"cpr = {cpr}\n"
+          f"previous = {previous}\n\n")
+
+
 def _init_cpr() -> dict[int, str | None]:
     ''''''
     return {
@@ -87,8 +94,10 @@ class CPRDetector:
         EIGHTH = auto()
         MATCH = auto()
 
-    def __init__(self):
+    def __init__(self, check_mod11=False, examine_context=False):
         self._state = self._State.EMPTY
+        self._check_mod11 = check_mod11
+        self._examine_context = examine_context
 
     def _reset(self):
         '''Resets the internal DetectorState to EMPTY.'''
@@ -229,7 +238,7 @@ class CPRDetector:
                     match previous:
                         case '0':
                             accepted = _nonzero_digits
-                        case '1':
+                        case x if x in _nonzero_digits:
                             accepted = _digits
 
                     ok = self._update(c, self._State.SIXTH, accepted)
@@ -270,22 +279,22 @@ class CPRDetector:
                         cpr[8] = c
 
                 case self._State.MATCH:
+
                     ok = self._update(c, self._State.MATCH, _digits)
                     previous = c
 
                     if ok:
                         cpr[9] = c
 
-                    # We won't accept XXXXXX-0000 as a valid CPR-number.
-                    control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
+                        # We won't accept XXXXXX-0000 as a valid CPR-number.
+                        control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
 
-                    if control > 0:
-                        yield {
-                            "cpr": cpr,
-                            "begin": begin,
-                            "end": i,
-                            }
+                        if control > 0:
+                            yield {
+                                "cpr": cpr,
+                                "begin": begin,
+                                "end": i,
+                                }
 
-                    previous = ""
                     cpr = _init_cpr()
                     self._reset()
