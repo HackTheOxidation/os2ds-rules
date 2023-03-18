@@ -355,15 +355,24 @@ multiplied by the modulus 11 factor as specified by CPR Administrationen and che
 that 11 divides this sum.
 
 As in the case of the `check_mod11`-option, the behavior of the `examine_context`-option can
-also be integrated into the algorithm by modifying the `check_and_append_cpr()`-function.
+also be integrated into the algorithm by modifying the `find_matches()`-function.
 However, this is insufficient as this doesn't check of the occurance of a blacklisted word
-that is not in the vicinty of a match. So, the `find_matches()`-function also needs to be
-altered.
+that is not in the vicinty of a match. 
 
 We will however, delay the introduction to this definition, as it relies on a concept that
 will be introduced in the coming sections.
 
 # A unified replacement for the underlying mechanism of the Name Rule, Address Rule and Health Rule
+
+In essence, the Name Rule, the Address Rule and the Health Rule (and thus the Ordered Wordlist Rule)
+try to solve the same underlying problem, or at least very similar problems. 
+In the current version, these rules are implemented using different strategies. That is, search a
+text and find occurances of a finite set of specified substrings.
+From an algorithmic perspective, this isn't necessarily a problem. However, from a software design
+perspective, it is, since code reuse is generally encouraged and having three implementations that
+share no code at all isn't great.
+
+Therefore, we propose a unification of the strategy behind these rules.
 
 ## Name Rule
 
