@@ -44,245 +44,258 @@ The reference implementation for the algorithm itself is shown below using pytho
 ```python
 from enum import Flag, auto
 from functools import reduce
-from dataclasses import dataclass
+from typing import Iterable
 
 
-def is_nonzero_digit(c) -> bool:
-	return c in "123456789"
+__all__ = [
+    'CPRNumber',
+    'CPRDetector',
+    ]
 
 
-def is_digit(c) -> bool:
-	return c in "0123456789"
-	
-	
-def is_space(c) -> bool:
-	return c == ' '
-	
-
-def is_separator(c) -> bool:
-	return c in ' -/'
+_nonzero_digits: str = "123456789"
+_digits: str = "0" + _nonzero_digits
+_separators: str = ' -/'
 
 
-class State(Flag):
-	EMPTY = auto()
-	FIRST = auto()
-	SECOND = auto()
-	THIRD = auto()
-	FOURTH = auto()
-	FIFTH = auto()
-	SIXTH = auto()
-	SEVENTH = auto()
-	EIGHTH = auto()
-	MATCH = auto()
+def _print_debug(state, c, cpr, previous):
+    print(f"state = {state}\n"
+          f"c = {c}\n"
+          f"cpr = {cpr}\n"
+          f"previous = {previous}\n\n")
 
 
-@dataclass
-class Result:
-	cpr: str
-	begin: int
-	end: int
+def _init_cpr() -> dict[int, str | None]:
+    ''''''
+    return {
+            0: None, 1: None, 
+            2: None, 3: None, 
+            4: None, 5: None, 
+            6: None, 7: None, 
+            8: None, 9: None, 
+            }
 
 
-# Helper functions
+class CPRDetector:
+    '''Utility class for detecting Danish CPR-numbers (personnummer) in text.'''
 
-def reset() -> State:
-	# Reset detector state to default state (Empty)
-	return State.Empty
+    class _State(Flag):
+        '''Internal State for tracking progress of detection.'''
+        EMPTY = auto()
+        FIRST = auto()
+        SECOND = auto()
+        THIRD = auto()
+        FOURTH = auto()
+        FIFTH = auto()
+        SIXTH = auto()
+        SEVENTH = auto()
+        EIGHTH = auto()
+        MATCH = auto()
 
+    def __init__(self, check_mod11=False, examine_context=False):
+        self._state = self._State.EMPTY
+        self._check_mod11 = check_mod11
+        self._examine_context = examine_context
 
-def update(c, new_state, &old_state, is_acceptable) -> (str, State):
-	# Update old_state to new_state if c is an acceptable token.
-	# if ok then return c else return None.
+    def _reset(self):
+        '''Resets the internal DetectorState to EMPTY.'''
+        self._state = self._State.EMPTY
 
-	if is_acceptable(c):
-	    old_state = new_state
-		return c, new_state
-	else:
-		return '', reset()
+    def _update(self, c: str, new_state, accepted: Iterable) -> bool:
+        '''Updates the internal state to "new_state" if "c" is in the collection of acceptable inputs.'''
+        if c in accepted:
+            self._state = new_state
+            return True
+        else:
+            self._reset()
+            return False
 
+    def _check_day_month(self, cpr) -> bool:
+        '''Checks that the first four digits of the supplied CPR-number constitutes a valid day-month pair.'''
+        day = int(cpr[0] + cpr[1])
+        month = int(cpr[2] + cpr[3])
 
-def check_day_month(cpr, state) -> (bool, State):
-	# Check that the day/month combination is valid.
-	# Return true if it is February 29th else return false.
-	
-	day = int(cpr[0:2])
-	month = int(cpr[2:4])
-	
-	if month is 2:
-	    if day is 29:
-			return True, state
-		elif day > 29:
-			return False, reset()
-	elif (day > 30 
-		and not((month > 7 and month % 2 == 0) or
-			    (month < 8 and month % 2 != 0))):
-		return False, reset()
-	
-	return False, state
+        match month:
+            case 2 | 4 | 6 | 9 | 11 if day > 30:
+                self._reset()
+            case 2 if day > 29:
+                self._reset()
+            case 2 if day == 29:
+                return True
 
+        return False
 
-def check_leap_year(cpr, state) -> State:
-	# Verify that the read year is a leap year.
-	# otherwise reset the detector state.
-	year = int(cpr[4:6])
-	control = int(cpr[6])
-	
-	if control < 4 and year == 0:
-		return reset()
-	
-	if year % 4 != 0:
-		return reset()
-		
-	return state
+    def _check_leap_year(self, cpr):
+        year = int(cpr[4] + cpr[5])
+        control = int(cpr[6])
 
+        if control < 4 and year == 0:
+            self._reset()
 
-def check_and_append_cpr(cpr, begin, end) -> Result:
-	# Check that the control digits are valid, then
-	# create and append a result to the list of results.
-	int control = int(cpr[6:10])
-	
-	if control > 0:
-	    return Result(cpr, begin, end)
-	
-	return None
+        if year % 4 != 0:
+            # Nope, not a leap year. This is invalid.
+            self._reset() 
 
+    def _is_previous_ok(self, previous) -> bool:
+        return previous in ' \n\t\0'
 
-def is_previous_ok(previous):
-	# Check that the previous character is not alpha-numeric, etc.
-	return previous in ' \n\t\0'
+    def _is_next_ok(self, content, i) -> bool:
+        if len(content) > i + 1:
+            return self._is_previous_ok(content[i + 1])
 
+        return True
 
-def is_next_ok(content, i):
-	# Check that the next character is not alpha-numeric, etc.
-	if len(content) > i + 1:
-		return is_previous_ok(content[i + 1])
-	
-	return True
-	
+    def find_matches(self, content: str) -> Iterable:
+        '''Finds all occurances of a CPR-number in content string.'''
 
-# Main function
-def find_cpr_numbers(content: str) -> [Result]:
-	results = []
+        # If the string is too short to contain a CPR-number then return.
+        if content is None or len(content) < 10:
+            return
 
-	state = State.Empty
-	cpr = ""
-	previous = ''
-	begin = 0
-	allow_separator = False
-	leap_year = False
-	is_acceptable = lambda _: False
-	
-	for i, c in enumerate(content):
-	    match state:
-		    case State.Empty:
-				if not is_previous_ok(previous)
-					previous = c
-				
-				is_acceptable = lambda ch: ch in '0123'
-				previous, state = update(c, State.First, state, is_acceptable)
-				
-				if state is State.First:
-				    cpr[0] = c
-					begin = i
-			case State.First:
-				match previous:
-				    case '0':
-						is_acceptable = is_nonzero_digit
-				    case '1' | '2':
-						is_acceptable = is_digit
-					case '3': 
-						is_acceptable = lambda c -> c is '0' | '1'
-					case _:
-						state = reset()
-						previous = c
-						continue
-				
-				cpr[1], state = update(c, State.Second, state, is_acceptable)
-				previous = cpr[1]
-				
-				if previous:
-					allow_separator = true
-			case State.Second:
-				if is_space(c) and allow_separator:
-					allow_separator = False
-					continue
-				
-				is_acceptable = lambda c: c in '01'
-				cpr[2], state = update(c, State.Third, state, is_acceptable)
-				previous = cpr[2]
-			case State.Third:
-				match previous:
-				    case '0':
-						is_acceptable = is_nonzero_digit
-					case '1': 
-						is_acceptable = lambda c: c in '012'
-					case _:
-						state = reset()
-						previous = ''
-						continue
-					
-				cpr[3], state = update(c, State.Fourth, state, is_acceptable)
-				previous = cpr[3]
-				
-				leap_year, state = check_day_month(cpr, state)
-				
-				if previous:
-					allow_separator = True
-			case State.Fourth:
-				if is_space(c) and allow_separator:
-				    allow_separator = False
-					continue
-				
-				is_acceptable = is_digit
-				
-				cpr[4], state = update(c, State.Fifth, state, is_acceptable)
-				previous = cpr[4]
-			case State.Fifth:
-				match previous:
-					case '0':
-						is_acceptable = is_nonzero_digit,
-					case _:
-						is_acceptable = is_digit
-					
-				cpr[5], state = update(c, State.Sixth, state, is_acceptable)
-				previous = cpr[5]
-				
-				if previous:
-					allow_separator = True
-					
-			case State.Sixth:
-				if allow_separator and is_separator(c):
-					allow_separator = false;
-					continue
-				
-				is_acceptable = is_digit
-				cpr[6], state = update(c, State.Seventh, state, is_acceptable)
-				previous = cpr[6]
+        cpr: dict[int, str | None] = _init_cpr()
+        previous: str = ""
+        begin: int = 0
+        allow_separator: bool = False
 
-				if leap_year:
-					state = check_leap_year(cpr, state)
+        for i, c in enumerate(content):
+            match self._state:
+                case self._State.EMPTY:
+                    if not self._is_previous_ok(previous):
+                        previous = c
+                        continue
+                    
+                    ok = self._update(c, self._State.FIRST, '0123')
+                    previous = c
 
-			case State.Seventh:
-				is_acceptable = is_digit
-				cpr[7], state = update(c, State.Eighth, state, is_acceptable)
-				previous = cpr[7]
-			case State.Eighth:
-				is_acceptable = is_digit
-				cpr[8], state = update(c, State.Match, state, is_acceptable)
-				previous = cpr[8]
-			case State.Match:
-				cpr[9] = c if is_digit(c) else ''
-				
-				if is_next_ok(content[i+1])
-					result = check_and_append_cpr(cpr, begin, i)
-					if result:
-						results.append(result)
-					
-				previous = c
-				allow_separator = False;
-				state = reset()
-			
-	return results
+                    # Record the the first matching symbol and its index.
+                    if ok:
+                        cpr[0] = c
+                        begin = i
+
+                case self._State.FIRST:
+                    accepted = []
+                    if previous in "12":
+                        accepted = _digits
+                    elif previous == "0":
+                        accepted = _nonzero_digits
+                    elif previous == "3":
+                        accepted = '01'
+
+                    ok = self._update(c, self._State.SECOND, accepted)
+                    previous = c
+
+                    if ok:
+                        cpr[1] = c
+                        allow_separator = True
+
+                case self._State.SECOND:
+                    # We may skip a space.
+                    if c == " " and allow_separator:
+                        allow_separator = False
+                        continue
+                    
+                    ok = self._update(c, self._State.THIRD, '01')
+                    previous = c
+
+                    if ok:
+                        cpr[2] = c
+
+                case self._State.THIRD:
+                    accepted = []
+                    match previous:
+                        case '0':
+                            accepted = _nonzero_digits
+                        case '1':
+                            accepted = '012'
+                            
+                    ok = self._update(c, self._State.FOURTH, accepted)
+                    previous = c
+
+                    # Check that the day-month combination is valid.
+                    # If it is February 29th, raise a flag so that we can check for leap year later.
+
+                    if ok:
+                        cpr[3] = c
+                        allow_separator = True
+                        leap_year = self._check_day_month(cpr)
+
+                case self._State.FOURTH:
+                    # We may skip a space.
+                    if c == " " and allow_separator:
+                        allow_separator = False
+                        continue
+                    
+                    ok = self._update(c, self._State.FIFTH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[4] = c
+
+                case self._State.FIFTH:
+                    accepted = []
+                    match previous:
+                        case '0':
+                            accepted = _nonzero_digits
+                        case x if x in _nonzero_digits:
+                            accepted = _digits
+
+                    ok = self._update(c, self._State.SIXTH, accepted)
+                    previous = c
+
+                    if ok:
+                        cpr[5] = c
+                        allow_separator = True
+
+                case self._State.SIXTH:
+                    # We may skip one of the separator symbols.
+                    if allow_separator and c in _separators:
+                        allow_separator = False
+                        continue
+                   
+                    ok = self._update(c, self._State.SEVENTH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[6] = c
+
+                    # This may be a leap, so check if it is.
+                    if leap_year:
+                        self._check_leap_year(cpr)
+
+                case self._State.SEVENTH:
+                    ok = self._update(c, self._State.EIGHTH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[7] = c
+
+                case self._State.EIGHTH:
+                    ok = self._update(c, self._State.MATCH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[8] = c
+
+                case self._State.MATCH:
+
+                    ok = self._update(c, self._State.MATCH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[9] = c
+
+                        # We won't accept XXXXXX-0000 as a valid CPR-number.
+                        control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
+
+                        if control > 0:
+                            yield {
+                                "cpr": cpr,
+                                "begin": begin,
+                                "end": i,
+                                }
+
+                    cpr = _init_cpr()
+                    self._reset()
 ```
 
 In the code above, besides using a finite automaton as a basis, a few other interesting
@@ -296,32 +309,45 @@ Note that this implementation omits the options `check_mod11` and `examine_conte
 but has the `ignore_irrelevant`-option fundamentally built in (cannot be turned of).
 
 Adding the behavior of the `check_mod11`-option can be done by altering the definition
-of the `check_and_append_cpr()`-function (and `find_matches()`) and adding a new helper 
-function called `check_mod11()`:
+of the `find_matches()`-function and adding a new helper 
+function called `_do_check_mod11()`:
 
 ```
-
+# Factors for the Modulus 11 rule.
 modulus11_factors = [4, 3, 2, 7, 6, 5, 4, 3, 2, 1]
 
 
-def check_mod11(result) -> bool:
-	# Calculate the Modulus 11 sum and check that 11 divides it.
-	return sum([a*b for a, b in zip(result.cpr, modulus11_factors)]) % 11 == 0
+def _do_check_mod11(self, cpr) -> bool:
+	'''Calculate the Modulus 11 sum and check that 11 divides it.'''
+	return sum([int(a)*b for a, b in zip(cpr, modulus11_factors)]) % 11 == 0
+	
+...
+# In find_matches():
+                case self._State.MATCH:
 
-def check_and_append_cpr(cpr, begin, end, do_check_mod11) -> Result:
-	# Check that the control digits are valid, then
-	# create and append a result to the list of results.
-	int control = int(cpr[6:10])
-	
-	if control > 0:
-	    result =  Result(cpr, begin, end)
-		
-		if do_check_mod11 and not check_mod11(result):
-			return None
-			
-		return result
-	
-	return None
+                    ok = self._update(c, self._State.MATCH, _digits)
+                    previous = c
+
+                    if ok:
+                        cpr[9] = c
+
+                        # We won't accept XXXXXX-0000 as a valid CPR-number.
+                        control = int(cpr[6] + cpr[7] + cpr[8] + cpr[9])
+						
+						if self._check_mod11 and not self._do_check_mod11(cpr):
+							cpr = _init_cpr()
+							self._reset()
+							continue
+
+                        if control > 0:
+                            yield {
+                                "cpr": cpr,
+                                "begin": begin,
+                                "end": i,
+                                }
+
+                    cpr = _init_cpr()
+                    self._reset()
 ```
 
 This code does a simple calculation of the sum of each of the digits in a CPR-number
