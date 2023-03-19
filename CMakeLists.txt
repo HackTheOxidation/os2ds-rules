@@ -16,7 +16,7 @@ target_compile_options(os2dsrules_compiler_flags INTERFACE
 )
 
 # Compile as a shared library.
-add_library(os2dsrules SHARED lib/cpr-detector.cpp)
+add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/data_structures.cpp)
 include_directories(os2dsrules include)
 target_link_libraries(os2dsrules PUBLIC os2dsrules_compiler_flags)
 

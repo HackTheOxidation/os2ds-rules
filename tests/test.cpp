@@ -1,4 +1,5 @@
 #include <cpr-detector.hpp>
+#include <data_structures.hpp>
 #include <exception>
 #include <gtest/gtest.h>
 #include <iostream>
