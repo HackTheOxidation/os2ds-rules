@@ -1,14 +1,12 @@
 #ifndef DATA_STRUCTURES_HPP
 #define DATA_STRUCTURES_HPP
 
-#include <array>
 #include <concepts>
 #include <cstddef>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <type_traits>
-#include <utility>
 
 namespace OS2DSRules {
 
@@ -36,7 +34,8 @@ namespace DataStructures {
     };
 
     struct Record {
-      constexpr Record() noexcept : value{0} {};
+      constexpr Record() noexcept
+        : state(RecordState::Empty), key{0}, value{0} {};
       constexpr Record(RecordState rs, Key k, Value v) noexcept
 	: state(rs), key(k), value(v) {}
       RecordState state;
@@ -44,13 +43,10 @@ namespace DataStructures {
       Value value;
     };
 
-    [[nodiscard]]
-    constexpr size_t hash(const Key k, size_t capacity) const noexcept {
-      std::hash<Key> key_hash;
-      return key_hash(k) % capacity;
+    constexpr size_t get_hash(const Key k, size_t capacity) const noexcept {
+      return k % capacity;
     }
 
-    [[nodiscard]]
     constexpr double calculate_loadfactor() const noexcept {
       return double(size_) / double(capacity_);
     }
@@ -61,7 +57,7 @@ namespace DataStructures {
 
       for (size_t i = 0; i < capacity_; i++) {
 	Record r = records_[i];
-	size_t index = hash(r.key, new_capacity);
+	size_t index = get_hash(r.key, new_capacity);
 
 	if (new_records[index].state == RecordState::Empty) {
 	  new_records[index] = r;
@@ -131,18 +127,42 @@ namespace DataStructures {
 	delete [] records_;
     }
 
+    constexpr size_t size() const noexcept {
+      return size_;
+    }
+
+    constexpr size_t capacity() const noexcept {
+      return capacity_;
+    }
+
     constexpr std::optional<Record> insert(const Key k, const Value v) noexcept {
       if (calculate_loadfactor() >= loadfactor_limit_)
 	rehash();
 
-      auto index = hash(k, capacity_);
+      auto index = get_hash(k, capacity_);
 
       if (records_[index].state == RecordState::Empty) {
-	auto obj = records_[index];
+	auto& obj = records_[index];
+
 	obj.key = k;
 	obj.value = v;
 	obj.state = RecordState::Occupied;
+
+	++size_;
 	return obj;
+      } else {
+	for (size_t i = index + 1 % capacity_; i != index; i = i + 1 % capacity_) {
+	  if (records_[i].state == RecordState::Empty) {
+	    auto& obj = records_[i];
+	    
+	    obj.key = k;
+	    obj.value = v;
+	    obj.state = RecordState::Occupied;
+
+	    ++size_;
+	    return obj;
+	  }
+	}
       }
 
       return {};
@@ -152,13 +172,14 @@ namespace DataStructures {
       if (size_ == 0)
 	return false;
       
-      auto index = hash(k, capacity_);
+      auto index = get_hash(k, capacity_);
 
-      if (records_[index].key == k)
+      if (records_[index].key == k && records_[index].state == RecordState::Occupied) {
 	return true;
+      }
 
       for (size_t i = index + 1 % capacity_; i != index; i = i + 1 % capacity_) {
-	if (records_[i] == k)
+	if (records_[i].key == k && records_[i].state == RecordState::Occupied)
 	  return true;
       }
 
@@ -169,7 +190,7 @@ namespace DataStructures {
       if (size_ == 0)
 	return {};
       
-      auto index = hash(k, capacity_);
+      auto index = get_hash(k, capacity_);
 
       if (records_[index].key == k
 	  && records_[index].state == RecordState::Occupied)
@@ -182,10 +203,7 @@ namespace DataStructures {
 
   class ReadOnlyTrie {
     public:
-    template<typename Collection>
-    ReadOnlyTrie(Collection collection) noexcept {
-      
-    }
+    constexpr ReadOnlyTrie() noexcept {}
 
     bool contains(std::string str) const noexcept {
       auto begin = str.cbegin();
@@ -220,7 +238,6 @@ namespace DataStructures {
 	completes_word_ = b;
       }
 
-      [[nodiscard]]
       bool contains(std::string::const_iterator it, std::string::const_iterator) const noexcept {
 	char ch = *it;
 
