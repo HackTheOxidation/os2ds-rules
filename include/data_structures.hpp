@@ -45,11 +45,35 @@ namespace DataStructures {
     };
 
     [[nodiscard]]
-    constexpr size_t hash(const Key k) const noexcept {
-      return k % capacity_;
+    constexpr size_t hash(const Key k, size_t capacity) const noexcept {
+      std::hash<Key> key_hash;
+      return key_hash(k) % capacity;
     }
 
     void rehash() noexcept {
+      size_t new_capacity = capacity_ * 2;
+      Record* new_records = new Record[capacity_];
+
+      for (size_t i = 0; i < capacity_; i++) {
+	Record r = records_[i];
+	size_t index = hash(r.key, new_capacity);
+
+	if (new_records[index].state == RecordState::Empty) {
+	  new_records[index] = r;
+	} else {
+	  for (size_t j = index + 1 % new_capacity; j != index; j = j + 1 % new_capacity) {
+	    if (new_records[j].state == RecordState::Empty) {
+	      new_records[j] = r;
+	      break;
+	    }
+	  }
+	}
+      }
+
+      delete[] records_;
+
+      records_ = new_records;
+      capacity_ = new_capacity;
     }
 
     Record* records_ = nullptr;
@@ -59,8 +83,39 @@ namespace DataStructures {
 
     public:
     constexpr HashMap() noexcept
-    : size_(0), capacity_(5) {
+    : HashMap(5) {}
+    constexpr HashMap(size_t capacity) noexcept
+      : size_(0), capacity_(capacity) {
       records_ = new Record[capacity_];
+    }
+
+    constexpr HashMap(const HashMap& other) noexcept {
+      size_ = other.size_;
+      capacity_ = other.capacity_;
+      records_ = new Record[capacity_];
+
+      for (size_t i = 0; i < capacity_; i++) {
+	records_[i].key = other.records_[i].key;
+	records_[i].value = other.records_[i].value;
+	records_[i].state = other.records_[i].state;
+      }
+    }
+
+    constexpr HashMap& operator=(const HashMap& other) noexcept {
+      if (records_ != nullptr)
+	delete[] records_;
+
+      size_ = other.size_;
+      capacity_ = other.capacity_;
+      records_ = new Record[capacity_];
+
+      for (size_t i = 0; i < capacity_; i++) {
+	records_[i].key = other.records_[i].key;
+	records_[i].value = other.records_[i].value;
+	records_[i].state = other.records_[i].state;
+      }
+
+      return *this;
     }
 
     using key_type = Key;
@@ -71,17 +126,49 @@ namespace DataStructures {
 	delete [] records_;
     }
 
-    constexpr std::optional<Record> insert(const Key, const Value) noexcept {
+    constexpr std::optional<Record> insert(const Key k, const Value v) noexcept {
+      if (size_ + 1 == capacity_)
+	rehash();
+
+      auto index = hash(k, capacity_);
+
+      if (records_[index].state == RecordState::Empty) {
+	auto obj = records_[index];
+	obj.key = k;
+	obj.value = v;
+	obj.state = RecordState::Occupied;
+	return obj;
+      }
 
       return {};
     }
 
-    constexpr bool contains(const Key) const noexcept {
+    constexpr bool contains(const Key k) const noexcept {
+      if (size_ == 0)
+	return false;
+      
+      auto index = hash(k, capacity_);
+
+      if (records_[index].key == k)
+	return true;
+
+      for (size_t i = index + 1 % capacity_; i != index; i = i + 1 % capacity_) {
+	if (records_[i] == k)
+	  return true;
+      }
 
       return false;
     }
 
-    constexpr std::optional<Record> find(const Key) const noexcept {
+    constexpr std::optional<Record> find(const Key k) const noexcept {
+      if (size_ == 0)
+	return {};
+      
+      auto index = hash(k, capacity_);
+
+      if (records_[index].key == k
+	  && records_[index].state == RecordState::Occupied)
+	return records_[index];
 
       return {};
     } 
