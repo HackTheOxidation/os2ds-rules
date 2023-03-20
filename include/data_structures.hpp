@@ -50,6 +50,11 @@ namespace DataStructures {
       return key_hash(k) % capacity;
     }
 
+    [[nodiscard]]
+    constexpr double calculate_loadfactor() const noexcept {
+      return double(size_) / double(capacity_);
+    }
+
     void rehash() noexcept {
       size_t new_capacity = capacity_ * 2;
       Record* new_records = new Record[capacity_];
@@ -127,7 +132,7 @@ namespace DataStructures {
     }
 
     constexpr std::optional<Record> insert(const Key k, const Value v) noexcept {
-      if (size_ + 1 == capacity_)
+      if (calculate_loadfactor() >= loadfactor_limit_)
 	rehash();
 
       auto index = hash(k, capacity_);
