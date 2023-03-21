@@ -136,31 +136,28 @@ namespace DataStructures {
     }
 
     constexpr std::optional<Record> insert(const Key k, const Value v) noexcept {
-      if (calculate_loadfactor() >= loadfactor_limit_)
+      if (calculate_loadfactor() >= loadfactor_limit_) {
 	rehash();
+      }
 
       auto index = get_hash(k, capacity_);
 
       if (records_[index].state == RecordState::Empty) {
-	auto& obj = records_[index];
-
-	obj.key = k;
-	obj.value = v;
-	obj.state = RecordState::Occupied;
+	records_[index].key = k;
+	records_[index].value = v;
+	records_[index].state = RecordState::Occupied;
 
 	++size_;
-	return obj;
+	return records_[index];
       } else {
-	for (size_t i = index + 1 % capacity_; i != index; i = i + 1 % capacity_) {
+	for (size_t i = (index + 1) % capacity_; i != index; i = (i + 1) % capacity_) {
 	  if (records_[i].state == RecordState::Empty) {
-	    auto& obj = records_[i];
-	    
-	    obj.key = k;
-	    obj.value = v;
-	    obj.state = RecordState::Occupied;
+	    records_[i].key = k;
+	    records_[i].value = v;
+	    records_[i].state = RecordState::Occupied;
 
 	    ++size_;
-	    return obj;
+	    return records_[i];
 	  }
 	}
       }
@@ -169,32 +166,48 @@ namespace DataStructures {
     }
 
     constexpr bool contains(const Key k) const noexcept {
-      if (size_ == 0)
+      if (size_ == 0) {
 	return false;
+      }
       
       auto index = get_hash(k, capacity_);
 
-      if (records_[index].key == k && records_[index].state == RecordState::Occupied) {
+      if (records_[index].key == k
+	  && records_[index].state == RecordState::Occupied) {
 	return true;
-      }
-
-      for (size_t i = index + 1 % capacity_; i != index; i = i + 1 % capacity_) {
-	if (records_[i].key == k && records_[i].state == RecordState::Occupied)
-	  return true;
+      } else {
+	for (size_t i = (index + 1) % capacity_;
+	     i != index;
+	     i = (i + 1) % capacity_) {
+	  if (records_[i].key == k
+	      && records_[i].state == RecordState::Occupied) {
+	    return true;
+	  }
+	}
       }
 
       return false;
     }
 
     constexpr std::optional<Record> find(const Key k) const noexcept {
-      if (size_ == 0)
+      if (size_ == 0) {
 	return {};
+      }
       
       auto index = get_hash(k, capacity_);
 
       if (records_[index].key == k
-	  && records_[index].state == RecordState::Occupied)
+	  && records_[index].state == RecordState::Occupied) {
 	return records_[index];
+      } else {
+	for (size_t i = (index + 1) % capacity_;
+	     i != index; i = (i + 1) % capacity_) {
+	  if (records_[i].key == k
+	      && records_[i].state == RecordState::Occupied) {
+	    return records_[i];
+	  }
+	}
+      }
 
       return {};
     } 
