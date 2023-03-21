@@ -151,6 +151,9 @@ private:
   const double loadfactor_limit_ = 0.65;
 
 public:
+  using key_type = Key;
+  using value_type = Value;
+
   constexpr HashMap() noexcept : HashMap(5) {}
   constexpr HashMap(size_t capacity) noexcept : size_(0), capacity_(capacity) {
     records_ = new Record[capacity_];
@@ -181,10 +184,7 @@ public:
     return *this;
   }
 
-  using key_type = Key;
-  using value_type = Value;
-
-  ~HashMap() {
+  constexpr ~HashMap() {
     if (records_ != nullptr)
       delete[] records_;
   }
@@ -348,6 +348,8 @@ private:
     constexpr Node(char value, bool completes_word = false) noexcept
         : value_(value), completes_word_(completes_word) {}
 
+    constexpr ~Node() noexcept = default;
+
     [[nodiscard]] constexpr char value() const noexcept { return value_; }
 
     [[nodiscard]] constexpr bool completes_word() const noexcept {
@@ -356,22 +358,32 @@ private:
 
     constexpr void set_completes_word(bool b) noexcept { completes_word_ = b; }
 
-    [[nodiscard]] bool contains(std::string::const_iterator it,
-                                std::string::const_iterator) const noexcept {
+    [[nodiscard]] constexpr bool
+    contains(std::string::const_iterator it,
+             std::string::const_iterator end) const noexcept {
       char ch = *it;
 
       if (ch == value_) {
+        if (it == end) {
+          return true && completes_word_;
+        } else {
+          ++it;
+          auto n = nodes_.find(*it);
+
+          if (n != std::nullopt) {
+            return n.value().value.contains(it, end);
+          }
+        }
       }
 
       return false;
     }
 
-    void insert(std::string::const_iterator it,
-                std::string::const_iterator end) noexcept {
+    constexpr void insert(std::string::const_iterator it,
+                          std::string::const_iterator end) noexcept {
       char ch = *it;
 
-      Node n(ch);
-      auto next = nodes_.insert(ch, n);
+      auto next = nodes_.insert(ch, Node(ch));
 
       ++it;
 
