@@ -12,45 +12,111 @@ namespace OS2DSRules {
 
 namespace DataStructures {
 
-  template<typename T>
-  concept Trie = requires(T trie, std::string str, const char* cp, std::string_view strv) {
-    { trie.size() } -> std::same_as<size_t>;
-    { trie.contains(strv) } -> std::same_as<bool>;
-    { trie.contains(str) } -> std::same_as<bool>;
-    { trie.contains(cp) } -> std::same_as<bool>;
+  /*
+    Concept for expressing the requirements for a WordCollection.
+    A WordCollection is an immutable data structure that contains
+    a collection of words (string-like) that can be queried about
+    whether it contains a certain word.
+   */
+  template<typename Collection>
+  concept WordCollection = requires(Collection collection, std::string str, const char* cp, std::string_view strv) {
+    { collection.size() } -> std::same_as<size_t>;
+    { collection.contains(strv) } -> std::same_as<bool>;
+    { collection.contains(str) } -> std::same_as<bool>;
+    { collection.contains(cp) } -> std::same_as<bool>;
   };
 
-  template<typename T>
-  concept MutableTrie = Trie<T> && requires(T trie, std::string str) {
-    trie.insert(str);
+  /*
+    Concept for expressing the requirements for a MutableWordCollection.
+    Similar to a WordCollection, but this one is mutable and can thus be
+    altered after its construction.
+   */
+  template<typename Collection>
+  concept MutableWordCollection = WordCollection<Collection> && requires(Collection collection, std::string str) {
+    collection.insert(str);
+    collection.remove(str);
   };
 
+  /*
+    A simple concept that requires that a type implements a hashing function.
+   */
+  template<typename T>
+  concept is_hashable = requires(T t) {
+    { std::hash<T>()(t) };
+  };
+
+  /*
+    A constexpr-capable HashMap (hash table) data structure that is similar to
+    std::unordered_map. It stores key and value pairs called Records. Each
+    Record also has a state associated with it that indicates whether or not
+    a Record slot is empty or occupied. Every operation can be evaluated at
+    compile-time.
+   */
   template<typename Key, typename Value>
+  requires is_hashable<Key>
   class HashMap {
     private:
+
+    /*
+      Internal enum for representing the state of a
+      Record. It can be either empty or occupied.
+     */
     enum class RecordState : unsigned char {
       Empty,
       Occupied,
     };
 
+    /*
+      Internal struct for containing key-value pairs that is constexpr-capable.
+      It also has a state associated with it to indicate whether the key-value
+      pair is in use or has been "deleted".
+     */
     struct Record {
       constexpr Record() noexcept
         : state(RecordState::Empty), key{0}, value{0} {};
       constexpr Record(RecordState rs, Key k, Value v) noexcept
 	: state(rs), key(k), value(v) {}
+
+      constexpr Record(const Record& other) noexcept
+	: state(other.state), key(other.key), value(other.value) {}
+
+      constexpr Record& operator=(const Record& other) noexcept {
+	key = other.key;
+	value = other.value;
+	state = other.state;
+
+	return *this;
+      }
+
       RecordState state;
       Key key;
       Value value;
     };
 
+    /*
+      Helper function that calculates and returns the hash of a key modulus
+      some capacity such that the returned hash is always a valid index.
+     */
+    [[nodiscard]]
     constexpr size_t get_hash(const Key k, size_t capacity) const noexcept {
-      return k % capacity;
+      return std::hash<Key>()(k) % capacity;
     }
 
+    /*
+      Helper function that calculates and returns the load factor of the
+      current state of the HashMap. The load factor is given by the
+      ratio of elements in use vs. the allocated capacity.
+     */
+    [[nodiscard]]
     constexpr double calculate_loadfactor() const noexcept {
       return double(size_) / double(capacity_);
     }
 
+    /*
+      Doubles the capacity of the current HashMap and recalculates the hash
+      values for each record in the HashMap, which is moved to the newly
+      allocated memory.
+     */
     void rehash() noexcept {
       size_t new_capacity = capacity_ * 2;
       Record* new_records = new Record[capacity_];
@@ -96,9 +162,7 @@ namespace DataStructures {
       records_ = new Record[capacity_];
 
       for (size_t i = 0; i < capacity_; i++) {
-	records_[i].key = other.records_[i].key;
-	records_[i].value = other.records_[i].value;
-	records_[i].state = other.records_[i].state;
+	records_[i] = other.records_[i];
       }
     }
 
@@ -111,9 +175,7 @@ namespace DataStructures {
       records_ = new Record[capacity_];
 
       for (size_t i = 0; i < capacity_; i++) {
-	records_[i].key = other.records_[i].key;
-	records_[i].value = other.records_[i].value;
-	records_[i].state = other.records_[i].state;
+	records_[i] = other.records_[i];
       }
 
       return *this;
@@ -127,36 +189,52 @@ namespace DataStructures {
 	delete [] records_;
     }
 
+    /*
+      Getter method for size_.
+     */
+    [[nodiscard]]
     constexpr size_t size() const noexcept {
       return size_;
     }
 
+    /*
+      Getter method for capacity_.
+     */
+    [[nodiscard]]
     constexpr size_t capacity() const noexcept {
       return capacity_;
     }
 
+    /*
+      Inserts a key-value pair into the HashMap. This is done by
+      calculating the hash of the key to obtain an index. If the
+      index is empty the key-value pair is written to that index.
+      Otherwise, a suitable index is found using linear probing.
+
+      If the insertion causes the load factor to exceed the limit
+      a rehashing is performed.
+
+      Returns a reference to the inserted Record.
+     */
     constexpr std::optional<Record> insert(const Key k, const Value v) noexcept {
       if (calculate_loadfactor() >= loadfactor_limit_) {
 	rehash();
       }
 
-      auto index = get_hash(k, capacity_);
+      size_t index = get_hash(k, capacity_);
+      Record record(RecordState::Occupied, k, v);
 
       if (records_[index].state == RecordState::Empty) {
-	records_[index].key = k;
-	records_[index].value = v;
-	records_[index].state = RecordState::Occupied;
-
+	records_[index] = record;
 	++size_;
+
 	return records_[index];
       } else {
 	for (size_t i = (index + 1) % capacity_; i != index; i = (i + 1) % capacity_) {
 	  if (records_[i].state == RecordState::Empty) {
-	    records_[i].key = k;
-	    records_[i].value = v;
-	    records_[i].state = RecordState::Occupied;
-
+	    records_[i] = record;
 	    ++size_;
+
 	    return records_[i];
 	  }
 	}
@@ -165,6 +243,15 @@ namespace DataStructures {
       return {};
     }
 
+    /*
+      Searches the HashMap for a member that have a certain key.
+      This is done by calculating the hash of the key to determine
+      the index. If the index does not contain an occupied Record,
+      linear probing is used to search the remaining records.
+
+      Returns true if an occupied record is found.
+     */
+    [[nodiscard]]
     constexpr bool contains(const Key k) const noexcept {
       if (size_ == 0) {
 	return false;
@@ -189,6 +276,7 @@ namespace DataStructures {
       return false;
     }
 
+    [[nodiscard]]
     constexpr std::optional<Record> find(const Key k) const noexcept {
       if (size_ == 0) {
 	return {};
@@ -212,12 +300,42 @@ namespace DataStructures {
       return {};
     } 
 
+    constexpr std::optional<Record> remove(const Key k) noexcept {
+      if (size_ == 0) {
+	return {};
+      }
+
+      auto index = get_hash(k, capacity_);
+
+      if (records_[index].key == k
+	  && records_[index].state == RecordState::Occupied) {
+	records_[index].state = RecordState::Empty;
+	--size_;
+
+	return records_[index];
+      } else {
+	for (size_t i = (index + 1) % capacity_;
+	     i != index;
+	     i = (i + 1) % capacity_) {
+	  if (records_[i].key == k
+	      && records_[i].state == RecordState::Occupied) {
+	    records_[index].state = RecordState::Empty;
+	    --size_;
+
+	    return records_[index];
+	  }
+	}
+      }
+
+      return {};
+    }
   };
 
   class ReadOnlyTrie {
     public:
     constexpr ReadOnlyTrie() noexcept {}
 
+    [[nodiscard]]
     bool contains(std::string str) const noexcept {
       auto begin = str.cbegin();
       auto end = str.cend();
@@ -239,10 +357,12 @@ namespace DataStructures {
       constexpr Node(char value, bool completes_word = false) noexcept
 	: value_(value), completes_word_(completes_word) {}
 
+      [[nodiscard]]
       constexpr char value() const noexcept {
 	return value_;
       }
 
+      [[nodiscard]]
       constexpr bool completes_word() const noexcept {
 	return completes_word_;
       }
@@ -251,6 +371,7 @@ namespace DataStructures {
 	completes_word_ = b;
       }
 
+      [[nodiscard]]
       bool contains(std::string::const_iterator it, std::string::const_iterator) const noexcept {
 	char ch = *it;
 
