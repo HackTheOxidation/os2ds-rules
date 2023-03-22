@@ -330,21 +330,20 @@ public:
     Record was found, an insertion of Key k is made with
     Value constructed in-place.
    */
-  constexpr Record& operator[](const Key& k) noexcept {
+  constexpr Record &operator[](const Key &k) noexcept {
     auto index = get_hash(k, capacity_);
 
-    if (records_[index].key == k
-	&& records_[index].state == RecordState::Occupied) {
+    if (records_[index].key == k &&
+        records_[index].state == RecordState::Occupied) {
       return records_[index];
     } else {
       // Use linear probing to search.
-      for (size_t i = (index + 1) % capacity_;
-	   i != index;
-	   i = (i + 1) % capacity_) {
-	if (records_[i].key == k
-	    && records_[i].state == RecordState::Occupied) {
-	  return records_[i];
-	}
+      for (size_t i = (index + 1) % capacity_; i != index;
+           i = (i + 1) % capacity_) {
+        if (records_[i].key == k &&
+            records_[i].state == RecordState::Occupied) {
+          return records_[i];
+        }
       }
 
       // Otherwise insert a Record with Key k and zero-value of Value.
@@ -376,6 +375,11 @@ public:
   }
 
 private:
+  /*
+    Internal recursive structure for holding key-value pairs.
+    A key is a 1-byte character (char) and the value is another
+    Node.
+   */
   class Node {
   public:
     constexpr Node(char value, bool completes_word = false) noexcept
