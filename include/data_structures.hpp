@@ -315,32 +315,42 @@ public:
     is returned.
    */
   constexpr std::optional<Record> remove(const Key k) noexcept {
-    if (size_ == 0) {
-      return {};
-    }
+    Record target = this->operator[](k);
 
+    target.state = RecordState::Empty;
+    --size_;
+    return target;
+  }
+
+  /*
+    Searches for a Record with Key k. The initial index is
+    determined by the hash value of k. If the initial index
+    does not contain a matching Record, use linear probing
+    to search the remaining records. Finally, if no matching
+    Record was found, an insertion of Key k is made with
+    Value constructed in-place.
+   */
+  constexpr Record& operator[](const Key& k) noexcept {
     auto index = get_hash(k, capacity_);
 
-    if (records_[index].key == k &&
-        records_[index].state == RecordState::Occupied) {
-      records_[index].state = RecordState::Empty;
-      --size_;
-
+    if (records_[index].key == k
+	&& records_[index].state == RecordState::Occupied) {
       return records_[index];
     } else {
-      for (size_t i = (index + 1) % capacity_; i != index;
-           i = (i + 1) % capacity_) {
-        if (records_[i].key == k &&
-            records_[i].state == RecordState::Occupied) {
-          records_[index].state = RecordState::Empty;
-          --size_;
-
-          return records_[index];
-        }
+      // Use linear probing to search.
+      for (size_t i = (index + 1) % capacity_;
+	   i != index;
+	   i = (i + 1) % capacity_) {
+	if (records_[i].key == k
+	    && records_[i].state == RecordState::Occupied) {
+	  return records_[i];
+	}
       }
-    }
 
-    return {};
+      // Otherwise insert a Record with Key k and zero-value of Value.
+      auto inserted = this->insert(k, Value{0});
+      return inserted.value();
+    }
   }
 };
 
