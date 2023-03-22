@@ -395,16 +395,22 @@ private:
 
     constexpr void set_completes_word(bool b) noexcept { completes_word_ = b; }
 
+    /*
+      Checks recursively if the Trie contains a complete word
+      that is identical to a string. This is done using string
+      iterators.
+     */
     [[nodiscard]] constexpr bool
     contains(std::string::const_iterator it,
              std::string::const_iterator end) const noexcept {
       char ch = *it;
 
       if (ch == value_) {
+        ++it;
+
         if (it == end) {
           return true && completes_word_;
         } else {
-          ++it;
           auto n = nodes_.find(*it);
 
           if (n != std::nullopt) {
@@ -416,6 +422,10 @@ private:
       return false;
     }
 
+    /*
+      Recursively inserts a string into the Node and its
+      child Nodes.
+     */
     constexpr void insert(std::string::const_iterator it,
                           std::string::const_iterator end) noexcept {
       char ch = *it;
@@ -441,6 +451,10 @@ private:
 
   HashMap<char, Node> nodes_;
 
+  /*
+    Inserts a string that forms a complete word
+    into the trie using iterators.
+   */
   void insert(const std::string str) {
     std::string::const_iterator cit = str.cbegin();
     std::string::const_iterator cend = str.cend();
