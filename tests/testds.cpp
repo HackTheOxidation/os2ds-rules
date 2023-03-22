@@ -76,6 +76,10 @@ TEST_F(HashMapTest, Test_Insert_Triggers_Rehashing) {
   ASSERT_EQ(4, hm.capacity());
 }
 
+TEST_F(ReadOnlyTrieTest, Test_Default_Is_Empty) {
+  ReadOnlyTrie trie;
+}
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

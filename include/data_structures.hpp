@@ -120,7 +120,7 @@ private:
    */
   void rehash() noexcept {
     size_t new_capacity = capacity_ * 2;
-    Record *new_records = new Record[capacity_];
+    Record* new_records = new Record[capacity_];
 
     for (size_t i = 0; i < capacity_; i++) {
       Record r = records_[i];
@@ -145,7 +145,7 @@ private:
     capacity_ = new_capacity;
   }
 
-  Record *records_ = nullptr;
+  Record* records_;
   size_t size_;
   size_t capacity_;
   const double loadfactor_limit_ = 0.65;
@@ -156,7 +156,7 @@ public:
 
   constexpr HashMap() noexcept : HashMap(5) {}
   constexpr HashMap(size_t capacity) noexcept : size_(0), capacity_(capacity) {
-    records_ = new Record[capacity_];
+    records_ = new Record[capacity];
   }
 
   constexpr HashMap(const HashMap &other) noexcept {
@@ -393,7 +393,11 @@ private:
     constexpr Node(char value, bool completes_word = false) noexcept
         : value_(value), completes_word_(completes_word) {}
 
-    constexpr ~Node() noexcept = default;
+    constexpr ~Node() noexcept {
+      if (nodes_ != nullptr) {
+	delete nodes_;
+      }
+    };
 
     [[nodiscard]] constexpr char value() const noexcept { return value_; }
 
@@ -419,7 +423,7 @@ private:
         if (it == end) {
           return true && completes_word_;
         } else {
-          auto n = nodes_.find(*it);
+          auto n = nodes_->find(*it);
 
           if (n != std::nullopt) {
             return n.value().value.contains(it, end);
@@ -436,9 +440,13 @@ private:
      */
     constexpr void insert(std::string::const_iterator it,
                           std::string::const_iterator end) noexcept {
+      if (nodes_ == nullptr) {
+	nodes_ = new HashMap<char, Node>;
+      }
+
       char ch = *it;
 
-      auto next = nodes_.insert(ch, Node(ch));
+      auto next = nodes_->insert(ch, Node(ch));
 
       ++it;
 
@@ -454,7 +462,7 @@ private:
   private:
     char value_;
     bool completes_word_;
-    HashMap<char, Node> nodes_;
+    HashMap<char, Node>* nodes_ = nullptr;
   };
 
   HashMap<char, Node> nodes_;

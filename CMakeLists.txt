@@ -11,7 +11,7 @@ add_library(os2dsrules_compiler_flags INTERFACE)
 target_compile_features(os2dsrules_compiler_flags INTERFACE cxx_std_20)
 # Build flags.
 target_compile_options(os2dsrules_compiler_flags INTERFACE
-  "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-Wconversion;-Wpedantic;-Werror;-O3>"
+  "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-Wconversion;-Wpedantic;-Werror;-O0;-g>"
   "$<${msvc_cxx}:-W3>"						
 )
 
@@ -41,4 +41,4 @@ set(installable_libs os2dsrules os2dsrules_compiler_flags)
 install(TARGETS ${installable_libs} DESTINATION lib)
 
 # Install header files on system.
-install(FILES include/os2dsrules.hpp include/cpr-detector.hpp DESTINATION include)
+install(FILES include/os2dsrules.hpp include/cpr-detector.hpp include/data_structures.hpp DESTINATION include)
