@@ -25,15 +25,17 @@ struct MatchResult {
       : start_(start), end_(end), match_{match}, sensitivity_(sensitivity),
         probability_(probability){};
 
-  size_t start() const noexcept { return start_; }
+  [[nodiscard]] size_t start() const noexcept { return start_; }
 
-  size_t end() const noexcept { return end_; }
+  [[nodiscard]] size_t end() const noexcept { return end_; }
 
-  const std::string match() const noexcept { return match_; }
+  [[nodiscard]] const std::string match() const noexcept { return match_; }
 
-  Sensitivity sensitivity() const noexcept { return sensitivity_; }
+  [[nodiscard]] Sensitivity sensitivity() const noexcept {
+    return sensitivity_;
+  }
 
-  double probability() const noexcept { return probability_; }
+  [[nodiscard]] double probability() const noexcept { return probability_; }
 
 private:
   const size_t start_;

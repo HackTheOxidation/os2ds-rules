@@ -269,6 +269,17 @@ public:
     return false;
   }
 
+  /*
+    Searches the HashMap for a Record with a certain key.
+    The initial index is determined by calculating the
+    hash of the key. If that index does not contain a
+    Record with the specified key, linear probing is
+    used to search the rest of the entries.
+
+    If a matching Record is found, a reference to that
+    Record is returned as a std::optional. Otherwise
+    a std::nullopt is returned.
+   */
   [[nodiscard]] constexpr std::optional<Record>
   find(const Key k) const noexcept {
     if (size_ == 0) {
@@ -293,6 +304,16 @@ public:
     return {};
   }
 
+  /*
+    Removes a Record with a certain key. If a matching Record
+    is found, it is "removed" by setting its state to Empty.
+    Thus no data is actually deleted, because this is cheaper
+    than overwriting all members to their zero values.
+
+    If a matching Record is found, a copy of that record is
+    returned as a std::optional. Otherwise, a std::nullopt
+    is returned.
+   */
   constexpr std::optional<Record> remove(const Key k) noexcept {
     if (size_ == 0) {
       return {};
@@ -323,20 +344,22 @@ public:
   }
 };
 
+/*
+  An implementation of an immutable, read-only suffix-tree
+  (trie), where every operation can be evaluated at compile-time.
+ */
 class ReadOnlyTrie {
 public:
   constexpr ReadOnlyTrie() noexcept {}
 
+  /*
+    Searches the trie for a string that completes a word.
+   */
   [[nodiscard]] bool contains(std::string str) const noexcept {
     auto begin = str.cbegin();
-    auto end = str.cend();
 
-    char ch = *begin;
-
-    auto found = nodes_.find(ch);
-
-    if (found != std::nullopt) {
-      return found->value.contains(begin, end);
+    if (auto found = nodes_.find(*begin)) {
+      return found->value.contains(begin, str.cend());
     }
 
     return false;

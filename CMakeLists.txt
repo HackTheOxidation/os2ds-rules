@@ -24,10 +24,17 @@ target_link_libraries(os2dsrules PUBLIC os2dsrules_compiler_flags)
 enable_testing()
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
-add_executable(testsuite tests/test.cpp)
-target_include_directories(testsuite PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
-target_link_libraries(testsuite ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
-add_test(unittests testsuite)
+## CPRRule
+add_executable(testcpr tests/testcpr.cpp)
+target_include_directories(testcpr PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
+target_link_libraries(testcpr ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
+## Data Structures
+add_executable(testds tests/testds.cpp)
+target_include_directories(testds PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
+target_link_libraries(testds ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
+
+add_test(cpr_unittests testcpr)
+add_test(datastructures_unittests testds)
 
 # Install library on system.
 set(installable_libs os2dsrules os2dsrules_compiler_flags)
