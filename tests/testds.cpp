@@ -7,11 +7,12 @@
 using namespace OS2DSRules::DataStructures;
 
 class HashMapTest : public testing::Test {};
+class ReadOnlyTrieTest : public testing::Test {};
 
 TEST_F(HashMapTest, Test_Default_HashMap_Is_Empty) {
   HashMap<int, int> hm;
 
-  ASSERT_EQ(0, hm.size());
+  ASSERT_TRUE(hm.empty());
   ASSERT_EQ(5, hm.capacity());
 }
 
@@ -34,7 +35,7 @@ TEST_F(HashMapTest, Test_Insert_One) {
 TEST_F(HashMapTest, Test_Default_Does_Not_Contain_1) {
   HashMap<int, int> hm;
 
-  ASSERT_EQ(0, hm.size());
+  ASSERT_TRUE(hm.empty());
   ASSERT_FALSE(hm.contains(1));
 }
 
@@ -57,7 +58,7 @@ TEST_F(HashMapTest, Test_Insert_Remove_Is_Empty) {
 
   hm.remove(1);
 
-  ASSERT_EQ(0, hm.size());
+  ASSERT_TRUE(hm.empty());
   ASSERT_FALSE(hm.contains(1));
 }
 

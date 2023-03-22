@@ -200,6 +200,11 @@ public:
   [[nodiscard]] constexpr size_t capacity() const noexcept { return capacity_; }
 
   /*
+    Utility method for asserting that all entries are empty.
+   */
+  [[nodiscard]] constexpr bool empty() const noexcept { return size_ == 0; }
+
+  /*
     Inserts a key-value pair into the HashMap. This is done by
     calculating the hash of the key to obtain an index. If the
     index is empty the key-value pair is written to that index.
@@ -364,7 +369,7 @@ public:
   /*
     Searches the trie for a string that completes a word.
    */
-  [[nodiscard]] bool contains(std::string str) const noexcept {
+  [[nodiscard]] constexpr bool contains(std::string str) const noexcept {
     auto begin = str.cbegin();
 
     if (auto found = nodes_.find(*begin)) {
@@ -374,6 +379,8 @@ public:
     return false;
   }
 
+  [[nodiscard]] constexpr bool empty() const noexcept { return nodes_.empty(); }
+
 private:
   /*
     Internal recursive structure for holding key-value pairs.
@@ -382,6 +389,7 @@ private:
    */
   class Node {
   public:
+    constexpr Node() noexcept = default;
     constexpr Node(char value, bool completes_word = false) noexcept
         : value_(value), completes_word_(completes_word) {}
 
