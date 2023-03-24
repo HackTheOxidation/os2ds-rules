@@ -1,7 +1,6 @@
 #ifndef OS2DSRULES_HPP_
 #define OS2DSRULES_HPP_
 
-#include "cpr-detector.hpp"
 #include <concepts>
 #include <cstddef>
 #include <string>

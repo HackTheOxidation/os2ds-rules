@@ -16,7 +16,7 @@ target_compile_options(os2dsrules_compiler_flags INTERFACE
 )
 
 # Compile as a shared library.
-add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/data_structures.cpp)
+add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/data_structures.cpp lib/name_rule.cpp)
 include_directories(os2dsrules include)
 target_link_libraries(os2dsrules PUBLIC os2dsrules_compiler_flags)
 
@@ -41,4 +41,4 @@ set(installable_libs os2dsrules os2dsrules_compiler_flags)
 install(TARGETS ${installable_libs} DESTINATION lib)
 
 # Install header files on system.
-install(FILES include/os2dsrules.hpp include/cpr-detector.hpp include/data_structures.hpp DESTINATION include)
+install(FILES include/os2dsrules.hpp include/cpr-detector.hpp include/data_structures.hpp include/name_rule.hpp DESTINATION include)
