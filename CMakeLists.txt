@@ -32,9 +32,14 @@ target_link_libraries(testcpr ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_
 add_executable(testds tests/testds.cpp)
 target_include_directories(testds PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
 target_link_libraries(testds ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
+## NameRule
+add_executable(testname tests/testname.cpp)
+target_include_directories(testname PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
+target_link_libraries(testname ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
 
 add_test(cpr_unittests testcpr)
 add_test(datastructures_unittests testds)
+add_test(name_unittests testname)
 
 # Install library on system.
 set(installable_libs os2dsrules os2dsrules_compiler_flags)

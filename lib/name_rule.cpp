@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <iostream>
 #include <string_view>
 
 #include <name_rule.hpp>
@@ -24,16 +25,20 @@ MatchResults NameRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
   auto is_end_of_word = [](char c) {
-    return c == '.' || c == ' ' || c == '\n';
+    return c == '.' || c == ' ' || c == '\n' || c == '\0';
   };
 
+  bool in_word = false;
   auto word_begin = content.cbegin();
 
   for (auto iter = content.cbegin(); iter != content.cend(); ++iter) {
-    if (std::isupper(*iter)) {
+    if (std::isupper(*iter) && !in_word) {
       word_begin = iter;
-    } else if (is_end_of_word(*iter)) {
-      auto word_end = iter - 1;
+      in_word = true;
+    }
+
+    if (in_word && is_end_of_word(*iter)) {
+      auto word_end = iter;
 
       if (contains(word_begin, word_end)) {
         MatchResult result(std::string(word_begin, word_end),
@@ -41,7 +46,23 @@ MatchResults NameRule::find_matches(const std::string &content) const noexcept {
                            std::distance(content.begin(), word_end));
 
         results.push_back(result);
+
+        in_word = false;
       }
+    }
+  }
+
+  if (in_word) {
+    auto word_end = content.cend();
+
+    if (contains(word_begin, word_end)) {
+      MatchResult result(std::string(word_begin, word_end),
+                         std::distance(content.cbegin(), word_begin),
+                         std::distance(content.begin(), word_end));
+
+      results.push_back(result);
+
+      in_word = false;
     }
   }
 
