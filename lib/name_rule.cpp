@@ -46,9 +46,9 @@ MatchResults NameRule::find_matches(const std::string &content) const noexcept {
                            std::distance(content.begin(), word_end));
 
         results.push_back(result);
-
-        in_word = false;
       }
+
+      in_word = false;
     }
   }
 
@@ -61,9 +61,9 @@ MatchResults NameRule::find_matches(const std::string &content) const noexcept {
                          std::distance(content.begin(), word_end));
 
       results.push_back(result);
-
-      in_word = false;
     }
+
+    in_word = false;
   }
 
   return results;
@@ -71,20 +71,18 @@ MatchResults NameRule::find_matches(const std::string &content) const noexcept {
 
 constexpr bool
 NameRule::contains(const std::string_view target) const noexcept {
-  auto eq = [target](auto sv) {
-    return std::equal(
-        target.begin(), target.end(), sv.begin(), sv.end(),
-        [](char a, char b) { return std::toupper(a) == std::toupper(b); });
-  };
+  std::string target_upper(target);
+  std::transform(target.begin(), target.end(), target_upper.begin(),
+                 [](auto ch) { return std::toupper(ch); });
 
   for (std::string_view sv : firstnames) {
-    if (eq(sv)) {
+    if (target_upper == sv) {
       return true;
     }
   }
 
   for (std::string_view sv : lastnames) {
-    if (eq(sv)) {
+    if (target_upper == sv) {
       return true;
     }
   }
