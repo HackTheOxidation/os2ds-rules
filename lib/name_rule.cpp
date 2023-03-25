@@ -3,7 +3,10 @@
 #include <iostream>
 #include <string_view>
 
+#include <data_structures.hpp>
 #include <name_rule.hpp>
+
+using namespace OS2DSRules::DataStructures;
 
 namespace OS2DSRules {
 
@@ -11,14 +14,16 @@ namespace NameRule {
 using namespace std::string_view_literals;
 
 namespace {
-static constexpr auto firstnames = std::to_array({
+  static constexpr auto firstnames = std::to_array({
 #include "datasets/female_firstnames.txt"
 #include "datasets/male_firstnames.txt"
 });
 
-static constexpr auto lastnames = std::to_array({
+  static constexpr auto lastnames = std::to_array<std::string_view>({
 #include "datasets/lastnames.txt"
 });
+  static const auto firstnames_set = FrozenHashSet(firstnames);
+  static const auto lastnames_set = FrozenHashSet(lastnames);
 }; // namespace
 
 MatchResults NameRule::find_matches(const std::string &content) const noexcept {
@@ -75,19 +80,7 @@ NameRule::contains(const std::string_view target) const noexcept {
   std::transform(target.begin(), target.end(), target_upper.begin(),
                  [](auto ch) { return std::toupper(ch); });
 
-  for (std::string_view sv : firstnames) {
-    if (target_upper == sv) {
-      return true;
-    }
-  }
-
-  for (std::string_view sv : lastnames) {
-    if (target_upper == sv) {
-      return true;
-    }
-  }
-
-  return false;
+  return firstnames_set.contains(target_upper.c_str()) || lastnames_set.contains(target_upper.c_str());
 }
 
 bool NameRule::contains(const std::string target) const noexcept {

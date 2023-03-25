@@ -1,83 +1,19 @@
 #include <data_structures.hpp>
+#include <array>
 #include <exception>
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
+#include <string_view>
 
 using namespace OS2DSRules::DataStructures;
 
-class HashMapTest : public testing::Test {};
-class ReadOnlyTrieTest : public testing::Test {};
+class FrozenHashSetTest : public testing::Test {};
 
-TEST_F(HashMapTest, Test_Default_HashMap_Is_Empty) {
-  HashMap<int, int> hm;
+TEST_F(FrozenHashSetTest, Test_Contains) {
+  FrozenHashSet<3> set(std::to_array<std::string_view>({"a", "b", "c"}));
 
-  ASSERT_TRUE(hm.empty());
-  ASSERT_EQ(5, hm.capacity());
-}
-
-TEST_F(HashMapTest, Test_Insert_Increases_Size_By_One) {
-  HashMap<int, int> hm;
-  hm.insert(1, 1);
-
-  ASSERT_EQ(1, hm.size());
-  ASSERT_EQ(5, hm.capacity());
-}
-
-TEST_F(HashMapTest, Test_Insert_One) {
-  HashMap<int, int> hm;
-  hm.insert(1, 1);
-
-  ASSERT_EQ(1, hm.size());
-  ASSERT_TRUE(hm.contains(1));
-}
-
-TEST_F(HashMapTest, Test_Default_Does_Not_Contain_1) {
-  HashMap<int, int> hm;
-
-  ASSERT_TRUE(hm.empty());
-  ASSERT_FALSE(hm.contains(1));
-}
-
-TEST_F(HashMapTest, Test_Insert_One_Does_Not_Contain_Two) {
-  HashMap<int, int> hm;
-  hm.insert(1, 1);
-
-  ASSERT_EQ(1, hm.size());
-  ASSERT_EQ(5, hm.capacity());
-  ASSERT_TRUE(hm.contains(1));
-  ASSERT_FALSE(hm.contains(2));
-}
-
-TEST_F(HashMapTest, Test_Insert_Remove_Is_Empty) {
-  HashMap<int, int> hm;
-  hm.insert(1, 1);
-
-  ASSERT_EQ(1, hm.size());
-  ASSERT_TRUE(hm.contains(1));
-
-  hm.remove(1);
-
-  ASSERT_TRUE(hm.empty());
-  ASSERT_FALSE(hm.contains(1));
-}
-
-TEST_F(HashMapTest, Test_Insert_Triggers_Rehashing) {
-  HashMap<int, int> hm(2);
-  hm.insert(1, 1);
-  hm.insert(2, 2);
-
-  ASSERT_EQ(2, hm.size());
-  ASSERT_EQ(2, hm.capacity());
-
-  hm.insert(3, 3);
-
-  ASSERT_EQ(3, hm.size());
-  ASSERT_EQ(4, hm.capacity());
-}
-
-TEST_F(ReadOnlyTrieTest, Test_Default_Is_Empty) {
-  ReadOnlyTrie trie;
+  ASSERT_TRUE(set.contains("a"));
 }
 
 int main(int argc, char **argv) {
