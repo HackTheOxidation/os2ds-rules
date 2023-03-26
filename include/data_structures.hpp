@@ -1,14 +1,18 @@
 #ifndef DATA_STRUCTURES_HPP
 #define DATA_STRUCTURES_HPP
 
+#include <algorithm>
 #include <concepts>
 #include <cstddef>
 #include <functional>
+#include <memory>
+#include <new>
 #include <numeric>
 #include <optional>
 #include <string>
 #include <string_view>
 #include <type_traits>
+#include <utility>
 
 namespace OS2DSRules {
 
@@ -58,17 +62,24 @@ class FrozenHashSet {
 private:
   class Chain {
   public:
-    constexpr Chain() noexcept : value_{""} {}
-    constexpr Chain(std::string_view value) noexcept : value_(value) {}
+    constexpr Chain() noexcept : value_{""}, next_{} {}
+    constexpr Chain(std::string_view value) noexcept : value_(value), next_{} {}
+    constexpr ~Chain() noexcept {}
 
-    constexpr ~Chain() noexcept {
-      if (next_ != nullptr)
-        delete next_;
+    Chain(Chain && other) noexcept
+      : value_(std::move(other.value_)), next_(std::move(other.next_)){}
+    Chain& operator=(Chain &&other) noexcept {
+      if (this != &other) {
+	value_ = other.value_;
+	next_ = std::move(other.next_);
+      }
+
+      return *this;
     }
 
     void append(const std::string_view value) noexcept {
       if (next_ == nullptr) {
-        next_ = new Chain(value);
+        next_ = std::unique_ptr<Chain>(new Chain(value));
       } else {
         next_->append(value);
       }
@@ -89,7 +100,7 @@ private:
 
   private:
     std::string_view value_;
-    Chain *next_ = nullptr;
+    std::unique_ptr<Chain> next_;
   };
 
   std::array<Chain, Size> container_;
