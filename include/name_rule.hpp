@@ -17,14 +17,14 @@ public:
       : expansive_(expansive) {}
   constexpr NameRule(const NameRule &other) noexcept = default;
 
-  MatchResults find_matches(const std::string &) const noexcept;
+  [[nodiscard]] MatchResults find_matches(const std::string &) const noexcept;
 
 private:
   const bool expansive_;
-  constexpr bool contains(const std::string_view) const noexcept;
-  bool contains(const std::string) const noexcept;
-  bool contains(const std::string::const_iterator,
-                const std::string::const_iterator) const noexcept;
+  [[nodiscard]] bool contains(const std::string_view) const noexcept;
+  [[nodiscard]] bool contains(const std::string) const noexcept;
+  [[nodiscard]] bool contains(const std::string::const_iterator,
+                              const std::string::const_iterator) const noexcept;
 };
 
 }; // namespace NameRule

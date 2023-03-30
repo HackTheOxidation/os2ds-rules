@@ -14,19 +14,20 @@ namespace NameRule {
 using namespace std::string_view_literals;
 
 namespace {
-  static constexpr auto firstnames = std::to_array({
+static constexpr auto firstnames = std::to_array({
 #include "datasets/female_firstnames.txt"
 #include "datasets/male_firstnames.txt"
 });
 
-  static constexpr auto lastnames = std::to_array<std::string_view>({
+static constexpr auto lastnames = std::to_array<std::string_view>({
 #include "datasets/lastnames.txt"
 });
-  static const auto firstnames_set = FrozenHashSet(firstnames);
-  static const auto lastnames_set = FrozenHashSet(lastnames);
+static const auto firstnames_set = FrozenHashSet(firstnames);
+static const auto lastnames_set = FrozenHashSet(lastnames);
 }; // namespace
 
-MatchResults NameRule::find_matches(const std::string &content) const noexcept {
+[[nodiscard]] MatchResults
+NameRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
   auto is_end_of_word = [](char c) {
@@ -74,21 +75,23 @@ MatchResults NameRule::find_matches(const std::string &content) const noexcept {
   return results;
 }
 
-constexpr bool
+[[nodiscard]] bool
 NameRule::contains(const std::string_view target) const noexcept {
   std::string target_upper(target);
   std::transform(target.begin(), target.end(), target_upper.begin(),
                  [](auto ch) { return std::toupper(ch); });
 
-  return firstnames_set.contains(target_upper.c_str()) || lastnames_set.contains(target_upper.c_str());
+  return firstnames_set.contains(target_upper.c_str()) ||
+         lastnames_set.contains(target_upper.c_str());
 }
 
-bool NameRule::contains(const std::string target) const noexcept {
+[[nodiscard]] bool NameRule::contains(const std::string target) const noexcept {
   return contains(std::string_view(target.cbegin(), target.cend()));
 }
 
-bool NameRule::contains(const std::string::const_iterator start,
-                        const std::string::const_iterator stop) const noexcept {
+[[nodiscard]] bool
+NameRule::contains(const std::string::const_iterator start,
+                   const std::string::const_iterator stop) const noexcept {
   return contains(std::string_view(start, stop));
 }
 

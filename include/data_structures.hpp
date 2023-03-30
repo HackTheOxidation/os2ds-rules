@@ -98,6 +98,14 @@ private:
 
     constexpr std::string_view value() const noexcept { return value_; }
 
+    constexpr std::size_t length() const noexcept {
+      if (next_) {
+	return 1 + next_->length();
+      }
+
+      return 1;
+    }
+
   private:
     std::string_view value_;
     std::unique_ptr<Chain> next_;
@@ -105,9 +113,9 @@ private:
 
   std::array<Chain, Size> container_;
 
-  constexpr auto get_hash(const std::string_view value) const noexcept {
-    std::size_t sum = std::accumulate(value.begin(), value.end(), 1, std::multiplies<std::size_t>());
-    return sum % Size;
+  auto get_hash(const std::string_view value) const noexcept {
+    std::hash<std::string_view> hash_fun;
+    return hash_fun(value) % Size;
   }
 
   void insert(const std::string_view value) noexcept {
@@ -137,7 +145,8 @@ public:
   }
   constexpr ~FrozenHashSet() noexcept {};
 
-  constexpr bool contains(const std::string_view value) const noexcept {
+  [[nodiscard]]
+  bool contains(const std::string_view value) const noexcept {
     auto index = get_hash(value);
     return container_[index].contains(value);
   }
