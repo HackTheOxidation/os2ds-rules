@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <optional>
 #include <os2dsrules.hpp>
 #include <string>
@@ -106,7 +105,6 @@ AddressRule::append_number(const MatchResult &m,
   auto is_nonzero_digit = [](char c) { return '0' < c && c <= '9'; };
 
   auto iter = content.begin() + m.end() + 1;
-  std::cout << "Iter: " << *iter << '\n';
 
   if (!is_nonzero_digit(*iter))
     return {};
@@ -116,7 +114,6 @@ AddressRule::append_number(const MatchResult &m,
   std::size_t counter = 1;
 
   while (iter != content.end() && is_digit(*iter)) {
-    std::cout << "Iter: " << *iter << '\n';
     number += *(iter++);
     ++counter;
   }

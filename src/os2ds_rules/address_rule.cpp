@@ -1,24 +1,23 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+#include <address_rule.hpp>
 #include <cstddef>
-#include <name_rule.hpp>
 #include <string>
 
-using namespace OS2DSRules::NameRule;
+using namespace OS2DSRules::AddressRule;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-static PyObject *name_rule_find_matches(PyObject *self, PyObject *args) {
+static PyObject *address_rule_find_matches(PyObject *self, PyObject *args) {
   const char *content;
-  int expansive = 0;
 
-  if (!PyArg_ParseTuple(args, "s|p", &content, &expansive))
+  if (!PyArg_ParseTuple(args, "s", &content))
     return NULL;
 
-  NameRule rule(static_cast<bool>(expansive));
+  AddressRule rule;
   std::string text(content);
   auto results = rule.find_matches(text);
   Py_ssize_t len = Py_ssize_t(results.size());
@@ -36,19 +35,19 @@ static PyObject *name_rule_find_matches(PyObject *self, PyObject *args) {
   return list_of_results;
 }
 
-static PyMethodDef NameRuleMethods[] = {
-    {"find_matches", name_rule_find_matches, METH_VARARGS,
+static PyMethodDef AddressRuleMethods[] = {
+    {"find_matches", address_rule_find_matches, METH_VARARGS,
      "Find matches in a text."},
     {NULL, NULL, 0, NULL} /* Sentinel */
 };
 
-static struct PyModuleDef namerulemodule = {PyModuleDef_HEAD_INIT,
-                                            "name_rule", /* name of module */
-                                            NULL, /* No documentation, yet... */
-                                            -1, NameRuleMethods};
+static struct PyModuleDef addressrulemodule = {
+    PyModuleDef_HEAD_INIT, "address_rule", /* name of module */
+    NULL,                                  /* No documentation, yet... */
+    -1, AddressRuleMethods};
 
-PyMODINIT_FUNC PyInit_name_rule(void) {
-  return PyModule_Create(&namerulemodule);
+PyMODINIT_FUNC PyInit_address_rule(void) {
+  return PyModule_Create(&addressrulemodule);
 }
 
 #ifdef __cplusplus

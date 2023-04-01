@@ -1,6 +1,5 @@
 #include <algorithm>
 #include <array>
-#include <iostream>
 #include <string_view>
 
 #include <data_structures.hpp>

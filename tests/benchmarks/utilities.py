@@ -21,4 +21,4 @@ def read_content(times=1, path=BIG_HTML):
     return content
 
 # Read the contents into memory. Yes, this will hurt.
-HTML_CONTENT = read_content(times=100)
+HTML_CONTENT = read_content(times=300)
