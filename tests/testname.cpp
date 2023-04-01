@@ -23,13 +23,21 @@ TEST_F(NameRuleTest, Test_Single_Name_One_Match) {
   ASSERT_EQ(std::string("John"), results[0].match());
 }
 
-TEST_F(NameRuleTest, Test_Single_Names_Two_Matches) {
+TEST_F(NameRuleTest, Test_Double_Name_Single_Match) {
   NameRule rule;
   auto results = rule.find_matches("John Peter");
 
+  ASSERT_EQ(1, results.size());
+  ASSERT_EQ(std::string("John Peter"), results[0].match());
+}
+
+TEST_F(NameRuleTest, Test_Double_Name_Single_Name_Two_Matches) {
+  NameRule rule;
+  auto results = rule.find_matches("John Peter is usually just called John.");
+
   ASSERT_EQ(2, results.size());
-  ASSERT_EQ(std::string("John"), results[0].match());
-  ASSERT_EQ(std::string("Peter"), results[1].match());
+  ASSERT_EQ(std::string("John Peter"), results[0].match());
+  ASSERT_EQ(std::string("John"), results[1].match());
 }
 
 int main(int argc, char **argv) {

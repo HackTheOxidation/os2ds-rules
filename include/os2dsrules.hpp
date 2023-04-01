@@ -24,9 +24,9 @@ struct MatchResult {
       : start_(start), end_(end), match_(match), sensitivity_(sensitivity),
         probability_(probability){};
   MatchResult(const MatchResult &other) noexcept
-    : start_(other.start_), end_(other.end_), match_(other.match_), sensitivity_(other.sensitivity_),
-        probability_(other.probability_){}
-  MatchResult& operator=(const MatchResult &other) noexcept {
+      : start_(other.start_), end_(other.end_), match_(other.match_),
+        sensitivity_(other.sensitivity_), probability_(other.probability_) {}
+  MatchResult &operator=(const MatchResult &other) noexcept {
     if (this != &other) {
       match_ = other.match_;
       start_ = other.start_;
@@ -40,7 +40,19 @@ struct MatchResult {
   bool operator==(const MatchResult &other) const noexcept = default;
 
   [[nodiscard]] bool is_next_to(const MatchResult &other) const noexcept {
-    return (other.start_ - end_) == 2;
+    return (other.start_ - end_) == 1;
+  }
+
+  [[nodiscard]] bool is_after(const MatchResult &other) const noexcept {
+    return (start_ - other.end_) == 1;
+  }
+
+  [[nodiscard]] std::size_t distance(const MatchResult &other) const noexcept {
+    if (end_ < other.start_) {
+      return other.start_ - end_;
+    } else {
+      return start_ - other.end_;
+    }
   }
 
   [[nodiscard]] size_t start() const noexcept { return start_; }

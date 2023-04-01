@@ -25,6 +25,7 @@ private:
   [[nodiscard]] bool contains(const std::string) const noexcept;
   [[nodiscard]] bool contains(const std::string::const_iterator,
                               const std::string::const_iterator) const noexcept;
+  [[nodiscard]] MatchResults filter_matches(const MatchResults &matches) const noexcept;
 };
 
 }; // namespace NameRule

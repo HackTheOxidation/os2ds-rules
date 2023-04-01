@@ -26,6 +26,11 @@ static const auto firstnames_set = FrozenHashSet(firstnames);
 static const auto lastnames_set = FrozenHashSet(lastnames);
 }; // namespace
 
+MatchResult compose(const MatchResult &mr1, const MatchResult &mr2) noexcept {
+  std::string match_string = mr1.match() + " " + mr2.match();
+  return MatchResult(match_string, mr1.start(), mr2.end());
+}
+
 [[nodiscard]] MatchResults
 NameRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
@@ -72,7 +77,7 @@ NameRule::find_matches(const std::string &content) const noexcept {
     in_word = false;
   }
 
-  return results;
+  return filter_matches(results);
 }
 
 [[nodiscard]] bool
@@ -93,6 +98,32 @@ NameRule::contains(const std::string_view target) const noexcept {
 NameRule::contains(const std::string::const_iterator start,
                    const std::string::const_iterator stop) const noexcept {
   return contains(std::string_view(start, stop));
+}
+
+[[nodiscard]] MatchResults
+NameRule::filter_matches(const MatchResults &matches) const noexcept {
+  MatchResults results;
+
+  std::optional<MatchResult> cursor = std::nullopt;
+
+  for (auto m : matches) {
+    if (cursor) {
+      if (m.is_after(cursor.value())) {
+        cursor = std::make_optional(compose(cursor.value(), m));
+      } else {
+        results.push_back(cursor.value());
+        cursor = std::make_optional(m);
+      }
+    } else {
+      cursor = std::make_optional(m);
+    }
+  }
+
+  if (cursor) {
+    results.push_back(cursor.value());
+  }
+
+  return results;
 }
 
 }; // namespace NameRule
