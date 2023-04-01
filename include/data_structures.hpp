@@ -85,7 +85,7 @@ private:
       }
     }
 
-    constexpr bool contains(const std::string_view value) const noexcept {
+    [[nodiscard]] constexpr bool contains(const std::string_view value) const noexcept {
       if (value_ == value)
         return true;
 
@@ -96,9 +96,9 @@ private:
       }
     }
 
-    constexpr std::string_view value() const noexcept { return value_; }
+    [[nodiscard]] constexpr std::string_view value() const noexcept { return value_; }
 
-    constexpr std::size_t length() const noexcept {
+    [[nodiscard]] constexpr std::size_t length() const noexcept {
       if (next_) {
 	return 1 + next_->length();
       }
@@ -132,7 +132,7 @@ private:
   }
 
 public:
-  constexpr FrozenHashSet() noexcept {};
+  constexpr FrozenHashSet() noexcept = default;
   FrozenHashSet(std::array<const char*, Size> initializer) noexcept {
     for (const char* value : initializer) {
       insert(std::string_view(value));
@@ -143,7 +143,7 @@ public:
       insert(value);
     }
   }
-  constexpr ~FrozenHashSet() noexcept {};
+  constexpr ~FrozenHashSet() noexcept = default;
 
   [[nodiscard]]
   bool contains(const std::string_view value) const noexcept {

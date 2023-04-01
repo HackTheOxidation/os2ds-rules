@@ -1,6 +1,7 @@
 #ifndef CPR_DETECTOR_HPP
 #define CPR_DETECTOR_HPP
 
+#include <os2dsrules.hpp>
 #include <array>
 #include <concepts>
 #include <cstddef>
@@ -9,8 +10,6 @@
 #include <string>
 #include <string_view>
 #include <vector>
-
-#include "os2dsrules.hpp"
 
 namespace OS2DSRules {
 

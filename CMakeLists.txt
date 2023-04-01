@@ -16,7 +16,7 @@ target_compile_options(os2dsrules_compiler_flags INTERFACE
 )
 
 # Compile as a shared library.
-add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/data_structures.cpp lib/name_rule.cpp)
+add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/address_rule.cpp lib/name_rule.cpp)
 include_directories(os2dsrules include)
 target_link_libraries(os2dsrules PUBLIC os2dsrules_compiler_flags)
 
@@ -36,10 +36,15 @@ target_link_libraries(testds ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_f
 add_executable(testname tests/testname.cpp)
 target_include_directories(testname PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
 target_link_libraries(testname ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
+## AddressRule
+add_executable(testaddress tests/testaddress.cpp)
+target_include_directories(testaddress PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
+target_link_libraries(testaddress ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
 
 add_test(cpr_unittests testcpr)
 add_test(datastructures_unittests testds)
 add_test(name_unittests testname)
+add_test(address_unittests testaddress)
 
 # Install library on system.
 set(installable_libs os2dsrules os2dsrules_compiler_flags)
