@@ -1,12 +1,27 @@
 #include <algorithm>
+#include <array>
 #include <iterator>
 #include <numeric>
+#include <string_view>
 
+#include <data_structures.hpp>
 #include <cpr-detector.hpp>
+
+using namespace OS2DSRules::DataStructures;
 
 namespace OS2DSRules {
 
 namespace CPRDetector {
+
+namespace {
+static constexpr auto blacklist_words = std::to_array<std::string_view>(
+    {"p-nr", "p.nr", "p-nummer", "pnr", "customer no", "customer-no",
+     "bilagsnummer", "order number", "ordrenummer", "fakturanummer", "faknr",
+     "fak-nr", "tullstatistisk", "tullstatistik", "test report no",
+     "protocol no.", "dhk:tx"});
+
+static const auto blacklist_words_set = FrozenHashSet(blacklist_words);
+};
 
 constexpr CPRDetector::CPRDetector(const CPRDetector &other) noexcept
     : check_mod11_(other.check_mod11_),

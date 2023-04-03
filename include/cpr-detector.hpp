@@ -15,12 +15,6 @@ namespace OS2DSRules {
 
 namespace CPRDetector {
 
-constexpr std::array<std::string_view, 17> blacklist_words = {
-    "p-nr",           "p.nr",          "p-nummer",       "pnr",
-    "customer no",    "customer-no",   "bilagsnummer",   "order number",
-    "ordrenummer",    "fakturanummer", "faknr",          "fak-nr",
-    "tullstatistisk", "tullstatistik", "test report no", "protocol no.",
-    "dhk:tx"};
 
 using Predicate = std::function<bool(char)>;
 
