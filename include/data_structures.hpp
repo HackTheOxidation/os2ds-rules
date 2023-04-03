@@ -25,13 +25,11 @@ namespace DataStructures {
   whether it contains a certain word.
  */
 template <typename Collection>
-concept WordCollection = requires(Collection collection, std::string str,
-                                  const char *cp, std::string_view strv) {
-                           { collection.size() } -> std::same_as<size_t>;
-                           { collection.contains(strv) } -> std::same_as<bool>;
-                           { collection.contains(str) } -> std::same_as<bool>;
-                           { collection.contains(cp) } -> std::same_as<bool>;
-                         };
+concept WordCollection =
+    requires(Collection collection, std::string_view strv) {
+      { collection.size() } -> std::same_as<size_t>;
+      { collection.contains(strv) } -> std::same_as<bool>;
+    };
 
 /*
   Concept for expressing the requirements for a MutableWordCollection.
@@ -54,24 +52,20 @@ concept is_hashable = requires(T t) {
                         { std::hash<T>()(t) };
                       };
 
-/*
-  Compile-time capable, immutable hashset.
- */
-template <std::size_t Size>
-class FrozenHashSet {
-private:
+class AbstractHashSet {
+protected:
   class Chain {
   public:
     constexpr Chain() noexcept : value_{""}, next_{} {}
     constexpr Chain(std::string_view value) noexcept : value_(value), next_{} {}
-    constexpr ~Chain() noexcept {}
+    ~Chain() noexcept = default;
 
-    Chain(Chain && other) noexcept
-      : value_(std::move(other.value_)), next_(std::move(other.next_)){}
-    Chain& operator=(Chain &&other) noexcept {
+    Chain(Chain &&other) noexcept
+        : value_(std::move(other.value_)), next_(std::move(other.next_)) {}
+    Chain &operator=(Chain &&other) noexcept {
       if (this != &other) {
-	value_ = other.value_;
-	next_ = std::move(other.next_);
+        value_ = other.value_;
+        next_ = std::move(other.next_);
       }
 
       return *this;
@@ -79,13 +73,14 @@ private:
 
     void append(const std::string_view value) noexcept {
       if (next_ == nullptr) {
-        next_ = std::unique_ptr<Chain>(new Chain(value));
+        next_ = std::make_unique<Chain>(value);
       } else {
         next_->append(value);
       }
     }
 
-    [[nodiscard]] constexpr bool contains(const std::string_view value) const noexcept {
+    [[nodiscard]] constexpr bool
+    contains(const std::string_view value) const noexcept {
       if (value_ == value)
         return true;
 
@@ -96,11 +91,13 @@ private:
       }
     }
 
-    [[nodiscard]] constexpr std::string_view value() const noexcept { return value_; }
+    [[nodiscard]] constexpr std::string_view value() const noexcept {
+      return value_;
+    }
 
-    [[nodiscard]] constexpr std::size_t length() const noexcept {
+    [[nodiscard]] std::size_t length() const noexcept {
       if (next_) {
-	return 1 + next_->length();
+        return 1 + next_->length();
       }
 
       return 1;
@@ -110,7 +107,13 @@ private:
     std::string_view value_;
     std::unique_ptr<Chain> next_;
   };
+};
 
+/*
+  Compile-time capable, immutable hashset.
+ */
+template <std::size_t Size> class FrozenHashSet : public AbstractHashSet {
+private:
   std::array<Chain, Size> container_;
 
   auto get_hash(const std::string_view value) const noexcept {
@@ -133,8 +136,8 @@ private:
 
 public:
   constexpr FrozenHashSet() noexcept = default;
-  FrozenHashSet(std::array<const char*, Size> initializer) noexcept {
-    for (const char* value : initializer) {
+  FrozenHashSet(std::array<const char *, Size> initializer) noexcept {
+    for (const char *value : initializer) {
       insert(std::string_view(value));
     }
   }
@@ -145,8 +148,7 @@ public:
   }
   constexpr ~FrozenHashSet() noexcept = default;
 
-  [[nodiscard]]
-  bool contains(const std::string_view value) const noexcept {
+  [[nodiscard]] bool contains(const std::string_view value) const noexcept {
     auto index = get_hash(value);
     return container_[index].contains(value);
   }

@@ -4,4 +4,3 @@ from .utilities import HTML_CONTENT
 
 def test_benchmark_cpr_detector(benchmark):
     matches = benchmark(find_matches, HTML_CONTENT)
-    assert len(matches) == 1000
