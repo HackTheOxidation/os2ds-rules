@@ -79,6 +79,19 @@ protected:
       }
     }
 
+    void remove(const std::string_view value, Chain* prev = nullptr) noexcept {
+      if (value_ == value) {
+	if (prev && prev != this) {
+	  prev->next_.swap(next_);
+	  next_.release();
+	}
+      } else {
+	if (next_) {
+	  next_->remove(value, this);
+	}
+      }
+    }
+
     [[nodiscard]] constexpr bool
     contains(const std::string_view value) const noexcept {
       if (value_ == value)
@@ -110,7 +123,7 @@ protected:
 };
 
 /*
-  Compile-time capable, immutable hashset.
+  Immutable hash table.
  */
 template <std::size_t Size> class FrozenHashSet : public AbstractHashSet {
 private:
@@ -135,18 +148,21 @@ private:
   }
 
 public:
-  constexpr FrozenHashSet() noexcept = default;
+  FrozenHashSet() noexcept = delete;
+
   FrozenHashSet(std::array<const char *, Size> initializer) noexcept {
     for (const char *value : initializer) {
       insert(std::string_view(value));
     }
   }
+
   FrozenHashSet(std::array<std::string_view, Size> initializer) noexcept {
     for (auto value : initializer) {
       insert(value);
     }
   }
-  constexpr ~FrozenHashSet() noexcept = default;
+
+  ~FrozenHashSet() noexcept = default;
 
   [[nodiscard]] bool contains(const std::string_view value) const noexcept {
     auto index = get_hash(value);
