@@ -19,3 +19,12 @@ classifiers = [
 [project.urls]
 "Homepage" = "https://codeberg.org/HackTheOxidation/cpr-detector"
 "Bug Tracker" = "https://codeberg.org/HackTheOxidation/cpr-detector/issues"
+
+[tool.cibuildwheel]
+archs = ["x86_64", "aarch64"]
+build-frontend = "pip"
+
+manylinux-x86_64-image = "manylinux_2_28"
+manylinux-aarch64-image = "manylinux_2_28"
+manylinux-pypy_x86_64-image = "manylinux_2_28"
+manylinux-pypy_aarch64-image = "manylinux_2_28"
