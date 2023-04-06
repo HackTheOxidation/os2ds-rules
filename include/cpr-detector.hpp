@@ -1,12 +1,12 @@
 #ifndef CPR_DETECTOR_HPP
 #define CPR_DETECTOR_HPP
 
-#include <os2dsrules.hpp>
 #include <array>
 #include <concepts>
 #include <cstddef>
 #include <functional>
 #include <iterator>
+#include <os2dsrules.hpp>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -14,7 +14,6 @@
 namespace OS2DSRules {
 
 namespace CPRDetector {
-
 
 using Predicate = std::function<bool(char)>;
 
@@ -76,11 +75,10 @@ public:
                         bool examine_context = false) noexcept
       : check_mod11_(check_mod11), examine_context_(examine_context) {}
 
-  constexpr CPRDetector(const CPRDetector &) noexcept;
-  constexpr CPRDetector &operator=(const CPRDetector &) noexcept;
-
-  constexpr CPRDetector(CPRDetector &&) noexcept;
-  constexpr CPRDetector &operator=(CPRDetector &&) noexcept;
+  constexpr CPRDetector(const CPRDetector &) noexcept = default;
+  constexpr CPRDetector(CPRDetector &&) noexcept = default;
+  constexpr CPRDetector &operator=(const CPRDetector &) noexcept = default;
+  constexpr CPRDetector &operator=(CPRDetector &&) noexcept = default;
   ~CPRDetector() = default;
 
   MatchResults find_matches(const std::string &) noexcept;

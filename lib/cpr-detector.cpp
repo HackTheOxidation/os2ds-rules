@@ -4,8 +4,8 @@
 #include <numeric>
 #include <string_view>
 
-#include <data_structures.hpp>
 #include <cpr-detector.hpp>
+#include <data_structures.hpp>
 
 using namespace OS2DSRules::DataStructures;
 
@@ -21,34 +21,7 @@ static constexpr auto blacklist_words = std::to_array<std::string_view>(
      "protocol no.", "dhk:tx"});
 
 static const auto blacklist_words_set = FrozenHashSet(blacklist_words);
-};
-
-constexpr CPRDetector::CPRDetector(const CPRDetector &other) noexcept
-    : check_mod11_(other.check_mod11_),
-      examine_context_(other.examine_context_) {}
-
-constexpr CPRDetector &
-CPRDetector::operator=(const CPRDetector &other) noexcept {
-  if (this != &other) {
-    check_mod11_ = other.check_mod11_;
-    examine_context_ = other.examine_context_;
-  }
-
-  return *this;
-}
-
-constexpr CPRDetector::CPRDetector(CPRDetector &&other) noexcept
-    : check_mod11_(std::move(other.check_mod11_)),
-      examine_context_(std::move(other.examine_context_)) {}
-
-constexpr CPRDetector &CPRDetector::operator=(CPRDetector &&other) noexcept {
-  if (this != &other) {
-    std::swap(other.check_mod11_, check_mod11_);
-    std::swap(other.examine_context_, examine_context_);
-  }
-
-  return *this;
-}
+}; // namespace
 
 void CPRDetector::reset(CPRDetectorState &state) noexcept {
   // Set the detector state to Empty.

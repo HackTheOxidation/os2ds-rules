@@ -23,21 +23,11 @@ struct MatchResult {
               double probability = 1.0) noexcept
       : start_(start), end_(end), match_(match), sensitivity_(sensitivity),
         probability_(probability){};
-  MatchResult(const MatchResult &other) noexcept
-      : start_(other.start_), end_(other.end_), match_(other.match_),
-        sensitivity_(other.sensitivity_), probability_(other.probability_) {}
-  MatchResult &operator=(const MatchResult &other) noexcept {
-    if (this != &other) {
-      match_ = other.match_;
-      start_ = other.start_;
-      end_ = other.end_;
-      sensitivity_ = other.sensitivity_;
-      probability_ = other.probability_;
-    }
-
-    return *this;
-  }
-  bool operator==(const MatchResult &other) const noexcept = default;
+  MatchResult(const MatchResult &) noexcept = default;
+  MatchResult(MatchResult &&) noexcept = default;
+  MatchResult &operator=(const MatchResult &) noexcept = default;
+  MatchResult &operator=(MatchResult &&) noexcept = default;
+  bool operator==(const MatchResult &) const noexcept = default;
 
   [[nodiscard]] bool is_next_to(const MatchResult &other) const noexcept {
     return (other.start_ - end_) == 1;

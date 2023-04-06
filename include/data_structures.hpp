@@ -56,20 +56,12 @@ class AbstractHashSet {
 protected:
   class Chain {
   public:
-    constexpr Chain() noexcept : value_{""}, next_{} {}
+    constexpr Chain() noexcept = default;
     constexpr Chain(std::string_view value) noexcept : value_(value), next_{} {}
+
+    Chain(Chain &&) noexcept = default;
+    Chain &operator=(Chain &&) noexcept = default;
     ~Chain() noexcept = default;
-
-    Chain(Chain &&other) noexcept
-        : value_(std::move(other.value_)), next_(std::move(other.next_)) {}
-    Chain &operator=(Chain &&other) noexcept {
-      if (this != &other) {
-        value_ = other.value_;
-        next_ = std::move(other.next_);
-      }
-
-      return *this;
-    }
 
     void append(const std::string_view value) noexcept {
       if (next_ == nullptr) {
@@ -79,16 +71,16 @@ protected:
       }
     }
 
-    void remove(const std::string_view value, Chain* prev = nullptr) noexcept {
+    void remove(const std::string_view value, Chain *prev = nullptr) noexcept {
       if (value_ == value) {
-	if (prev && prev != this) {
-	  prev->next_.swap(next_);
-	  next_.release();
-	}
+        if (prev && prev != this) {
+          prev->next_.swap(next_);
+          next_.release();
+        }
       } else {
-	if (next_) {
-	  next_->remove(value, this);
-	}
+        if (next_) {
+          next_->remove(value, this);
+        }
       }
     }
 
@@ -162,6 +154,8 @@ public:
     }
   }
 
+  FrozenHashSet(FrozenHashSet &&) noexcept = default;
+  FrozenHashSet &operator=(FrozenHashSet &&) noexcept = default;
   ~FrozenHashSet() noexcept = default;
 
   [[nodiscard]] bool contains(const std::string_view value) const noexcept {
