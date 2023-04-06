@@ -67,11 +67,23 @@ private:
 
 using MatchResults = std::vector<MatchResult>;
 
+// Concept behind a scanner rule.
 template <typename Rule>
 concept ScannerRule = requires(Rule rule, std::string s) {
                         { Rule::sensitivity } -> std::same_as<Sensitivity>;
                         { rule.find_matches(s) } -> std::same_as<MatchResults>;
                       };
+
+// An WordIterator is any iterator that has value_type = std::string_view.
+template <typename Iter>
+concept WordIterator = requires(Iter iter) {
+                         {
+                           typename Iter::value_type()
+                           } -> std::same_as<std::string_view>;
+                         { ++iter };
+                         { iter++ };
+                         { *iter };
+                       };
 
 }; // namespace OS2DSRules
 
