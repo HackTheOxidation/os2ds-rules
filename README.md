@@ -38,7 +38,7 @@ To build, run the following:
 # Make a build directory 
 mkdir build_cmake
 cd build_cmake
-cmake ..
+cmake -DCMAKE_BUILD_TYPE=Release ..  # or use 'Debug' for development.
 cmake --build .
 ```
 
@@ -49,6 +49,11 @@ To install the library, run the following from the build directory:
 ```sh
 sudo make install
 ```
+
+By default, this will install headers into `/usr/local/include` and shared objects to
+`/usr/local/lib`. Make sure your include path and `LD_LIBRARY_PATH` is configured
+properly. You can run: `export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH` to
+configure the library load path.
 
 To run the test suite:
 
@@ -116,7 +121,9 @@ The Python3 extension uses the `CPython` C-API, which is supported by
 
 We aim to support the `PyPy` interpreter as well.
 
-## Usage Example
+## Usage Examples
+
+### In Python
 
 Let us scan a python `str` for occurances for CPR-Numbers:
 
@@ -130,4 +137,47 @@ matches = detector.find_matches('This is a fake, but valid CPR-Number: 111111111
 
 for m in matches:
 	print(m)
+```
+
+### In C++
+
+Consider this simple file, `test.cpp`:
+
+```cpp
+#include <os2dsrules.hpp>
+#include <name_rule.hpp>
+
+#include <iostream>
+#include <string>
+
+using namespace OS2DSRules::NameRule;
+
+int main(void) {
+    NameRule rule;
+    std::string s = "This is my friend, John.";
+    auto results = rule.find_matches(s);
+
+    std::cout << "Found matches: \n";
+    for (auto m : results) {
+        std::cout << m.match() << '\n';
+    }
+
+    return 0;
+}
+```
+
+To compile, using `clang`, simply run:
+
+```sh
+clang++ -los2dsrules -std=c++20 test.cpp -o test 
+```
+
+This will produce an executable `test` in the current working directory.
+
+Running it:
+
+```sh
+$ ./test
+Found matches:
+John
 ```

@@ -6,14 +6,22 @@ project(OS2DSRules VERSION 0.0.1)
 set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")
 set(msvc_cxx "$<COMPILE_LANG_AND_ID:CXX,MSVC>")
 
+# Build Configuration types.
+set(CMAKE_CONFIGURATION_TYPES Debug Release)
+
 # Define C++ standard and compiler flags as a target library.
 add_library(os2dsrules_compiler_flags INTERFACE)
 target_compile_features(os2dsrules_compiler_flags INTERFACE cxx_std_20)
 # Build flags.
 target_compile_options(os2dsrules_compiler_flags INTERFACE
-  "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-Wconversion;-Wpedantic;-Werror;-O0;-g>"
+  "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-Wconversion;-Wpedantic;-Werror>"
   "$<${msvc_cxx}:-W3>"						
 )
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-g -O0")
+set(CMAKE_CXX_FLAGS_RELEASE_INIT "-O3")
+
+# Default built type is Debug.
+#set(CMAKE_BUILD_TYPE Debug)
 
 # Compile as a shared library.
 add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/address_rule.cpp lib/name_rule.cpp)
