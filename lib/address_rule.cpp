@@ -26,7 +26,7 @@ static const auto addresses_set = FrozenHashSet(addresses);
 AddressRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
-  auto is_end_of_word = [](char c) { return c == ' '; };
+  static const auto is_end_of_word = [](char c) { return c == ' '; };
 
   bool in_word = false;
   std::size_t counter = 0;
@@ -106,8 +106,8 @@ AddressRule::append_number(const MatchResult &m,
   if (content[m.end()] != ' ')
     return {};
 
-  auto is_digit = [](char c) { return '0' <= c && c <= '9'; };
-  auto is_nonzero_digit = [](char c) { return '0' < c && c <= '9'; };
+  static const auto is_digit = [](char c) { return '0' <= c && c <= '9'; };
+  static const auto is_nonzero_digit = [](char c) { return '0' < c && c <= '9'; };
 
   auto iter = content.begin() + m.end() + 1;
 

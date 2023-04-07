@@ -34,7 +34,7 @@ MatchResult compose(const MatchResult &mr1, const MatchResult &mr2) noexcept {
 NameRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
-  auto is_end_of_word = [](char c) {
+  static const auto is_end_of_word = [](char c) {
     return c == '.' || c == ' ' || c == '\n' || c == '\0';
   };
 
