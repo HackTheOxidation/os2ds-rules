@@ -42,7 +42,7 @@ NameRule::find_matches(const std::string &content) const noexcept {
   auto word_begin = content.cbegin();
 
   for (auto iter = content.cbegin(); iter != content.cend(); ++iter) {
-    if (std::isupper(*iter) && !in_word) {
+    if (!in_word && std::isupper(*iter)) {
       word_begin = iter;
       in_word = true;
     }
@@ -72,8 +72,6 @@ NameRule::find_matches(const std::string &content) const noexcept {
 
       results.push_back(result);
     }
-
-    in_word = false;
   }
 
   return filter_matches(results);
