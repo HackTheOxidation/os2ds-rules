@@ -98,10 +98,10 @@ void CPRDetector::check_and_append_cpr(std::string &cpr, MatchResults &results,
 
 bool CPRDetector::check_mod11(const MatchResult &result) noexcept {
   // Perform the modulus 11 rule check
-  int factors[10] = {0};
+  std::array<int, 10> factors = {0};
 
   // Convert every digit to an integer and multiply by the mod11 factor.
-  for (auto i = 0; i < 10; ++i) {
+  for (std::size_t i = 0; i < 10; ++i) {
     factors[i] =
         static_cast<int>(result.match()[i] - '0') * modulus11_factors[i];
   }
@@ -124,10 +124,8 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
   CPRDetectorState state = CPRDetectorState::Empty;
   std::string cpr(10, 0);
   char previous = 0;
-  size_t count = 0;
-  size_t begin = 0;
-  bool allow_separator = false;
-  bool leap_year = false;
+  size_t count, begin = 0;
+  bool allow_separator, leap_year = false;
   Predicate is_acceptable = [](char) { return false; };
 
   for (auto it = std::begin(content); it != std::end(content); ++it) {
@@ -170,7 +168,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
 
       break;
     case CPRDetectorState::Second:
-      if (is_space(*it) && allow_separator) {
+      if (allow_separator && is_space(*it)) {
         // Skip a space character.
         allow_separator = false;
         continue;
@@ -203,7 +201,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
 
       break;
     case CPRDetectorState::Fourth:
-      if (is_space(*it) && allow_separator) {
+      if (allow_separator && is_space(*it)) {
         // Skip a space character.
         allow_separator = false;
         continue;
