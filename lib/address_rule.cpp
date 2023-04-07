@@ -33,15 +33,21 @@ AddressRule::find_matches(const std::string &content) const noexcept {
   std::size_t word_begin, word_end = counter;
   std::string address = "";
 
-  for (char ch : content) {
-    if (std::isupper(ch) && !in_word) {
+  for (auto iter = content.begin(); iter != content.end(); ++iter) {
+    if (!in_word && std::isupper(*iter)) {
       word_begin = counter;
       address = "";
       in_word = true;
     }
 
     if (in_word) {
-      if (is_end_of_word(ch)) {
+      if (is_end_of_word(*iter)) {
+	if (*iter == ' ' && std::isupper(*(iter + 1))) {
+	  address += ' ';
+	  ++counter;
+	  continue;
+	}
+
         word_end = counter;
 
         if (contains(address.begin(), address.end())) {
@@ -50,7 +56,7 @@ AddressRule::find_matches(const std::string &content) const noexcept {
 
         in_word = false;
       } else {
-        address += ch;
+        address += *iter;
       }
     }
 
@@ -58,7 +64,6 @@ AddressRule::find_matches(const std::string &content) const noexcept {
   }
 
   return filter_matches(results, content);
-  //return results;
 }
 
 [[nodiscard]] MatchResults

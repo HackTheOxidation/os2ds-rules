@@ -30,6 +30,14 @@ TEST_F(AddressRuleTest, Test_Address_And_Number_Matches) {
   ASSERT_EQ(std::string("Aabyvej 1"), results[0].match());
 }
 
+TEST_F(AddressRuleTest, Test_Multiword_Address_And_Number_Matches) {
+  AddressRule rule;
+  auto results = rule.find_matches("Aabenraa Landevej 1");
+
+  ASSERT_EQ(1, results.size());
+  ASSERT_EQ(std::string("Aabenraa Landevej 1"), results[0].match());
+}
+
 TEST_F(AddressRuleTest, Test_Address_Invalid_Number_No_Matches) {
   AddressRule rule;
   auto results = rule.find_matches("Aabyvej 01");
