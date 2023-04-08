@@ -25,6 +25,15 @@
 	    "cacheVariables": {
 		"CMAKE_BUILD_TYPE": "Release"
 	    }
+	},
+	{
+	    "name": "clang-debug",
+	    "inherits": ["default-debug"],
+	    "displayName": "Clang Debug preset",
+	    "cacheVariables": {
+		"CMAKE_BUILD_TYPE": "Debug",
+		"CMAKE_CXX_COMPILER": "clang++"
+	    }
 	}
     ],
     "buildPresets": [
