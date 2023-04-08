@@ -61,6 +61,13 @@ ctest --preset test-debug
 Currently, this has only been tested on `linux`, but it should work on `macOS` as well.
 It remains to be tested on windows.
 
+#### Using CMake preset workflows
+
+There are two preconfigured workflows that has been automated with cmake:
+
+- `default-debug-workflow`: Configures, Builds and Tests the debug version of the library.
+- `default-release-workflow`: Configures, Builds and Packages the release version of the library.
+
 ### The Python extension: `os2ds-rules`
 
 You need the following:

@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <cstddef>
 #include <iterator>
 #include <numeric>
 #include <string_view>
@@ -124,7 +125,8 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
   CPRDetectorState state = CPRDetectorState::Empty;
   std::string cpr(10, 0);
   char previous = 0;
-  size_t count, begin = 0;
+  std::size_t count = 0;
+  std::size_t begin = 0;
   bool allow_separator, leap_year = false;
   Predicate is_acceptable = [](char) { return false; };
 

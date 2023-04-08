@@ -51,17 +51,51 @@
 		"noTestsAction": "error",
 		"stopOnFailure": true
 	    }
+	}
+    ],
+    "packagePresets": [
+	{
+	    "name": "pkg-release",
+	    "configurePreset": "default-release",
+	    "generators": [
+		"TGZ"
+	    ]
+	}
+    ],
+    "workflowPresets": [
+	{
+	    "name": "default-debug-workflow",
+	    "steps": [
+		{
+		    "type": "configure",
+		    "name": "default-debug"
+		},
+		{
+		    "type": "build",
+		    "name": "os2ds-rules-debug"
+		},
+		{
+		    "type": "test",
+		    "name": "test-debug"
+		}
+	    ]
 	},
 	{
-	    "name": "test-release",
-	    "configurePreset": "default-release",
-	    "output": {
-		"outputOnFailure": true
-	    },
-	    "execution": {
-		"noTestsAction": "error",
-		"stopOnFailure": true
-	    }
+	    "name": "default-release-workflow",
+	    "steps": [
+		{
+		    "type": "configure",
+		    "name": "default-release"
+		},
+		{
+		    "type": "build",
+		    "name": "os2ds-rules-release"
+		},
+		{
+		    "type": "package",
+		    "name": "pkg-release"
+		}
+	    ]
 	}
     ]
 }
