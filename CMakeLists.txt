@@ -17,16 +17,15 @@ target_compile_options(os2dsrules_compiler_flags INTERFACE
   "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-Wconversion;-Wpedantic;-Werror>"
   "$<${msvc_cxx}:/W4:/WX>"						
 )
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-g -O0")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-g -O0 -fsanitize=address,undefined")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-O3")
 
-# Default built type is Debug.
-#set(CMAKE_BUILD_TYPE Debug)
 
 # Compile as a shared library.
 add_library(os2dsrules SHARED lib/cpr-detector.cpp lib/address_rule.cpp lib/name_rule.cpp lib/wordlist_rule.cpp)
 include_directories(os2dsrules include)
 target_link_libraries(os2dsrules PUBLIC os2dsrules_compiler_flags)
+
 
 # Compile test suite.
 enable_testing()
@@ -54,9 +53,9 @@ add_test(datastructures_unittests testds)
 add_test(name_unittests testname)
 add_test(address_unittests testaddress)
 
+
 # Install library on system.
 set(installable_libs os2dsrules os2dsrules_compiler_flags)
 install(TARGETS ${installable_libs} DESTINATION lib)
-
 # Install header files on system.
 install(FILES include/os2dsrules.hpp include/cpr-detector.hpp include/data_structures.hpp include/name_rule.hpp include/wordlist_rule.hpp DESTINATION include)
