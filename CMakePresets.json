@@ -1,0 +1,67 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+	"major": 3,
+	"minor": 20,
+	"patch": 0
+    },
+    "configurePresets": [
+	{
+	    "name": "default-debug",
+	    "displayName": "Default Debug configuration preset",
+	    "generator": "Ninja",
+	    "binaryDir": "${sourceDir}/build_cmake/debug",
+	    "installDir": "/usr/",
+	    "cacheVariables": {
+		"CMAKE_BUILD_TYPE": "Debug"
+	    }
+	},
+	{
+	    "name": "default-release",
+	    "displayName": "Default Release configuration preset",
+	    "generator": "Ninja",
+	    "binaryDir": "${sourceDir}/build_cmake/release",
+	    "installDir": "/usr/",
+	    "cacheVariables": {
+		"CMAKE_BUILD_TYPE": "Release"
+	    }
+	}
+    ],
+    "buildPresets": [
+	{
+	    "name": "os2ds-rules-debug",
+	    "displayName": "os2ds-rules Debug build preset",
+	    "verbose": true,
+	    "configurePreset": "default-debug"
+	},
+	{
+	    "name": "os2ds-rules-release",
+	    "displayName": "os2ds-rules Release build preset",
+	    "configurePreset": "default-release"
+	}
+    ],
+    "testPresets": [
+	{
+	    "name": "test-debug",
+	    "configurePreset": "default-debug",
+	    "output": {
+		"outputOnFailure": true
+	    },
+	    "execution": {
+		"noTestsAction": "error",
+		"stopOnFailure": true
+	    }
+	},
+	{
+	    "name": "test-release",
+	    "configurePreset": "default-release",
+	    "output": {
+		"outputOnFailure": true
+	    },
+	    "execution": {
+		"noTestsAction": "error",
+		"stopOnFailure": true
+	    }
+	}
+    ]
+}

@@ -22,7 +22,8 @@ You can install either or both of the `C++` library or the `python` extension.
 For the `C++` library you need a few different things:
 
 - A compiler that supports `C++20`. We recommend using either `g++` (GCC) or `clang` (LLVM).
-- `cmake>=3.20`: Primary build system.
+- `cmake>=3.20`: Primary (meta) build system.
+- `ninja`: Cross-platform backend for cmake.
 - `gtest` (Google Test): For building and running the test suite.
 
 For development, you additionally want:
@@ -36,10 +37,8 @@ To build, run the following:
 
 ```sh
 # Make a build directory 
-mkdir build_cmake
-cd build_cmake
-cmake -DCMAKE_BUILD_TYPE=Release ..  # or use 'Debug' for development.
-cmake --build .
+cmake . --preset default-debug
+cmake --build --preset os2ds-rules-debug
 ```
 
 This will build the shared library `libos2dsrules.so` and the test suite `testsuite`.
@@ -47,21 +46,20 @@ This will build the shared library `libos2dsrules.so` and the test suite `testsu
 To install the library, run the following from the build directory:
 
 ```sh
-sudo make install
+sudo cmake --install build_cmake/debug
 ```
 
-By default, this will install headers into `/usr/local/include` and shared objects to
-`/usr/local/lib`. Make sure your include path and `LD_LIBRARY_PATH` is configured
-properly. You can run: `export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH` to
-configure the library load path.
+By default, this will install headers into `/usr/include` and shared objects to
+`/usr/lib`. 
 
 To run the test suite:
 
 ```sh
-ctest --output-on-failure
+ctest --preset test-debug
 ```
 
-Currently, this has only been tested on `linux` and it should work on `macOS` as well.
+Currently, this has only been tested on `linux`, but it should work on `macOS` as well.
+It remains to be tested on windows.
 
 ### The Python extension: `os2ds-rules`
 

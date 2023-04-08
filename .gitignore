@@ -10,3 +10,4 @@ dist
 CMakeCache.txt
 CMakeFiles
 compile_commands.json
+Testing
