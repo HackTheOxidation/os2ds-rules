@@ -11,8 +11,8 @@ namespace NameRule {
 
 class NameRule {
 public:
-  constexpr NameRule(const bool expansive = false) noexcept
-      : expansive_(expansive) {}
+  constexpr NameRule() noexcept = default;
+  constexpr NameRule(const bool) noexcept {};
   constexpr NameRule(const NameRule &) noexcept = default;
   constexpr NameRule(NameRule &&) noexcept = default;
   constexpr NameRule &operator=(const NameRule &) noexcept = default;
@@ -22,7 +22,6 @@ public:
   [[nodiscard]] MatchResults find_matches(const std::string &) const noexcept;
 
 private:
-  bool expansive_ = false;
   [[nodiscard]] bool contains(const std::string_view) const noexcept;
   [[nodiscard]] bool contains(const std::string) const noexcept;
   [[nodiscard]] bool contains(const std::string::const_iterator,

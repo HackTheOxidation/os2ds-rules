@@ -121,6 +121,10 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
     return results;
   }
 
+  if (examine_context_) {
+    return results;
+  }
+
   // Initialize.
   CPRDetectorState state = CPRDetectorState::Empty;
   std::string cpr(10, 0);

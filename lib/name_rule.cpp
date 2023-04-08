@@ -51,9 +51,11 @@ NameRule::find_matches(const std::string &content) const noexcept {
       auto word_end = iter;
 
       if (contains(word_begin, word_end)) {
-        MatchResult result(std::string(word_begin, word_end),
-                           std::distance(content.cbegin(), word_begin),
-                           std::distance(content.begin(), word_end));
+        MatchResult result(
+            std::string(word_begin, word_end),
+            static_cast<std::size_t>(
+                std::distance(content.cbegin(), word_begin)),
+            static_cast<std::size_t>(std::distance(content.begin(), word_end)));
 
         results.push_back(result);
       }
@@ -66,9 +68,10 @@ NameRule::find_matches(const std::string &content) const noexcept {
     auto word_end = content.cend();
 
     if (contains(word_begin, word_end)) {
-      MatchResult result(std::string(word_begin, word_end),
-                         std::distance(content.cbegin(), word_begin),
-                         std::distance(content.begin(), word_end));
+      MatchResult result(
+          std::string(word_begin, word_end),
+          static_cast<std::size_t>(std::distance(content.cbegin(), word_begin)),
+          static_cast<std::size_t>(std::distance(content.begin(), word_end)));
 
       results.push_back(result);
     }

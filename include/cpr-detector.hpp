@@ -19,12 +19,12 @@ using Predicate = std::function<bool(char)>;
 
 template <typename T>
   requires std::same_as<T, char>
-constexpr Predicate make_predicate(T d) noexcept {
+constexpr auto make_predicate(T d) noexcept {
   return [d](T c) { return c == d; };
 }
 
 template <typename T, typename... Args>
-constexpr Predicate make_predicate(T d, Args... ds) noexcept {
+constexpr auto make_predicate(T d, Args... ds) noexcept {
   if constexpr (sizeof...(ds) > 0) {
     return [d, ds...](T c) {
       return make_predicate(d)(c) || make_predicate(ds...)(c);

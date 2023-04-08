@@ -15,7 +15,7 @@ target_compile_features(os2dsrules_compiler_flags INTERFACE cxx_std_20)
 # Build flags.
 target_compile_options(os2dsrules_compiler_flags INTERFACE
   "$<${gcc_like_cxx}:-Wall;-Wextra;-Wshadow;-Wformat=2;-Wunused;-Wconversion;-Wpedantic;-Werror>"
-  "$<${msvc_cxx}:-W3>"						
+  "$<${msvc_cxx}:/W4:/WX>"						
 )
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-O3")

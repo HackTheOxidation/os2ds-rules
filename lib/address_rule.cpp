@@ -109,7 +109,7 @@ AddressRule::append_number(const MatchResult &m,
   static const auto is_digit = [](char c) { return '0' <= c && c <= '9'; };
   static const auto is_nonzero_digit = [](char c) { return '0' < c && c <= '9'; };
 
-  auto iter = content.begin() + m.end() + 1;
+  auto iter = content.begin() + static_cast<long>(m.end()) + 1;
 
   if (!is_nonzero_digit(*iter))
     return {};
