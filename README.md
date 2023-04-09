@@ -33,12 +33,12 @@ For development, you additionally want:
 - `clang-tidy`: For C++ code linting.
 - `gdb` or `lldb`: A suitable debugger.
 
-To build, run the following:
+To make a debug build on `linux`, run the following:
 
 ```sh
 # Make a build directory 
-cmake . --preset default-debug
-cmake --build --preset os2ds-rules-debug
+cmake . --preset linux-debug
+cmake --build --preset linux-build-debug
 ```
 
 This will build the shared library `libos2dsrules.so` and the test suite `testsuite`.
@@ -55,18 +55,20 @@ By default, this will install headers into `/usr/include` and shared objects to
 To run the test suite:
 
 ```sh
-ctest --preset test-debug
+ctest --preset linux-test-debug
 ```
 
-Currently, this has only been tested on `linux`, but it should work on `macOS` as well.
-It remains to be tested on windows.
+Currently, this has only been tested on `linux`.
+It remains to be tested on `windows` and `macos`.
 
 #### Using CMake preset workflows
 
-There are two preconfigured workflows that has been automated with cmake:
+There are four preconfigured workflows that has been automated with cmake:
 
-- `default-debug-workflow`: Configures, Builds and Tests the debug version of the library.
-- `default-release-workflow`: Configures, Builds and Packages the release version of the library.
+- `linux-debug-workflow`: Configures, Builds and Tests the debug version of the library for `linux`.
+- `linux-release-workflow`: Configures, Builds and Packages the release version of the library for `linux`.
+- `windows-debug-workflow`: Configures, Builds and Tests the debug version of the library for `windows`.
+- `windows-release-workflow`: Configures, Builds and Packages the release version of the library for `windows`.
 
 ### The Python extension: `os2ds-rules`
 

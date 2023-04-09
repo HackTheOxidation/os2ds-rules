@@ -8,51 +8,119 @@
     "configurePresets": [
 	{
 	    "name": "default-debug",
+	    "hidden": true,
 	    "displayName": "Default Debug configuration preset",
 	    "generator": "Ninja",
 	    "binaryDir": "${sourceDir}/build_cmake/debug",
-	    "installDir": "/usr/",
 	    "cacheVariables": {
 		"CMAKE_BUILD_TYPE": "Debug"
 	    }
 	},
 	{
 	    "name": "default-release",
+	    "hidden": true,
 	    "displayName": "Default Release configuration preset",
 	    "generator": "Ninja",
 	    "binaryDir": "${sourceDir}/build_cmake/release",
-	    "installDir": "/usr/",
 	    "cacheVariables": {
 		"CMAKE_BUILD_TYPE": "Release"
 	    }
 	},
 	{
-	    "name": "clang-debug",
+	    "name": "linux-debug",
 	    "inherits": ["default-debug"],
-	    "displayName": "Clang Debug preset",
+	    "displayName": "Default Debug configuration preset",
+	    "installDir": "/usr/",
+	    "cacheVariables": {
+		"CMAKE_CXX_COMPILER": "clang++"
+	    },
+	    "condition": {
+		"type": "notEquals",
+		"lhs": "${hostSystemName}",
+		"rhs": "Windows"
+	    }
+	},
+	{
+	    "name": "linux-release",
+	    "inherits": ["default-release"],
+	    "displayName": "Default Debug configuration preset",
+	    "installDir": "/usr/",
+	    "cacheVariables": {
+		"CMAKE_CXX_COMPILER": "clang++"
+	    },
+	    "condition": {
+		"type": "notEquals",
+		"lhs": "${hostSystemName}",
+		"rhs": "Windows"
+	    }
+	},
+	{
+	    "name": "windows-debug",
+	    "inherits": ["default-debug"],
+	    "displayName": "Windows Debug configuration preset",
 	    "cacheVariables": {
 		"CMAKE_BUILD_TYPE": "Debug",
-		"CMAKE_CXX_COMPILER": "clang++"
+		"CMAKE_CXX_COMPILER": "clang-cl"
+	    },
+	    "condition": {
+		"type": "equals",
+		"lhs": "${hostSystemName}",
+		"rhs": "Windows"
+	    }
+	},
+	{
+	    "name": "windows-release",
+	    "inherits": ["default-release"],
+	    "displayName": "Windows Release configuration preset",
+	    "cacheVariables": {
+		"CMAKE_BUILD_TYPE": "Release",
+		"CMAKE_CXX_COMPILER": "clang-cl"
+	    },
+	    "condition": {
+		"type": "equals",
+		"lhs": "${hostSystemName}",
+		"rhs": "Windows"
 	    }
 	}
     ],
     "buildPresets": [
 	{
-	    "name": "os2ds-rules-debug",
-	    "displayName": "os2ds-rules Debug build preset",
+	    "name": "linux-build-debug",
+	    "displayName": "Linux Debug build preset",
 	    "verbose": true,
-	    "configurePreset": "default-debug"
+	    "configurePreset": "linux-debug"
 	},
 	{
-	    "name": "os2ds-rules-release",
-	    "displayName": "os2ds-rules Release build preset",
-	    "configurePreset": "default-release"
+	    "name": "linux-build-release",
+	    "displayName": "Linux Release build preset",
+	    "configurePreset": "linux-release"
+	},
+	{
+	    "name": "windows-build-debug",
+	    "displayName": "Windows Debug build preset",
+	    "configurePreset": "windows-debug"
+	},
+	{
+	    "name": "windows-build-release",
+	    "displayName": "Windows Release build preset",
+	    "configurePreset": "windows-release"
 	}
     ],
     "testPresets": [
 	{
-	    "name": "test-debug",
-	    "configurePreset": "default-debug",
+	    "name": "linux-test-debug",
+	    "configurePreset": "linux-debug",
+	    "output": {
+		"outputOnFailure": true
+	    },
+	    "execution": {
+		"noTestsAction": "error",
+		"stopOnFailure": true
+	    }
+	},
+	{
+	    "name": "windows-test-debug",
+	    "configurePreset": "windows-debug",
 	    "output": {
 		"outputOnFailure": true
 	    },
@@ -64,8 +132,15 @@
     ],
     "packagePresets": [
 	{
-	    "name": "pkg-release",
-	    "configurePreset": "default-release",
+	    "name": "linux-pkg-release",
+	    "configurePreset": "linux-release",
+	    "generators": [
+		"TGZ"
+	    ]
+	},
+	{
+	    "name": "windows-pkg-release",
+	    "configurePreset": "windows-release",
 	    "generators": [
 		"TGZ"
 	    ]
@@ -73,36 +148,70 @@
     ],
     "workflowPresets": [
 	{
-	    "name": "default-debug-workflow",
+	    "name": "linux-debug-workflow",
 	    "steps": [
 		{
 		    "type": "configure",
-		    "name": "default-debug"
+		    "name": "linux-debug"
 		},
 		{
 		    "type": "build",
-		    "name": "os2ds-rules-debug"
+		    "name": "linux-build-debug"
 		},
 		{
 		    "type": "test",
-		    "name": "test-debug"
+		    "name": "linux-test-debug"
 		}
 	    ]
 	},
 	{
-	    "name": "default-release-workflow",
+	    "name": "linux-release-workflow",
 	    "steps": [
 		{
 		    "type": "configure",
-		    "name": "default-release"
+		    "name": "linux-release"
 		},
 		{
 		    "type": "build",
-		    "name": "os2ds-rules-release"
+		    "name": "linux-build-release"
 		},
 		{
 		    "type": "package",
-		    "name": "pkg-release"
+		    "name": "linux-pkg-release"
+		}
+	    ]
+	},
+	{
+	    "name": "windows-debug-workflow",
+	    "steps": [
+		{
+		    "type": "configure",
+		    "name": "windows-debug"
+		},
+		{
+		    "type": "build",
+		    "name": "windows-build-debug"
+		},
+		{
+		    "type": "test",
+		    "name": "windows-test-debug"
+		}
+	    ]
+	},
+	{
+	    "name": "windows-release-workflow",
+	    "steps": [
+		{
+		    "type": "configure",
+		    "name": "windows-release"
+		},
+		{
+		    "type": "build",
+		    "name": "windows-build-release"
+		},
+		{
+		    "type": "package",
+		    "name": "windows-pkg-release"
 		}
 	    ]
 	}

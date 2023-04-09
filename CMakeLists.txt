@@ -59,3 +59,5 @@ set(installable_libs os2dsrules os2dsrules_compiler_flags)
 install(TARGETS ${installable_libs} DESTINATION lib)
 # Install header files on system.
 install(FILES include/os2dsrules.hpp include/cpr-detector.hpp include/data_structures.hpp include/name_rule.hpp include/wordlist_rule.hpp DESTINATION include)
+# CPack for making package distributions.
+include(CPack)
