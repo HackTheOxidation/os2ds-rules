@@ -57,47 +57,47 @@ protected:
   class Chain {
   public:
     constexpr Chain() noexcept = default;
-    constexpr Chain(std::string_view value) noexcept : value_(value), next_{} {}
+    constexpr Chain(std::size_t hash) noexcept : hash_(hash) {}
 
     Chain(Chain &&) noexcept = default;
     Chain &operator=(Chain &&) noexcept = default;
     ~Chain() noexcept = default;
 
-    void append(const std::string_view value) noexcept {
+    void append(const std::size_t hash) noexcept {
       if (next_ == nullptr) {
-        next_ = std::make_unique<Chain>(value);
+        next_ = std::make_unique<Chain>(hash);
       } else {
-        next_->append(value);
+        next_->append(hash);
       }
     }
 
-    void remove(const std::string_view value, Chain *prev = nullptr) noexcept {
-      if (value_ == value) {
+    void remove(const std::size_t hash, Chain *prev = nullptr) noexcept {
+      if (hash_ == hash) {
         if (prev && prev != this) {
           prev->next_.swap(next_);
           next_.release();
         }
       } else {
         if (next_) {
-          next_->remove(value, this);
+          next_->remove(hash, this);
         }
       }
     }
 
     [[nodiscard]] constexpr bool
-    contains(const std::string_view value) const noexcept {
-      if (value_ == value)
+    contains(const std::size_t hash) const noexcept {
+      if (hash_ == hash)
         return true;
 
       if (next_ != nullptr) {
-        return next_->contains(value);
+        return next_->contains(hash);
       } else {
         return false;
       }
     }
 
-    [[nodiscard]] constexpr std::string_view value() const noexcept {
-      return value_;
+    [[nodiscard]] constexpr std::size_t hash() const noexcept {
+      return hash_;
     }
 
     [[nodiscard]] std::size_t length() const noexcept {
@@ -109,7 +109,7 @@ protected:
     }
 
   private:
-    std::string_view value_;
+    std::size_t hash_;
     std::unique_ptr<Chain> next_;
   };
 };
@@ -123,18 +123,19 @@ private:
 
   auto get_hash(const std::string_view value) const noexcept {
     std::hash<std::string_view> hash_fun;
-    return hash_fun(value) % Size;
+    return hash_fun(value);
   }
 
   void insert(const std::string_view value) noexcept {
-    auto index = get_hash(value);
+    auto hash = get_hash(value);
+    auto index = hash % Size;
     auto &chain = container_[index];
 
-    if (!chain.contains(value)) {
-      if (chain.value() == "") {
-        chain = Chain(value);
+    if (!chain.contains(hash)) {
+      if (chain.hash() == 0) {
+        chain = Chain(hash);
       } else {
-        chain.append(value);
+        chain.append(hash);
       }
     }
   }
@@ -159,8 +160,9 @@ public:
   ~FrozenHashSet() noexcept = default;
 
   [[nodiscard]] bool contains(const std::string_view value) const noexcept {
-    auto index = get_hash(value);
-    return container_[index].contains(value);
+    auto hash = get_hash(value);
+    auto index = hash % Size;
+    return container_[index].contains(hash);
   }
 };
 
