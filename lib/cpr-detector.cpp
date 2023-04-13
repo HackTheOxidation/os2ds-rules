@@ -177,6 +177,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       if (allow_separator && is_space(*it)) {
         // Skip a space character.
         allow_separator = false;
+	++count;
         continue;
       }
 
@@ -210,6 +211,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       if (allow_separator && is_space(*it)) {
         // Skip a space character.
         allow_separator = false;
+	++count;
         continue;
       }
 
@@ -238,6 +240,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       if (allow_separator && is_separator(*it)) {
         // Skip one of the valid separator characters.
         allow_separator = false;
+	++count;
         continue;
       }
 

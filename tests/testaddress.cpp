@@ -28,6 +28,8 @@ TEST_F(AddressRuleTest, Test_Address_And_Number_Matches) {
 
   ASSERT_EQ(1, results.size());
   ASSERT_EQ(std::string("Aabyvej 1"), results[0].match());
+  ASSERT_EQ(0, results[0].start());
+  ASSERT_EQ(8, results[0].end());
 }
 
 TEST_F(AddressRuleTest, Test_Multiword_Address_And_Number_Matches) {

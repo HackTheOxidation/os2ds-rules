@@ -21,6 +21,8 @@ TEST_F(NameRuleTest, Test_Single_Name_One_Match) {
 
   ASSERT_EQ(1, results.size());
   ASSERT_EQ(std::string("John"), results[0].match());
+  ASSERT_EQ(0, results[0].start());
+  ASSERT_EQ(3, results[0].end());
 }
 
 TEST_F(NameRuleTest, Test_Double_Name_Single_Match) {
@@ -29,6 +31,8 @@ TEST_F(NameRuleTest, Test_Double_Name_Single_Match) {
 
   ASSERT_EQ(1, results.size());
   ASSERT_EQ(std::string("John Peter"), results[0].match());
+  ASSERT_EQ(0, results[0].start());
+  ASSERT_EQ(9, results[0].end());
 }
 
 TEST_F(NameRuleTest, Test_Double_Name_Single_Name_Two_Matches) {

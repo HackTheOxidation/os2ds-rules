@@ -16,6 +16,8 @@ TEST_F(CPRDetectorTest, Test_Find_Basic_CPR_Number) {
 
   ASSERT_EQ(1, results.size());
   ASSERT_STREQ("1111111118", results[0].match().c_str());
+  ASSERT_EQ(0, results[0].start());
+  ASSERT_EQ(9, results[0].end());
 }
 
 TEST_F(CPRDetectorTest, Test_Find_Basic_CPR_Number_With_Valid_Separators) {
@@ -26,6 +28,8 @@ TEST_F(CPRDetectorTest, Test_Find_Basic_CPR_Number_With_Valid_Separators) {
 
   ASSERT_EQ(1, results.size());
   ASSERT_STREQ("1111111118", results[0].match().c_str());
+  ASSERT_EQ(0, results[0].start());
+  ASSERT_EQ(12, results[0].end());
 }
 
 TEST_F(CPRDetectorTest, Test_Find_CPR_Number_With_Valid_Leap_Year) {

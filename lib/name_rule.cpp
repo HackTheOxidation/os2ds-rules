@@ -71,7 +71,7 @@ NameRule::find_matches(const std::string &content) const noexcept {
       MatchResult result(
           std::string(word_begin, word_end),
           static_cast<std::size_t>(std::distance(content.cbegin(), word_begin)),
-          static_cast<std::size_t>(std::distance(content.begin(), word_end)));
+          static_cast<std::size_t>(std::distance(content.begin(), word_end) - 1));
 
       results.push_back(result);
     }
