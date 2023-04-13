@@ -11,7 +11,7 @@ authors = [
 description = "Text processing tool for detecting Danish CPR-numbers."
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 classifiers = [
   "Programming Language :: Python :: 3",
 ]
@@ -21,10 +21,9 @@ classifiers = [
 "Bug Tracker" = "https://codeberg.org/HackTheOxidation/cpr-detector/issues"
 
 [tool.cibuildwheel]
-archs = ["x86_64", "aarch64"]
+skip = ["*win32*", "*macos*", "*i686", "*aarch64", "*ppc64le", "*s390x", "*universal2", "*musl*"]
+
+archs = ["auto64"]
 build-frontend = "pip"
 
 manylinux-x86_64-image = "manylinux_2_28"
-manylinux-aarch64-image = "manylinux_2_28"
-manylinux-pypy_x86_64-image = "manylinux_2_28"
-manylinux-pypy_aarch64-image = "manylinux_2_28"

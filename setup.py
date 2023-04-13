@@ -1,9 +1,8 @@
+import os
 from setuptools import Extension, setup
 
-CXX_FLAGS = (
-    "-O3",
-    "-std=c++20",
-    )
+
+CXX_FLAGS = ("/O3", "/std:c++20") if os.name == "nt" else ("-O3", "-std=c++20")
 
 CPR_SOURCES = (
     "src/os2ds_rules/cpr.cpp",
