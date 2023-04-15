@@ -8,3 +8,7 @@ def test_benchmark_cpr_detector_default(benchmark):
 
 def test_benchmark_cpr_detector_check_mod11(benchmark):
     matches = benchmark(find_matches, HTML_CONTENT, True)
+
+
+def test_benchmark_cpr_detector_examine_context(benchmark):
+    matches = benchmark(find_matches, HTML_CONTENT, False, True)

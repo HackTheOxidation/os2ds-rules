@@ -69,6 +69,7 @@ private:
   void check_and_append_cpr(std::string &, MatchResults &, size_t,
                             size_t) noexcept;
   bool check_mod11(const MatchResult &) noexcept;
+  bool examine_context(const std::string &) noexcept;
 
 public:
   constexpr CPRDetector(bool check_mod11 = false,

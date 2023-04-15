@@ -144,6 +144,15 @@ TEST_F(CPRDetectorTest, Test_Find_Two_CPR_Numbers_Separated_By_Whitespace) {
   ASSERT_STREQ("2304516782", results[1].match().c_str());
 }
 
+TEST_F(CPRDetectorTest, Test_Reject_CPR_Number_With_Blacklisted_Words) {
+  std::string content = "This is a fak-nr 1111111118";
+  CPRDetector detector(false, true);
+
+  auto results = detector.find_matches(content);
+
+  ASSERT_EQ(0, results.size());
+}
+
 int main(int argc, char **argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

@@ -24,6 +24,26 @@ static constexpr auto blacklist_words = std::to_array<std::string_view>(
 static const auto blacklist_words_set = FrozenHashSet(blacklist_words);
 }; // namespace
 
+static bool find_blacklisted_words(const std::string &content, const std::array<std::size_t, 4> indices) noexcept {
+
+  for (std::size_t i = 1; i < 4; ++i) {
+    for (std::size_t j = 0; j < i; ++j) {
+      auto begin = indices[j];
+      auto end = indices[i] - begin;
+
+      if (end > content.size())
+	end = content.size() - begin - 1;
+
+      std::string target = content.substr(begin, end);
+
+      if (blacklist_words_set.contains(target))
+	return true;
+    }
+  }
+
+  return false;
+}
+
 void CPRDetector::reset(CPRDetectorState &state) noexcept {
   // Set the detector state to Empty.
   state = CPRDetectorState::Empty;
@@ -114,6 +134,30 @@ bool CPRDetector::check_mod11(const MatchResult &result) noexcept {
   return sum % 11 == 0;
 }
 
+bool CPRDetector::examine_context(const std::string &content) noexcept {
+  std::size_t spaces = 3;
+  std::array<std::size_t, 4> indices = {0, 0, 0, 0};
+
+  for (std::size_t i = 0; i < content.size(); ++i) {
+    if (content[i] == ' ') {
+      indices[4 - spaces] = i;
+      --spaces;
+      if (spaces == 0) {
+	if (find_blacklisted_words(content, indices))
+	  return true;
+	
+	spaces = 3;
+	indices[0] = indices[3] + 1;
+      }
+    }
+  }
+
+  if (find_blacklisted_words(content, indices))
+    return true;
+
+  return false;
+}
+
 MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
   MatchResults results;
 
@@ -121,7 +165,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
     return results;
   }
 
-  if (examine_context_) {
+  if (examine_context_ && examine_context(content)) {
     return results;
   }
 
