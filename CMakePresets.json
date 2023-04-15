@@ -135,7 +135,8 @@
 	    "name": "linux-pkg-release",
 	    "configurePreset": "linux-release",
 	    "generators": [
-		"TGZ"
+		"TGZ",
+		"RPM"
 	    ]
 	},
 	{
