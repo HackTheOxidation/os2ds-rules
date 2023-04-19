@@ -43,7 +43,7 @@ const auto is_previous_ok = make_predicate(char(0), ' ', '\n', '\t', '\0');
 
 constexpr bool is_space(const char c) noexcept { return c == ' '; }
 
-const std::array<int, 10> modulus11_factors = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
+static constexpr std::array<int, 10> modulus11_factors = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
 
 class CPRDetector {
 private:
