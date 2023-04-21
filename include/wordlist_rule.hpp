@@ -1,7 +1,9 @@
 #ifndef WORDLIST_RULE_HPP
 #define WORDLIST_RULE_HPP
 
+#include <cmath>
 #include <concepts>
+#include <cstddef>
 #include <os2dsrules.hpp>
 #include <string>
 #include <string_view>
@@ -15,8 +17,12 @@ class WordListRule {
 public:
   template <typename Iter>
     requires WordIterator<Iter>
-  WordListRule(Iter begin, Iter end) noexcept;
-  WordListRule() noexcept = default;
+  WordListRule(Iter begin, Iter end) noexcept {
+    for (auto iter = begin; iter != end; ++iter) {
+      words_.insert(*iter);
+    }
+  }
+  WordListRule() noexcept = delete;
   WordListRule(const WordListRule &) noexcept = default;
   WordListRule(WordListRule &&) noexcept = default;
   ~WordListRule() noexcept = default;
@@ -24,11 +30,13 @@ public:
   [[nodiscard]] MatchResults find_matches(const std::string &) const noexcept;
 
 private:
-  const std::unordered_set<std::string_view> words_;
+  std::unordered_set<std::string_view> words_;
   [[nodiscard]] bool contains(const std::string_view) const noexcept;
   [[nodiscard]] bool contains(const std::string) const noexcept;
   [[nodiscard]] bool contains(const std::string::const_iterator,
                               const std::string::const_iterator) const noexcept;
+  void check_match(MatchResults &, const std::string, const std::size_t,
+                   const std::size_t) const noexcept;
 };
 }; // namespace WordListRule
 

@@ -15,24 +15,6 @@ namespace OS2DSRules {
 
 namespace CPRDetector {
 
-using Predicate = std::function<bool(char)>;
-
-template <typename T>
-  requires std::same_as<T, char>
-constexpr auto make_predicate(T d) noexcept {
-  return [d](T c) { return c == d; };
-}
-
-template <typename T, typename... Args>
-constexpr auto make_predicate(T d, Args... ds) noexcept {
-  if constexpr (sizeof...(ds) > 0) {
-    return [d, ds...](T c) {
-      return make_predicate(d)(c) || make_predicate(ds...)(c);
-    };
-  } else
-    return make_predicate(d);
-}
-
 constexpr bool is_nonzero_digit(char c) noexcept { return '0' < c && c <= '9'; }
 
 constexpr bool is_digit(char c) noexcept { return '0' <= c && c <= '9'; }
@@ -43,7 +25,8 @@ const auto is_previous_ok = make_predicate(char(0), ' ', '\n', '\t', '\0');
 
 constexpr bool is_space(const char c) noexcept { return c == ' '; }
 
-static constexpr std::array<int, 10> modulus11_factors = {4, 3, 2, 7, 6, 5, 4, 3, 2, 1};
+static constexpr std::array<int, 10> modulus11_factors = {4, 3, 2, 7, 6,
+                                                          5, 4, 3, 2, 1};
 
 class CPRDetector {
 private:

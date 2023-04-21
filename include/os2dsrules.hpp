@@ -3,11 +3,30 @@
 
 #include <concepts>
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <type_traits>
 #include <vector>
 
 namespace OS2DSRules {
+
+using Predicate = std::function<bool(char)>;
+
+template <typename T>
+  requires std::same_as<T, char>
+constexpr auto make_predicate(T d) noexcept {
+  return [d](T c) { return c == d; };
+}
+
+template <typename T, typename... Args>
+constexpr auto make_predicate(T d, Args... ds) noexcept {
+  if constexpr (sizeof...(ds) > 0) {
+    return [d, ds...](T c) {
+      return make_predicate(d)(c) || make_predicate(ds...)(c);
+    };
+  } else
+    return make_predicate(d);
+}
 
 enum class Sensitivity {
   Information = 0,
@@ -70,20 +89,17 @@ using MatchResults = std::vector<MatchResult>;
 // Concept behind a scanner rule.
 template <typename Rule>
 concept ScannerRule = requires(Rule rule, std::string s) {
-                        { Rule::sensitivity } -> std::same_as<Sensitivity>;
-                        { rule.find_matches(s) } -> std::same_as<MatchResults>;
-                      };
+  { Rule::sensitivity } -> std::same_as<Sensitivity>;
+  { rule.find_matches(s) } -> std::same_as<MatchResults>;
+};
 
 // An WordIterator is any iterator that has value_type = std::string_view.
 template <typename Iter>
 concept WordIterator = requires(Iter iter) {
-                         {
-                           typename Iter::value_type()
-                           } -> std::same_as<std::string_view>;
-                         { ++iter };
-                         { iter++ };
-                         { *iter };
-                       };
+  { ++iter };
+  { iter++ };
+  { *iter } -> std::convertible_to<std::string_view>;
+};
 
 }; // namespace OS2DSRules
 

@@ -49,8 +49,8 @@ concept MutableWordCollection =
  */
 template <typename T>
 concept is_hashable = requires(T t) {
-                        { std::hash<T>()(t) };
-                      };
+  { std::hash<T>()(t) };
+};
 
 class AbstractHashSet {
 protected:
@@ -96,9 +96,7 @@ protected:
       }
     }
 
-    [[nodiscard]] constexpr std::size_t hash() const noexcept {
-      return hash_;
-    }
+    [[nodiscard]] constexpr std::size_t hash() const noexcept { return hash_; }
 
     [[nodiscard]] std::size_t length() const noexcept {
       if (next_) {
