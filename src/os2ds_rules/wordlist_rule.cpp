@@ -34,7 +34,7 @@ static PyObject *PyWordListRule_new(PyTypeObject *type, PyObject *args,
 
 static int PyWordListRule_init(PyWordListRule *self, PyObject *args,
                                PyObject *kwds) {
-  static char *kwlist[] = {"words", NULL};
+  static char *kwlist[] = {(char *) "words", NULL};
   PyObject *words = NULL;
 
   if (!PyArg_ParseTupleAndKeywords(args, kwds, "O", kwlist, &words)) {
