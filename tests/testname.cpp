@@ -35,6 +35,16 @@ TEST_F(NameRuleTest, Test_Double_Name_Single_Match) {
   ASSERT_EQ(9, results[0].end());
 }
 
+TEST_F(NameRuleTest, Test_Double_Hyphenated_Name_Single_Match) {
+  NameRule rule;
+  auto results = rule.find_matches("John-Peter");
+
+  ASSERT_EQ(1, results.size());
+  ASSERT_EQ(std::string("John Peter"), results[0].match());
+  ASSERT_EQ(0, results[0].start());
+  ASSERT_EQ(9, results[0].end());
+}
+
 TEST_F(NameRuleTest, Test_Double_Name_Single_Name_Two_Matches) {
   NameRule rule;
   auto results = rule.find_matches("John Peter is usually just called John.");

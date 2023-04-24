@@ -2,6 +2,7 @@
 #include <array>
 #include <string_view>
 
+#include <os2dsrules.hpp>
 #include <data_structures.hpp>
 #include <name_rule.hpp>
 
@@ -34,9 +35,7 @@ MatchResult compose(const MatchResult &mr1, const MatchResult &mr2) noexcept {
 NameRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
-  static const auto is_end_of_word = [](char c) {
-    return c == '.' || c == ' ' || c == '\n' || c == '\0';
-  };
+  static constexpr auto is_end_of_word = make_predicate(' ', '.', '\n', '?', '-', '\t','\0');
 
   bool in_word = false;
   auto word_begin = content.cbegin();
