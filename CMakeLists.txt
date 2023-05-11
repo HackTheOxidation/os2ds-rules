@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(OS2DSRules VERSION 0.0.5)
+project(OS2DSRules VERSION 0.0.6)
 
 # Detect available compiler on the host system.
 set(gcc_like_cxx "$<COMPILE_LANG_AND_ID:CXX,ARMClang,AppleClang,Clang,GNU,LCC>")

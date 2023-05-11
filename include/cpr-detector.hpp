@@ -19,7 +19,7 @@ constexpr bool is_nonzero_digit(char c) noexcept { return '0' < c && c <= '9'; }
 
 constexpr bool is_digit(char c) noexcept { return '0' <= c && c <= '9'; }
 
-const auto is_separator = make_predicate(' ', '-', '/');
+const auto is_separator = make_predicate(' ', '-', '/', '\t');
 
 const auto is_previous_ok = make_predicate(char(0), ' ', '\n', '\t', '\0');
 
