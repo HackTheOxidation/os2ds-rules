@@ -206,6 +206,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       } else {
         reset(state);
         previous = *it;
+        ++count;
         continue;
       }
 
@@ -218,13 +219,6 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
 
       break;
     case CPRDetectorState::Second:
-      if (allow_separator && is_space(*it)) {
-        // Skip a space character.
-        allow_separator = false;
-	++count;
-        continue;
-      }
-
       is_acceptable = make_predicate('0', '1');
       previous = cpr[2] =
           update(*it, CPRDetectorState::Third, state, is_acceptable);
@@ -238,6 +232,7 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       } else {
         reset(state);
         previous = 0;
+        ++count;
         continue;
       }
 
@@ -252,13 +247,6 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
 
       break;
     case CPRDetectorState::Fourth:
-      if (allow_separator && is_space(*it)) {
-        // Skip a space character.
-        allow_separator = false;
-	++count;
-        continue;
-      }
-
       is_acceptable = is_digit;
 
       previous = cpr[4] =
