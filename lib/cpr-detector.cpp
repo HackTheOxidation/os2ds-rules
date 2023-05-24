@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 #include <cstddef>
+#include <cctype>
 #include <iterator>
 #include <numeric>
 #include <string_view>
@@ -35,6 +36,8 @@ static bool find_blacklisted_words(const std::string &content, const std::array<
 	end = content.size() - begin - 1;
 
       std::string target = content.substr(begin, end);
+      std::transform(target.begin(), target.end(), target.begin(),
+                     [](unsigned char c) { return std::tolower(c); });
 
       if (blacklist_words_set.contains(target))
 	return true;
