@@ -39,7 +39,7 @@ TEST_F(CPRDetectorTest, Test_Find_Basic_CPR_Number_With_Valid_Separators) {
   auto results = detector.find_matches(content);
 
   ASSERT_EQ(1, results.size());
-  ASSERT_STREQ("1111111118", results[0].match().c_str());
+  ASSERT_STREQ("111111 1118", results[0].match().c_str());
   ASSERT_EQ(0, results[0].start());
   ASSERT_EQ(10, results[0].end());
 }
@@ -71,8 +71,8 @@ TEST_F(CPRDetectorTest, Test_Find_CPR_Number_Tab_Newline_Separated) {
   auto results = detector.find_matches(content);
 
   ASSERT_EQ(2, results.size());
-  ASSERT_STREQ("1111111118", results[0].match().c_str());
-  ASSERT_STREQ("1111110137", results[1].match().c_str());
+  ASSERT_STREQ("111111\t1118", results[0].match().c_str());
+  ASSERT_STREQ("111111\t0137", results[1].match().c_str());
 }
 
 TEST_F(CPRDetectorTest, Test_Reject_CPR_Number_With_Too_Many_Separators) {

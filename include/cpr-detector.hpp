@@ -21,7 +21,8 @@ constexpr bool is_digit(char c) noexcept { return '0' <= c && c <= '9'; }
 
 const auto is_separator = make_predicate(' ', '-', '/', '\t');
 
-const auto is_previous_ok = make_predicate(char(0), ' ', '.', ',', '\n', '\t', '\0');
+const auto is_previous_ok =
+    make_predicate(char(0), ' ', '.', ',', '\n', '\t', '\0');
 
 constexpr bool is_space(const char c) noexcept { return c == ' '; }
 
@@ -49,10 +50,11 @@ private:
   char update(char, CPRDetectorState, CPRDetectorState &, Predicate) noexcept;
   bool check_day_month(const std::string &, CPRDetectorState &) noexcept;
   void check_leap_year(const std::string &, CPRDetectorState &) noexcept;
-  void check_and_append_cpr(std::string &, MatchResults &, size_t,
-                            size_t) noexcept;
+  void check_and_append_cpr(std::string &, MatchResults &, size_t, size_t,
+                            char) noexcept;
   bool check_mod11(const MatchResult &) noexcept;
   bool examine_context(const std::string &) noexcept;
+  [[nodiscard]] std::string format_cpr(std::string &, char) const noexcept;
 
 public:
   constexpr CPRDetector(bool check_mod11 = false,

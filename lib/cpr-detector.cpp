@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <array>
-#include <cstddef>
 #include <cctype>
+#include <cstddef>
 #include <iterator>
 #include <numeric>
 #include <string_view>
@@ -25,7 +25,9 @@ static constexpr auto blacklist_words = std::to_array<std::string_view>(
 static const auto blacklist_words_set = FrozenHashSet(blacklist_words);
 }; // namespace
 
-static bool find_blacklisted_words(const std::string &content, const std::array<std::size_t, 4> indices) noexcept {
+static bool
+find_blacklisted_words(const std::string &content,
+                       const std::array<std::size_t, 4> indices) noexcept {
 
   for (std::size_t i = 1; i < 4; ++i) {
     for (std::size_t j = 0; j < i; ++j) {
@@ -33,14 +35,14 @@ static bool find_blacklisted_words(const std::string &content, const std::array<
       auto end = indices[i] - begin;
 
       if (end > content.size())
-	end = content.size() - begin - 1;
+        end = content.size() - begin - 1;
 
       std::string target = content.substr(begin, end);
       std::transform(target.begin(), target.end(), target.begin(),
                      [](unsigned char c) { return std::tolower(c); });
 
       if (blacklist_words_set.contains(target))
-	return true;
+        return true;
     }
   }
 
@@ -104,14 +106,25 @@ void CPRDetector::check_leap_year(const std::string &cpr,
     reset(state);
 }
 
+std::string CPRDetector::format_cpr(std::string &cpr,
+                                    char separator = 0) const noexcept {
+  if (separator == 0) {
+    return cpr;
+  } else {
+    return std::string(cpr, 0, 6) + separator + std::string(cpr, 6, 4);
+  }
+}
+
 void CPRDetector::check_and_append_cpr(std::string &cpr, MatchResults &results,
-                                       size_t begin, size_t end) noexcept {
+                                       size_t begin, size_t end,
+                                       char separator = 0) noexcept {
   // Convert the 4 control digits to an int.
   int control = std::stoi(std::string(cpr, 6, 4));
 
   // We reject the control sequence '0000'.
   if (control > 0) {
-    MatchResult result(cpr, begin, end, CPRDetector::sensitivity);
+    MatchResult result(format_cpr(cpr, separator), begin, end,
+                       CPRDetector::sensitivity);
 
     if (check_mod11_ && !check_mod11(result))
       return;
@@ -146,11 +159,11 @@ bool CPRDetector::examine_context(const std::string &content) noexcept {
       indices[4 - spaces] = i;
       --spaces;
       if (spaces == 0) {
-	if (find_blacklisted_words(content, indices))
-	  return true;
-	
-	spaces = 3;
-	indices[0] = indices[3] + 1;
+        if (find_blacklisted_words(content, indices))
+          return true;
+
+        spaces = 3;
+        indices[0] = indices[3] + 1;
       }
     }
   }
@@ -176,8 +189,9 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
   CPRDetectorState state = CPRDetectorState::Empty;
   std::string cpr(10, 0);
   char previous = 0;
-  std::size_t count = 0;
+  char separator = 0;
   std::size_t begin = 0;
+  std::size_t end = 0;
   bool allow_separator, leap_year = false;
   Predicate is_acceptable = [](char) { return false; };
 
@@ -195,7 +209,8 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
 
       if (state == CPRDetectorState::First) {
         cpr[0] = *it;
-        begin = count;
+        begin =
+            static_cast<std::size_t>(std::distance(std::begin(content), it));
       }
 
       break;
@@ -209,13 +224,11 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       } else {
         reset(state);
         previous = *it;
-        ++count;
         continue;
       }
 
       previous = cpr[1] =
           update(*it, CPRDetectorState::Second, state, is_acceptable);
-
       if (previous != 0)
         // Next time, we allow a space.
         allow_separator = true;
@@ -235,7 +248,6 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       } else {
         reset(state);
         previous = 0;
-        ++count;
         continue;
       }
 
@@ -274,8 +286,8 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
     case CPRDetectorState::Sixth:
       if (allow_separator && is_separator(*it)) {
         // Skip one of the valid separator characters.
+        separator = *it;
         allow_separator = false;
-	++count;
         continue;
       }
 
@@ -304,17 +316,16 @@ MatchResults CPRDetector::find_matches(const std::string &content) noexcept {
       cpr[9] = update(*it, CPRDetectorState::Match, state, is_acceptable);
 
       auto ahead = it;
-      if (is_previous_ok(*(++ahead)))
-        check_and_append_cpr(cpr, results, begin, count);
-
+      if (is_previous_ok(*(++ahead))) {
+        end = static_cast<std::size_t>(std::distance(std::begin(content), it));
+        check_and_append_cpr(cpr, results, begin, end, separator);
+      }
       previous = *it;
       allow_separator = false;
       reset(state);
 
       break;
     }
-
-    ++count;
   }
 
   return results;
