@@ -1,3 +1,1948 @@
-"cancer",
-"kræft",
-"sygdom",
+
+"abdominal", "udfyldning"
+"abdominaltraume"
+"abort"
+"aborter"
+"abortus",
+"habitualis",
+"graviditetstab"
+"abrasio",
+"corneæ"
+"abruptio",
+"placentæ"
+"abscesser",
+"abstinenssyndrom",
+"acetabulum",
+"fraktur",
+"acetylsalicylsyre",
+"forgiftning",
+"achantamøbeinfektion",
+"acromioclaviculærleddet",
+"artrose",
+"addison",
+"adduktortendinopati"
+"adenoide",
+"vegetationer",
+"adenovirusinfektion",
+"adfærdsforstyrrelser",
+"affektkramper",
+"after",
+"akalasi",
+"akantolytisk",
+"dermatose",
+"grovers",
+"akillesseneruptur",
+"akillestendinose",
+"akne",
+"akromegali",
+"aksillær",
+"hyperhidrose",
+"aktinisk",
+"keratose",
+"aktinomykose",
+"akupunktur",
+"akustikusneurinom",
+"akut",
+"arteriel",
+"dissemineret",
+"encephalomyelit",
+"fedtlever",
+"graviditeten",
+"akut", "glaukom"]
+"akut", "koronart", "syndrom"]
+"akut", "lymfatisk", "leukæmi"]
+"akut", "lægemiddelforgiftning"]
+"akut", "myeloid", "leukæmi"]
+"akut", "opstaæde", "lammelser"]
+"akut", "orbitalt", "kompartmentsyndrom"]
+"akutte", "flankesmerter"]
+"akutte", "forbigaænde", "psykoser"]
+"akutte", "medicinske", "tilstande"]
+"akutte", "tilstande"]
+"albue"]
+"albue", "underarm"]
+"albueartroplastik", "albueprotese"]
+"albuesmerter"]
+"aldersrelateret", "maculadegeneration", "amd"]
+"alfa1", "antitrypsinmangel"]
+"alkohol"]
+"alkohol", "overforbrug"]
+"alkoholafvænning"]
+"alkoholproblemer"]
+"alkoholrelaterede", "sygdomme"]
+"alkohols", "virkning", "på", "fosteret"]
+"allergen", "specifik", "immunterapi"]
+"allergi", "insektgift"]
+"allergi", "lægemidler"]
+"allergi", "som", "systemisk", "sygdom"]
+"allergiforebyggelse"]
+"allergisk", "alveolitis"]
+"allergisk", "rhinitis", "høfeber"]
+"allergiudredning", "af", "børn"]
+"alment", "farlige", "sygdomme"]
+"alopecia", "pletskaldethed"]
+"amblyopi"]
+"amputationer"]
+"amyloidose"]
+"amyotrofisk", "lateral", "sklerose"]
+"amøbeinfektion"]
+"anafylaksi"]
+"anafylaksi", "akut"]
+"anal", "inkontinens"]
+"analabsces", "analfistel"]
+"analfissur"]
+"analkløe"]
+"analkræft"]
+"anaplasmose"]
+"anden", "trimester", "abort", "dødfødsel"]
+"anfald", "ikke", "epileptiske"]
+"angina", "pectoris"]
+"angina", "pectoris", "ustabil"]
+"angiomer", "senile"]
+"angioødem"]
+"angst"]
+"angst", "den", "uhelbredeligt", "syge", "terminale", "kræftpatient"]
+"angstlidelser"]
+"angstlidelser", "børn", "unge"]
+"angulær", "cheilit"]
+"anisakiasis"]
+"ankel"]
+"ankel", "bageste", "impingement"]
+"ankel", "bruskskader"]
+"ankel", "forreste", "impingement"]
+"ankel", "ustabil"]
+"ankelskade", "akut"]
+"ankelsmerter"]
+"anmeldelsespligtige", "infektionssygdomme"]
+"anorektale", "gener"]
+"anorexia", "nervosa"]
+"anserinustendinopati"]
+"ansigtssmerter"]
+"anstrengelsesudløst", "hovedpine"]
+"anthrax"]
+"antibiotika", "associeret", "diar"]
+"antidepressivt", "seponeringssyndrom"]
+"antikoagulationsbehandling"]
+"antikoagulationsbehandling", "warfarin"]
+"antiphospholip", "antistof", "syndrom"]
+"anæmi"]
+"anæmi", "børn"]
+"anæmi", "kronisk", "sygdom"]
+"anæmier"]
+"anæstesi"]
+"anæstesi", "epidural", "spinal"]
+"anæstesi", "lokal", "regional"]
+"aortadissektion"]
+"aortainsufficiens"]
+"aortastenose"]
+"aortåneurismer"]
+"aplastisk", "anæmi"]
+"apofysitis", "calcanei"]
+"apopleksi", "akut"]
+"apopleksi", "kognitive", "symptomer"]
+"apopleksi", "rehabilitering"]
+"apopleksi", "tia"]
+"apopleksi", "tia", "tci"]
+"ards"]
+"arthritis", "urica"]
+"artrit", "bakteriel"]
+"artritter"]
+"artrose", "ankel"]
+"artrose", "hofte"]
+"artrose", "knæ"]
+"artrose", "tommelfinger"]
+"arvelige", "sygdomme"]
+"arytmier"]
+"arytmogen", "højre", "ventrikel", "kardiomyopati"]
+"asbestose"]
+"ascites"]
+"aspergillose"]
+"astma"]
+"astma", "akut", "børn"]
+"astma", "akut", "unge", "voksne"]
+"astma", "anstrengelsesudløst"]
+"astma", "børn"]
+"asymptomatisk", "bakteriuri"]
+"asystoli"]
+"at", "ophøre", "behandling"]
+"atelektase"]
+"aterom", "huden"]
+"atopisk", "eksem"]
+"atrieflimren", "flagren"]
+"atrieseptumdefekt"]
+"atypisk", "mykobakterieinfektion"]
+"autisme", "voksne"]
+"autismespektrumforstyrrelser"]
+"autoimmunt", "polyglandulært", "syndrom"]
+"autonom", "perifer", "neuropati"]
+"azoospermi"]
+"babesiose"]
+"bakers", "cyste"]
+"bakteriel", "vaginose"]
+"bakterielle", "hudinfektioner"]
+"bakterieovervækst", "tyndtarm"]
+"bakteriesygdomme"]
+"balanitis"]
+"barotraume", "trykfaldssyge"]
+"barotraumer", "ønh", "regionen"]
+"barretts", "øsofagus"]
+"bartholinitis"]
+"basalcellekarcinom"]
+"bechterews", "sygdom"]
+"beckers", "muskeldystrofi"]
+"beh", "ets", "sygdom"]
+"behandling"]
+"behandlinger"]
+"benign", "positionel", "vertigo"]
+"benign", "prostatahyperplasi"]
+"benlængdeforskel", "anisomeli"]
+"bensår", "arterielt"]
+"benzodiazepin", "forgiftning"]
+"benzodiazepin", "lignende", "forgiftning"]
+"benzodiazepiner", "aftrapning"]
+"betablokkerforgiftning"]
+"bevidsthedspåvirkning"]
+"bevidstløs", "voksen"]
+"bevidstløshed"]
+"bevidstløst", "barn"]
+"bicuspid", "aortaklap"]
+"bihulebetændelse", "akut"]
+"bihulebetændelse", "kronisk"]
+"binyrebarkinsufficiens"]
+"binyreincidenthalom"]
+"binyresygdomme"]
+"bipolare", "lidelser", "børn", "unge"]
+"bleeksem"]
+"blefaritis"]
+"blindtarmsbetændelse", "akut"]
+"blod", "afføringen"]
+"blodpladesygdom"]
+"blodtypeimmunisering", "inc", "rhesusimmunisering"]
+"blyforgiftning"]
+"blåviolette", "papler", "noduli"]
+"blærekræft"]
+"blærer", "huden"]
+"blæresten"]
+"blødning"]
+"blødning", "graviditeten"]
+"blødningstendens"]
+"borreliose"]
+"botulisme"]
+"bradyarytmier"]
+"brandmænd"]
+"brandskade"]
+"brandskader"]
+"brok"]
+"bronkiektasi"]
+"bronkitis", "akut"]
+"brucellose"]
+"brugadas", "syndrom"]
+"brystkræft"]
+"brystsmerter"]
+"brystsmerter", "ikke", "kardiale"]
+"brændende", "mund", "syndrom"]
+"budd", "chiaris", "syndrom"]
+"buergers", "sygdom", "thromboangiitis", "obliterans"]
+"bughule"]
+"bugspytkirtel"]
+"bulløse", "tilstande"]
+"bursit", "calcaneus"]
+"bursit", "præpatellar"]
+"bursit", "skulder", "kronisk"]
+"bursitis", "olecrani"]
+"bypassoperation"]
+"bækken"]
+"bækken", "hofte", "lår"]
+"bændelorme"]
+"børneleddegigt"]
+"børnemishandling", "overgreb", "omsorgssvigt"]
+"børneoftalmologi"]
+"børneorm"]
+"calciumantagonistforgiftning"]
+"campylobacter", "tarminfektion"]
+"candida", "vaginit"]
+"candidiasis", "kutan"]
+"cannabis", "misbrug"]
+"cannabisbrug", "sociale", "sundhedsmæssige", "konsekvenser"]
+"carcinoide", "svulster"]
+"caries"]
+"caries", "børn"]
+"carotis", "stenose", "forsnævring", "på", "halspulsåren"]
+"cellulit"]
+"centralarterieokklusion"]
+"centralvenetrombose"]
+"cercariel", "dermatitis"]
+"cerebral", "parese"]
+"cerebral", "venetrombose"]
+"cerebrovaskulært"]
+"cervicitis", "akut"]
+"cervicitis", "kronisk"]
+"cervikal", "discusprolaps"]
+"cervikal", "intræpitelial", "neoplasi", "cin"]
+"cervixpolyp"]
+"chagas", "sygdom"]
+"charcot", "marie", "tooth", "sygdom"]
+"charcots", "fod"]
+"chikungunyavirus", "sygdom"]
+"churg", "strauss", "syndrom"]
+"clavus"]
+"clostridium", "difficile", "tarminfektion"]
+"coarctatio", "aortæ"]
+"coats", "sygdom"]
+"coccidioidomykose"]
+"colitis", "ulcerosa"]
+"colobom"]
+"colorektal", "kræft"]
+"colorektale", "polypper"]
+"columna", "skader"]
+"conjunktivitis", "allergisk"]
+"conjunktivitis", "infektiøs"]
+"cor", "pulmonale"]
+"cornealt", "conjunktivalt", "fremmedlegeme"]
+"coronavirus", "børn"]
+"corpus", "vitreum"]
+"corpus", "vitreum", "blødning"]
+"costochondritis"]
+"creutzfeldt", "jakobs", "sygdom"]
+"crohns", "sygdom"]
+"cryptokokkose"]
+"cryptosporidiose"]
+"cushings", "syndrom"]
+"cyste", "hjernen"]
+"cystisk", "fibrose"]
+"cystit", "ukompliceret"]
+"cystitis", "kompliceret"]
+"cytomegalovirus"]
+"cytostatikabehandling"]
+"cøliaki"]
+"d", "vitamin", "mangel"]
+"dacryocystitis"]
+"daginkontinens", "børn"]
+"delir"]
+"delirium"]
+"delirium", "tremens"]
+"demens"]
+"demens", "adfærdsforstyrrelser", "psykiske", "symptomer", "bpsd"]
+"demens", "alzheimer"]
+"demens", "fronto", "temporal", "demens"]
+"demens", "kortlægning", "af", "problemadfærd"]
+"demens", "lewy", "body"]
+"demens", "vaskulær"]
+"demensmistanke"]
+"demenssygdomme"]
+"demensudredning"]
+"demensudredning", "læge"]
+"den", "normale", "søvn"]
+"dengue", "feber"]
+"depression"]
+"depression", "kræft"]
+"depression", "ældre"]
+"depressioner"]
+"depressionsfølelse"]
+"depressive", "lidelser", "børn", "unge"]
+"dermatitis", "herpetiformis"]
+"dermatofibrom"]
+"dermatomyosit"]
+"diabetes", "graviditeten", "kvinder", "kendt", "diabetes", "før", "graviditeten", "type", "1", "type", "2"]
+"diabetes", "insipidus"]
+"diabetes", "mellitus"]
+"diabetes", "mellitus", "børn"]
+"diabetes", "steroidbehandling"]
+"diabetisk", "fodsår"]
+"diabetisk", "ketoacidose"]
+"diabetisk", "nefropati"]
+"diabetisk", "neuropati"]
+"diabetisk", "retinopati", "andre", "diabetesrelaterede", "øjenproblemer"]
+"diafragmaskade"]
+"dialyse"]
+"diarre", "akut"]
+"diarre", "blodig", "børn"]
+"diarre", "kronisk"]
+"diarre", "kronisk", "børn"]
+"dieulafoy", "læsion"]
+"difteri"]
+"digitalisforgiftning"]
+"diskoid", "lupus", "erythematosus"]
+"dissemineret", "intravaskulær", "koagulation"]
+"dissociative", "lidelser"]
+"pigmenterede", "hudforandringer", "godartede", "tumorer"]
+"divertikelsygdom"]
+"downs", "syndrom"]
+"downs", "syndrom", "øjenforandringer"]
+"dracunculiasis"]
+"drukning"]
+"drukning", "nær", "drukning"]
+"duchennes", "muskeldystrofi"]
+"dupuytrens", "kontraktur"]
+"dyb", "venetrombose", "dvt"]
+"dyre", "menneskebid"]
+"dyrebid"]
+"dysfunktionelle", "uterinblødninger", "blødningsforstyrrelser", "fertil", "alder"]
+"dyslipedæmia"]
+"dysmenore"]
+"dyspareuni"]
+"dyspepsi"]
+"dystoni"]
+"dysuri", "kvinder"]
+"dysuri", "mænd"]
+"dårlig", "trivsel", "dårlig", "vægtøgning", "børn"]
+"dårlig", "ånde"]
+"død", "person", "opgaver"]
+"dødsattest"]
+"e", "coli", "enteritis"]
+"ebola", "hæmoragisk", "feber"]
+"ectropion"]
+"eczema", "herpeticum"]
+"efter", "fødsel"]
+"ehlers", "danlos", "syndrom"]
+"ejakulations", "orgasmeproblemer"]
+"ekinokokkose"]
+"ektopisk", "svangerskab"]
+"elektrokonvulsiv", "terapi", "ect"]
+"elektrolytforstyrrelser"]
+"encefalitis", "akut"]
+"endetarmsfremfald"]
+"endokarditis"]
+"endokrinologi"]
+"endometriose"]
+"enkoprese"]
+"enterovirusinfektioner"]
+"entropion"]
+"enuresis"]
+"eosinofil", "gastrønteritis"]
+"eosinofil", "øsofagitis"]
+"epidermoid", "cyste"]
+"epididymitis"]
+"epiduralt", "hæmatom"]
+"epifysiolysis", "capitis", "femoris"]
+"epiglottit", "akut"]
+"epikondylit"]
+"epilepsi"]
+"epilepsi", "børn"]
+"epiretinal", "fibrose"]
+"episcleritis"]
+"erektil", "dysfunktion"]
+"erhvervede", "medfødte", "blødningstilstande"]
+"erosio", "recidivans"]
+"erysipelas"]
+"erysipeloid", "svinerosen"]
+"erytemer"]
+"erythema", "infectiosum", "lussingesyge", "femte", "børnesygdom"]
+"erythema", "multiforme"]
+"erythema", "nodosum"]
+"erytropoietisk", "protoporfyri"]
+"essentiel", "tremor"]
+"etanolforgiftning"]
+"etylenglykolforgiftning"]
+"ewings", "sarkom"]
+"exanthema", "subitum"]
+"extensorskader", "fingre"]
+"extracorporeal", "shock", "wave", "lithotripsy", "eswl"]
+"facialisparese"]
+"fald", "faldtendens", "ældre"]
+"fallots", "tetralogi"]
+"falsk", "strubehoste"]
+"farveændringer", "regnbuehinden"]
+"faryngit"]
+"feber"]
+"feber", "af", "ukendt", "årsag"]
+"feber", "børn"]
+"feber", "idræt"]
+"feberkramper"]
+"feltys", "syndrom"]
+"femoral", "anteversion"]
+"femur", "hoftenært", "brud"]
+"femur", "skaft"]
+"femurfraktur", "distalt"]
+"fibroadenom", "brystet"]
+"fibromer", "uterus"]
+"fibromyalgi"]
+"filariasis"]
+"fillere", "til", "kosmetisk", "behandling"]
+"finger", "luksationer"]
+"fingerbrud"]
+"fingerskader", "akutte"]
+"fisk", "overfølsomhed"]
+"fiskekrogskade"]
+"fjæsing"]
+"flerfoldsgraviditet"]
+"flexor", "hallucis", "longus", "tendinopati"]
+"flexorseneskader"]
+"flodblindhed"]
+"fluorforgiftning"]
+"flygtningepatienten"]
+"flyvende", "myg", "sløret", "syn", "fotopsier", "gardinfornemmelse", "regnbuesyn"]
+"flåt"]
+"fobiske", "lidelser"]
+"fod"]
+"foddeformiteter", "medfødte"]
+"follikulitis"]
+"folsyremangel"]
+"forebyggelse", "af", "atopisk", "sygdom", "allergi", "børn"]
+"forfodsadduktion"]
+"forgiftning"]
+"forgiftninger"]
+"forkølelse"]
+"forsinket", "søvnfase", "type"]
+"forstoppelse"]
+"forstoppelse", "børn"]
+"forstoppelse", "kræft"]
+"forstoppelse", "voksne"]
+"forstyrret", "seksuel", "ophidselse", "kvinder"]
+"forvirringstilstand", "uro", "akut"]
+"fostervækst", "vægtafvigelse"]
+"fotodermatoser"]
+"fotodynamisk", "behandling"]
+"fractura", "ossis", "scaphoideum", "brud", "på", "bådbenet"]
+"frakturer", "håndroden"]
+"fremmedlegeme", "luftvejene"]
+"fremmedlegeme", "slugt"]
+"fremmedlegemer"]
+"fremmedlegemer", "huden"]
+"freys", "syndrom"]
+"frostskader", "forfrysninger"]
+"frugt", "bær", "overfølsomhed"]
+"fruktoseintolerans"]
+"fruktosemalabsorption"]
+"fuglebryst"]
+"fugleinfluenza"]
+"fulminant", "kolitis"]
+"funktionel", "dyspepsi"]
+"funktionel", "lidelse"]
+"funktionel", "synsnedsættelse"]
+"fysioterapi"]
+"fysisk", "aktivitet", "profylakse"]
+"fåresyge"]
+"fæokromocytom", "paragangliom"]
+"fødevareallergi"]
+"fødevareoverfølsomhed"]
+"fødevareprovokationer", "børnelæge"]
+"fødsel"]
+"førstehjælp"]
+"førstehjælpsprincipper"]
+"g6pd", "mangel"]
+"galdestenssygdom"]
+"galdeveje"]
+"ganglion"]
+"gas", "infektioner"]
+"gasgangræn"]
+"gastrointestinale", "stromale", "tumorer"]
+"gastroknemiusruptur", "tennislæg"]
+"gastroschise"]
+"gastroøsofageal", "refluks", "børn"]
+"gastroøsofageal", "reflukssygdom"]
+"gastrønteritis", "viral"]
+"generaliseret", "angst"]
+"genitalprolaps"]
+"gennemgribende", "udviklingsforstyrrelser"]
+"geriatrisk", "udredning"]
+"gestationel", "diabetes", "gdm"]
+"giardiasis"]
+"gilberts", "syndrom"]
+"gingivit", "parodontit"]
+"glaucom"]
+"glomerulonefritis"]
+"glossopharyngeusneuralgi"]
+"glukokortikoid", "injektioner", "slimsække", "seneskeder", "muskler", "led"]
+"glukosuri"]
+"gonore"]
+"granuloma", "annulare"]
+"granulomatose", "polyangiitis", "wegener"]
+"gravid", "traume", "abdomen"]
+"graviditas", "prolongata"]
+"graviditet", "hjertesygdom"]
+"graviditet", "kosttilskud"]
+"graviditetsrelaterede", "bækkensmerter"]
+"gruppe", "b", "streptokokker", "graviditet"]
+"grøntsager", "bælgfrugter", "overfølsomhed"]
+"guillain", "barr", "syndrom"]
+"gul", "feber"]
+"gulsot", "nyfødte"]
+"gynækologiske", "fistler"]
+"gynækomasti"]
+"gærsvampeinfektioner", "mund", "svælg"]
+"habituel", "tågang"]
+"hageorm"]
+"haglunds", "hæl"]
+"haleben", "brud"]
+"halebenssmerter"]
+"hallucinationer"]
+"hallux", "rigidus"]
+"hallux", "valgus"]
+"halscyster", "mediane", "laterale"]
+"halssmerter"]
+"halten", "børn"]
+"hammertæer"]
+"heberdens", "knuder"]
+"helicobacter", "pylori"]
+"hellp", "syndrom"]
+"hemiplegisk", "migræne"]
+"hemisymptomer"]
+"henoch", "sch", "nleins", "purpura"]
+"hepatisk", "kløe"]
+"hepatitis", "a"]
+"hepatitis", "autoimmun"]
+"hepatitis", "b"]
+"hepatitis", "b", "børn"]
+"hepatitis", "c"]
+"hepatitis", "c", "børn"]
+"hepatitis", "d"]
+"hepatitis", "e"]
+"hepatitis", "kronisk"]
+"hepatocellulært", "karcinom"]
+"hepatorenalt", "syndrom"]
+"hereditær", "neuropati"]
+"herpangina"]
+"herpes", "genitalis"]
+"herpes", "gestationes"]
+"herpes", "simplex", "hudinfektion"]
+"herpes", "zoster"]
+"hidrosadenitis"]
+"hikke"]
+"hirschsprungs", "sygdom"]
+"hirsutisme"]
+"histaminforgiftning"]
+"histoplasmose"]
+"hiv", "aids"]
+"hjernemetastaser"]
+"hjernesvulster", "børn"]
+"hjernesvulster", "voksne"]
+"hjerte", "kar"]
+"hjerte", "lunge", "redning"]
+"hjerte", "lunge", "redning", "avanceret", "barn"]
+"hjerte", "lunge", "redning", "avanceret", "voksne"]
+"hjerte", "lunge", "redning", "basal", "barn"]
+"hjerte", "lunge", "redning", "basal", "voksne"]
+"hjertebanken", "uroligt", "hjerte"]
+"hjertedefibrillator", "implanterbar"]
+"hjertekar"]
+"hjertemuskelsygdom"]
+"hjerterehabilitering"]
+"hjertesvigt"]
+"hjertetamponade"]
+"hodgkins", "lymfom"]
+"hofte", "bækken", "lyskesmerter"]
+"hofte", "lår"]
+"hoftedysplasi", "børn"]
+"hofteimpingement"]
+"hofteledsluksation"]
+"hordeolum"]
+"hormonbehandling", "af", "kræftsygdomme"]
+"horners", "syndrom"]
+"hornhinden"]
+"hoste"]
+"hovedpine"]
+"hovedpine", "af", "spændingstype"]
+"hovedpine", "efter", "hoved", "nakketraume"]
+"hovedtraume"]
+"hovedtraume", "førstehjælp"]
+"hud"]
+"hud", "bløddelsskader"]
+"hud", "intern", "sygdom"]
+"hudatrofi"]
+"hudkosmetiske", "behandlinger"]
+"hudlidelser", "almindelige", "graviditeten"]
+"hudproblemer", "under", "udenlandsrejse"]
+"hudskader", "aldringstegn"]
+"hugormebid"]
+"hukommelsessvigt"]
+"hukommelsestab"]
+"humerus", "capitulum", "humeri"]
+"humerus", "distalt", "brud"]
+"humerus", "proksimalt", "brud"]
+"humerus", "skaft"]
+"huntingtons", "chorea"]
+"hvornår", "skal", "et", "dødsfald", "på", "sygehus", "meldes", "til", "politiet"]
+"hydrocefalus"]
+"hydrocele", "testis"]
+"hydronefrose"]
+"hypercalcæmi"]
+"hyperemesis", "gravidarum"]
+"hypereosinofilt", "syndrom"]
+"hyperglykæmi", "akut", "behandling"]
+"hyperkaliæmi"]
+"hyperkinetiske", "forstyrrelser"]
+"hyperkyfose", "ældre"]
+"hypermobilitetssyndrom"]
+"hyperosmolær", "hyperglykæmi"]
+"hyperparathyreoidisme"]
+"hypertension"]
+"hypertermi", "hedeslag"]
+"hyperthyreose"]
+"hyperthyreose", "subklinisk"]
+"hypertriglyceridæmi"]
+"hypertrofisk", "rhinitis"]
+"hyphæma"]
+"hypocalcæmi"]
+"hypofysesygdomme"]
+"hypoglycæmi", "voksne", "diabetes"]
+"hypoglykæmi", "akut", "behandling"]
+"hypoglykæmi", "diabetes", "mellitus"]
+"hypokaliæmi"]
+"hypokondri"]
+"hyponatriæmi"]
+"hypoparathyreoidisme"]
+"hypopharynxcancer"]
+"hypoplastisk", "venstre", "hjertesyndrom"]
+"hypospadi"]
+"hypotermi"]
+"hypotermi", "førstehjælp"]
+"hypothyreose"]
+"hypothyreose", "subklinisk"]
+"hypovolæmisk", "shock"]
+"hånd", "fingerinfektioner"]
+"hånd", "fod", "mundsygdom"]
+"håndforbrændinger"]
+"håndled", "hånd"]
+"håndledsbrud"]
+"håndledstendinopati"]
+"håndlidelser"]
+"håndskader"]
+"håndsmerter"]
+"hårbundsforandringer"]
+"hårtab"]
+"hårtab", "kvinder"]
+"hæl", "fodsmerter"]
+"hælfrakturer"]
+"hæmangiom", "børn"]
+"hæmatemese", "melæna"]
+"hæmaturi"]
+"hæmokromatose"]
+"hæmolytisk", "uræmisk", "syndrom"]
+"hæmolytiske", "anæmier"]
+"hæmoptyse"]
+"hæmoroider"]
+"hæmospermi"]
+"hæshed"]
+"hævede", "ben"]
+"hævelse", "på", "halsen"]
+"højdesyge"]
+"højdosisbehandling", "autolog", "stamcelletransplantation"]
+"højt", "blodtryk"]
+"hørenedsættelse"]
+"hørenedsættelse", "børn"]
+"hørenedsættelse", "ældre"]
+"ichthyosis"]
+"idiopatisk", "trombocytopenisk", "purpura"]
+"ikterus"]
+"impetigo"]
+"implanterbar", "defibrillator"]
+"importerede", "parasitære", "sygdomme"]
+"importeret", "feber"]
+"importsygdomme"]
+"impotens", "rejsningsbesvær"]
+"in", "tøing", "out", "tøing"]
+"indre", "øre"]
+"infantile", "spasmer"]
+"infektioner"]
+"infektioner", "mænd", "som", "har", "sex", "mænd", "msm"]
+"infektioner", "overført", "fra", "kæledyr"]
+"infektioner", "parvovirus"]
+"infektionstendens"]
+"infertilitet", "nedsat", "frugtbarhed"]
+"inflammatoriske", "noduli"]
+"inflammatoriske", "sygdomme"]
+"influenza", "a", "h1n1", "v"]
+"influenza", "sæsoninfluenza"]
+"inhalation", "lokalirriterende", "gasser"]
+"inkontinens", "mænd"]
+"insulinom"]
+"interkostal", "myalgi"]
+"interstitiel", "nefrit", "akut"]
+"interstitielle", "sygdomme"]
+"intertrigo"]
+"intrahepatisk", "cholestase", "graviditeten"]
+"intravasale", "katetre", "infektioner"]
+"intråbdominal", "absces"]
+"invasiv", "pneumokokinfektion"]
+"iridocyklitis"]
+"irritabel", "tarmsyndrom"]
+"japansk", "encephalitis"]
+"jernforgiftning"]
+"jernmangelanæmi"]
+"jernmangelanæmi", "børn"]
+"jetlag"]
+"k", "hlers", "sygdom"]
+"kakeksi"]
+"kapsulit", "skulder"]
+"kardiale", "brystsmerter", "akutte"]
+"kardiogent", "shock"]
+"kardiomyopati", "hypertrofisk"]
+"kardiomyopati", "peripartum"]
+"kardiomyopatier"]
+"kardiovaskulær", "vurdering", "idræt"]
+"karpaltunnelsyndrom"]
+"karsygdomme"]
+"katarakt"]
+"kateterproblemer"]
+"kattekradssyge"]
+"kawasakis", "syndrom"]
+"keloid", "hypertrofisk", "ardannelse"]
+"keratitis", "herpes", "simplex"]
+"keratoakantom"]
+"keratoconjunctivitis", "sicca"]
+"keratoconus"]
+"keratokonjunktivitis", "photølectrica"]
+"keratosis", "pilaris"]
+"kighoste"]
+"kiropraktik"]
+"klamydiainfektion"]
+"klamydiapneumoni"]
+"klapsygdomme"]
+"klimakteriet"]
+"kliniske", "tilstande"]
+"klumpfod"]
+"klyngehovedpine", "andre", "trigeminale", "autonome", "hovedpiner"]
+"kløe"]
+"kløe", "svangerskabet"]
+"kløende", "tilstande"]
+"knoglebrud"]
+"knoglecyste", "solitær"]
+"knoglemarvssygdom"]
+"knoglemetastaser"]
+"knoglevæv", "vitamin", "d"]
+"knude", "brystet"]
+"knude", "struma"]
+"knæ"]
+"knæ", "frakturer"]
+"knæsmerter"]
+"koagulationsforstyrrelser"]
+"kol"]
+"kolangiokarcinom"]
+"kolecystit", "akut"]
+"kolera"]
+"kolesteatom", "benæder"]
+"kolesterolemboli", "syndrom"]
+"kollateralligamentskade", "lateral"]
+"kollateralligamentskade", "medial"]
+"kompartmentsyndrom"]
+"komplekst", "regionalt", "smertesyndrom"]
+"komplikationer", "svangerskabet"]
+"komælksprotein", "overfølsomhed", "børn"]
+"komælksprotein", "overfølsomhed", "voksne"]
+"kondylomer"]
+"kontaktallergi", "mundhulen"]
+"kontakteksem"]
+"koronarsygdom"]
+"korsbåndskade", "bagerste"]
+"korsbåndskade", "forreste"]
+"kost", "cøliaki", "hvedeallergi"]
+"kostvejledere", "allergi", "intolerance"]
+"krampeanfald"]
+"kramper"]
+"kramper", "ikke", "epileptiske", "børn"]
+"kraniebrud"]
+"kraniosynostose"]
+"kraveben"]
+"kronisk", "hepatitis", "c", "virus", "infektion", "børn"]
+"kronisk", "lymfatisk", "leukæmi"]
+"kronisk", "migræne"]
+"kronisk", "myeloid", "leukæmi"]
+"kronisk", "nyresygdom", "kronisk", "nyresvigt"]
+"kronisk", "nyresygdom", "under", "graviditet"]
+"kronisk", "træthedssyndrom"]
+"kroniske", "muskelskeletsmerter", "børn"]
+"kroniske", "underlivssmerter"]
+"krydderier", "aromastoffer", "overfølsomhed"]
+"kræft", "livmoderen", "endometriecancer"]
+"kræftfaresignaler", "børn"]
+"kræftsygdomme"]
+"kulilteforgiftning"]
+"kvalme", "opkast"]
+"kvalme", "opkastninger"]
+"kvindelig", "omskæring"]
+"kvinder"]
+"kæbe", "ledsmerter"]
+"kæmpecelle", "arteritis"]
+"kønssygdomme", "graviditeten"]
+"laktoseintolerans"]
+"laktosereduceret", "laktosefri", "kost"]
+"langerhans", "celle", "histiocytose"]
+"langsynethed"]
+"langt", "qt", "syndrom"]
+"larynxkræft"]
+"laserbehandling", "af", "refraktionsanomali"]
+"lassafeber"]
+"latexallergi"]
+"ledbruskkirurgi"]
+"ledskader", "akutte"]
+"ledsmerter", "stivhed", "hævelse", "et", "led"]
+"ledsmerter", "stivhed", "hævelse", "flere", "led"]
+"legionella"]
+"leishmaniasis"]
+"lemierres", "syndrom"]
+"lentigo", "solaris"]
+"lepra"]
+"leptospirose"]
+"leukæmi", "børn"]
+"leukæmier"]
+"lever"]
+"leverabsces"]
+"levercirrose", "kronisk", "leversvigt"]
+"levercyster"]
+"leverencefalopati"]
+"leverkræft", "kræft", "galdevejene"]
+"levermetastaser"]
+"leverpåvirkning", "graviditeten"]
+"leverskader", "medikamentinduceret"]
+"leversygdom", "alkoholisk"]
+"levertransplantation"]
+"lichen", "planus"]
+"lichen", "planus", "vulvovaginal"]
+"lichen", "sclerosis", "mænd"]
+"lichen", "sclerosus", "et", "atrophicus", "kvinder"]
+"ligamentskade", "på", "fingrene"]
+"likvor"]
+"lille", "højde"]
+"lille", "højde", "idiopatisk"]
+"linsen"]
+"lipidforstyrrelser"]
+"lipoid", "nekrobiose"]
+"lipom"]
+"listeriose"]
+"livløshedsanfald", "alte"]
+"livmoderhalskræft"]
+"lokale", "forfrysninger", "lokale", "frostskader"]
+"lokalsteroider", "brugen", "heraf"]
+"loppebid"]
+"ludomani", "spilleafhængighed"]
+"luftvejene"]
+"luftvejsallergi", "erhverv"]
+"lumbal", "rodaffektion"]
+"lungebetændelse"]
+"lungebetændelse", "børn"]
+"lungebetændelse", "postoperativ"]
+"lungeemboli"]
+"lungefibrose"]
+"lungehamartom"]
+"lungekræft"]
+"lunger", "luftveje"]
+"lungeødem"]
+"lungeødem", "akutbehandling"]
+"lus"]
+"luts"]
+"lymfangitis"]
+"lymfeknudesvulst"]
+"lymfeknudesvulst", "børn"]
+"lymfogranuloma", "venereum"]
+"lymfomer"]
+"lymfødem"]
+"lyskebrok", "indeklemt", "børn"]
+"lyskeskade", "lårets", "indadførende", "muskler"]
+"læbe", "ganespalte"]
+"læg", "ankel", "fod"]
+"lægemiddelbehandling", "på", "plejehjem"]
+"lægemidler", "sol"]
+"læger", "retsvæsenet"]
+"lægkramper"]
+"lægsmerter"]
+"lækageproblemer"]
+"lændesmerter", "lave", "rygsmerter"]
+"løberknæ", "runner", "s", "knee"]
+"m", "nchausens", "syndrom"]
+"madforgiftninger"]
+"makrocytose"]
+"malaria"]
+"malariaprofylakse", "vaccinationer", "udlandsrejser"]
+"malign", "obstruktion"]
+"malignt", "lymfom", "børn"]
+"malignt", "melanom"]
+"malignt", "melanom", "øjet"]
+"malignt", "neuroleptikasyndrom"]
+"mandlig", "hypogonadisme"]
+"mani", "bipolar", "lidelse"]
+"marburgvirusinfektion"]
+"mastalgi", "smerter", "brysterne"]
+"mastit"]
+"mastoidit"]
+"mave", "tarm"]
+"mavesmerter", "akutte"]
+"mavesmerter", "akutte", "børn"]
+"mavesmerter", "akutte", "ældre"]
+"mavesår"]
+"mavesår", "komplikationer"]
+"mavesæk"]
+"mb", "calv", "legg", "perthes"]
+"meckels", "divertikel"]
+"medfødte", "hjerneskader"]
+"medfødte", "hjertefejl"]
+"medfødte", "stofskiftesygdomme"]
+"medfødte", "tilstande"]
+"medicin", "stofrelateret", "hovedpine"]
+"medicininducerede", "bevægeforstyrrelser"]
+"medikamentel", "rhinitis"]
+"medikamentelle", "udslæt"]
+"medikamentrelaterede"]
+"medikamentudløst"]
+"mekaniske", "hjerteklapper", "ak", "behandling"]
+"melasma", "chloasma"]
+"mellemøre"]
+"mellemørebetændelse", "akut"]
+"mellemørebetændelse", "kronisk"]
+"mellemørebetændelse", "sekretorisk"]
+"mellemørebetændelse", "simpleks"]
+"menieres", "sygdom"]
+"meningitis", "encephalitis"]
+"meniskskade", "knæet"]
+"menoragi"]
+"menstruationsproblemer"]
+"menstruel", "migræne"]
+"mental", "retardering"]
+"mental", "retardering", "voksne"]
+"mers"]
+"mesenteriel", "iskæmi", "tarmiskæmi"]
+"mesenteriel", "lymfadenit"]
+"mesoteliom"]
+"metabolisk", "acidose"]
+"metabolisk", "alkalose"]
+"metabolisk", "syndrom"]
+"metaboliske", "elektrolytforstyrrelser"]
+"metakarp", "brud"]
+"metanolforgiftning"]
+"metatars", "brud", "på", "mellemfodsknogle"]
+"meticillinresistente",
+"staphylococcus",
+"aureus",
+"metroragi",
+"migræne",
+"kolitis",
+"polyangiitis",
+"miltcyster",
+"miltskade",
+"mbsr",
+"mbkt",
+"minipiller",
+"misdannelser",
+"urinvejene",
+"mislyd",
+"hjertet",
+"mitralinsufficiens",
+"mitralstenose",
+"mobid",
+"mobning",
+"modermærker",
+"nyfødte",
+"molasygdom",
+"molluscum",
+"contagiosum",
+"monoklonal",
+"gammopathi",
+"mgus",
+"mononukleose",
+"morbus",
+"kienbøck",
+"lunatummalaci",
+"mortons",
+"metatarsalgi",
+"mrsa",
+"endokrine",
+"neoplasier",
+"multitraume",
+"muskuloskeletalt",
+"mundbindsbetinget",
+"hududslæt",
+"mundhule",
+"mundhulecancer",
+"mundhulelæsioner",
+"mundhulen",
+"mundtørhed",
+"musearm",
+"trælår",
+"muskelskelet",
+"muskelsvaghed",
+"muskelsygdomme",
+"arvelige",
+"myasthenia",
+"gravis",
+"mycoplasma",
+"genitalium",
+"mycoplasmapneumoni",
+"mycosis",
+"fungoides",
+"myelodysplastisk",
+"myelofibrose",
+"myelomatose",
+"mykobakterier",
+"myksødem",
+"coma",
+"myokardieinfarkt",
+"myokardit",
+"målmandsalbue",
+"mæslinger",
+"nakkemyalgi",
+"nakkesmerter",
+"nakkestivhed",
+"narkolepsi",
+"naviculare",
+"nedgrøt",
+"idrætsskader",
+"urinvejsinfektion",
+"nyrefunktion",
+"nefritisk",
+"nefropatia",
+"epidemica",
+"nefrotisk", 
+"negleforandringer,]
+"neglelidelser",
+"neglesvamp",
+"nekrotiserende",
+"bløddelsinfektioner",
+"otit",
+"enterokolit",
+"nervekompressionssyndromer",
+"nervelæsioner",
+"nervesygdomme",
+"nervus",
+"axillaris",
+"cutaneus",
+"lateralis",
+"femoralis",
+"ischiadicus",
+"radialis",
+"suprascapularis",
+"thoracicus",
+"longus",
+"tibialis",
+"nethindeforandringer",
+"nethindeløsning",
+"nethinden",
+"neuralrørsdefekter",
+"neuroblastom",
+"neurodermatit",
+"neurokirurgi",
+"neurologi",
+"neurooftalmologi",
+"neuropatier",
+"neutropeni",
+"noduli",
+"cyster",
+"polypper",
+"hodgkins",
+"lymfom",
+"fedtleversygdom",
+"norovirusgastrønteritis",
+"nyfødtmedicin",
+"nyfødtundersøgelsen",
+"nykturi",
+"nyrearteriestenose",
+"nyrecyster",
+"nyrekræft",
+"nyrer",
+"urinveje",
+"nyresvigt",
+"nyresygdomme",
+"nyretransplantation",
+"nærsynethed",
+"bihulecancer",
+"bihuler",
+"næseblødning",
+"næsebrud",
+"næsepolypper",
+"næsetæthed",
+"nævus",
+"pigmenterede",
+"obstruktiv",
+"søvnapnø",
+"obstruktive",
+"lungesygdomme",
+"odontologi",
+"okkult",
+"blødning",
+"oligomenore",
+"menstruationer",
+"fedtsyrer",
+"onkologi",
+"onkologiske",
+"akutsituationer",
+"operation",
+"opiatabstinens",
+"opiatforgiftning",
+"buprenorfin",
+"methadon",
+"mani",
+"opticus",
+"atrofi",
+"opticusneuritis",
+"oral",
+"lichen",
+"planus",
+"orale",
+"orbitafraktur",
+"orchitis",
+"orfvirussygdom",
+"organiske",
+"psykiske",
+"lidelser",
+"orgasmeforstyrrelser",
+"oropharynxcancer",
+"ortopædi",
+"ortostatisk",
+"hypotension",
+"osgood",
+"schlatters",
+"oslers",
+"osteochondritis",
+"dissecans",
+"osteogenesis",
+"imperfecta",
+"osteokondrom",
+"osteomyelitis",
+"osteopetrose",
+"osteoporose",
+"otit",
+"otosklerose",
+"ovariecancer",
+"ovariecyste",
+"blære",
+"tromboflebit",
+"overophedning",
+"hedeslag",
+"overspisning",
+"overtrykspneumothorax",
+"overvægt",
+"fedme",
+"piller",
+"p-piller",
+"pacemakerbehandling",
+"pagets",
+"palliativ",
+"panikangst",
+"pankreascyster",
+"pankreaskræft",
+"pankreatisk",
+"pseudocyste",
+"pankreatit",
+"panoftalmi",
+"papuløse",
+"paracetamolforgiftning",
+"paranoia",
+"paraphimosis",
+"parasomnier",
+"paratyreoideasygdomme",
+"parese",
+"parkinsons",
+"paronychion",
+"patellabrud",
+"patellaluksation",
+"patellar",
+"tendinopati",
+"patellofemoral",
+"artrose",
+"patellofemoralt",
+"hjerteinfarkt",
+"pcos",
+"pemfigoid",
+"pemfigus",
+"penetrerende",
+"øjentraume",
+"urinrør",
+"penisfraktur",
+"penisimplantat",
+"peniskræft",
+"penisskader",
+"pericoronitis",
+"perifer",
+"neuropati",
+"perikardit",
+"aftøs",
+"stomatit",
+"faryngit",
+"cervikal",
+"adenit",
+"pfapa",
+"perioperativ",
+"tromboseprofylakse",
+"perioral",
+"dermatit",
+"peritonit",
+"peritonitis",
+"peritonealdialyse",
+"peritonsillær",
+"absces",
+"perkutan",
+"nefrolitotomi",
+"perniciøs",
+"anæmi",
+"peroneusparese",
+"persisterende",
+"ductus",
+"arteriosus",
+"personlighedsforstyrrelser",
+"pest",
+"phimosis",
+"piercing",
+"pigmenterede",
+"pilonidalcyste",
+"pinguecula",
+"piriformissyndromet",
+"piskesmældslæsion",
+"pityriasis",
+"alba",
+"rosea",
+"versicolor",
+"pityrosporum",
+"follikulit",
+"placenta",
+"accreta",
+"prævia",
+"plantar",
+"fasciitis",
+"platfod",
+"plejehjemsmedicin",
+"pleurale",
+"plaques",
+"pleurasmerter",
+"pleuravæske",
+"pleuritis",
+"plexus",
+"brachialis",
+"læsion",
+"spædbarnsdød",
+"plukkeveer",
+"pneumocystis",
+"pneumoni",
+"pneumokonioser",
+"pneumothorax",
+"poliomyelitis",
+"polyarteritis",
+"nodosa",
+"polycystisk",
+"nyresygdom",
+"cystenyrer",
+"polycythæmia",
+"vera",
+"polycytæmi",
+"polyfarmaci",
+"polymorft",
+"lysudslæt",
+"soleksem",
+"polymyalgia",
+"reumatica",
+"polymyosit",
+"polyuri",
+"popliteustendinopati",
+"cutanea",
+"tarda",
+"porfyrier",
+"hovedskævhed",
+"partum",
+"postcommotiosyndrom",
+"postherpetisk",
+"neuralgi",
+"postinfarktsyndrom",
+"postmenopausal",
+"blødning",
+"postoperativ",
+"kvalme",
+"opkast",
+"sårinfektion",
+"urinretention",
+"postoperative",
+"peritoneale",
+"adhærencer",
+"depression",
+"postpartum",
+"psykose",
+"postpolio",
+"specialistudredning",
+"poststreptokok", 
+"posttraumatisk",
+"belastningsreaktion",
+"stresslidelse",
+"posttrombotisk",
+"presbyopi"]
+"priapisme",
+"amenor",
+"biliær",
+"cirrose",
+"dysmenor",
+"hyperaldosteronisme",
+"skleroserende",
+"kolangitis",
+"prionsygdomme",
+"probiotika",
+"profylaktisk",
+"visdomstænder",
+"proktologi",
+"prostata",
+"prostatakræft",
+"prostatitis", 
+"proteinuri",
+"albuminuri",
+"proteseinfektion",
+"knogler",
+"protozør",
+"laryngeal",
+"obstruktion",
+"ilo",
+"præeklampsi",
+"eklampsi",
+"præmatur",
+"ejakulation",
+"præmaturitet", 
+"præmedicinering",
+"præmenstruelt",
+"præoperativ",
+"prævention",
+"psoasabsces",
+"psoriasis",
+"psoriasisartrit",
+"psykoser",
+"pterygium",
+"pubertet",
+"puerperal",
+"barselsfeber",
+"subluxatio",
+"capitis",
+"radii",
+"pulmonal",
+"atresi",
+"ventr",
+"septum",
+"hypertension",
+"pulpitis",
+"pustulosis",
+"palmoplantaris",
+"pustuløse", 
+"pyelonefritis",
+"pylorusstenose",
+"pyoderma",
+"gangrænosum",
+"pyogent",
+"granulom",
+"quadricepsskader",
+"rabdomyolyse",
+"myoglobinuri",
+"rabies",
+"caput",
+"collumfraktur",
+"rakit",
+"raynauds",
+"artritter",
+"recidiv",
+"mavesmerter", 
+"recidiverende",
+"urinvejsinfektioner",
+"gravide",
+"refleksmedieret",
+"synkope",
+"reflukssymptomer",
+"refraktionsanomalier",
+"regnbuehinden",
+"rehabilitering",
+"renale",
+"ekstrarenale",
+"acidose",
+"alkalose",
+"respiratorisk",
+"syncytial",
+"virus",
+"restless", 
+"retentio",
+"testis",
+"retinitis",
+"pigmentosa",
+"retinoblastom",
+"retroperitoneal", "fibrose",
+"retsmedicin",
+"reumatisk",
+"feber",
+"reumatoid",
+"artritis",
+"reyes",
+"rhinitis",
+"sicca",
+"rhinopharynxcancer",
+"ribbensbrud",
+"costafraktur",
+"rickettsioser",
+"svangerskabet",
+"rosacea",
+"rotatorcuff",
+"rotavirusinfektion",
+"rottebidfeber",
+"nakkeskader",
+"rygeafvænning",
+"rygeanamnese",
+"rygeintervention",
+"ryglidelser",
+"rygmarv",
+"rygmarvsskade",
+"rygning",
+"rygsmerter",
+"salmonella",
+"sarcoma",
+"uteri",
+"sarkoidose",
+"sarkomer",
+"sars",
+"scabies",
+"fnat",
+"scheuermanns",
+"schistosomiasis",
+"scleritis",
+"scrotum",
+"testikler",
+"seboroisk",
+"eksem",
+"seboroiske",
+"seglcelleanæmi",
+"sekretion",
+"brystvorten",
+"seksuel",
+"menopausen",
+"seksuelle",
+"dysfunktioner",
+"forstyrrelser",
+"overgreb", 
+"smertetilstande",
+"amenor",
+"profylakse",
+"iskæmisk",
+"hjertesygdom",
+"sårheling",
+"selvmord",
+"selvmordsforsøg",
+"selvskade",
+"sepsis",
+"serotonergt",
+"serøs",
+"coxitis",
+"shigella",
+"tarminfektion",
+"sialoadenitis",
+"sialolithiasis",
+"simplex",
+"glaucom",
+"sindbis",
+"feber",
+"caroticus",
+"sinus",
+"tarsi", 
+"skrotum",
+"hæmatocele",
+"skaldethed", 
+"skarlagensfeber",
+"skelen",
+"basalinsuliner",
+"skizofreni",
+"skoldkopper",
+"skoliose",
+"skulderalloplastik",
+"skulderluksation",
+"skulderskade",
+"skuldersmerter",
+"skællende",
+"hudlidelser",
+"smertebehandling",
+"smertetilstande",
+"bevægapparatet",
+"smertefuldt",
+"blæresyndrom",
+"interstitiel",
+"cystit",
+"smertelindring",
+"hævelse",
+"småkirurgi",
+"snusbrug",
+"socialpædiatri",
+"somatisering",
+"spasticitet",
+"spermatocele",
+"spermiegranulom",
+"sphincterskade",
+"spinalstenose",
+"spinaltraume",
+"spinocellulær",
+"carcinom",
+"spiseforstyrrelser",
+"spiserør",
+"spiserørskramper",
+"spiserørskræft",
+"spolorm",
+"ascaris",
+"spondylartropatier",
+"spondylolyse",
+"spondylolistese",
+"spondylose",
+"pneumothorax",
+"vaginal",
+"springfinger",
+"triggerfinger",
+"taleforstyrrelser",
+"spytkirtlerne",
+"spædbarnskolik",
+"stafylococcal",
+"scalded",
+"epilepticus",
+"stensygdom",
+"urinvejene",
+"stentning",
+"koronararterier",
+"sterilisering",
+"streptokokhalsinfektion",
+"stress",
+"kardiomyopati",
+"stressbrud",
+"stressinkontinens",
+"struma",
+"strålebehandling",
+"palliativ",
+"stråleskadet",
+"stumpt",
+"øjentraume",
+"støjskade",
+"subaraknoidalblødning",
+"subclaviastenose",
+"subclavian",
+"subduralt",
+"hæmatom",
+"subfertilitet",
+"subfrenisk",
+"absces",
+"substitutionsbehandling",
+"opioider",
+"supraventrikulær",
+"svagsynethed",
+"blindhed",
+"svampeinfektioner",
+"svangerskabsgener",
+"svangerskabskontrol",
+"svangerskabskvalme",
+"svangerskabsomsorg",
+"svedkirtler",
+"svedtendens",
+"svimmelhed",
+"svulster",
+"dysplasi",
+"orbita",
+"svælget",
+"sydenhams",
+"korea",
+"syfilis",
+"tårekirtlen",
+"tårevejene",
+"sygehusobduktion",
+"symptomer",
+"symptomscreening",
+"palliative",
+"synkebesvær",
+"kronisk",
+"synkope",
+"synovial",
+"osteokondromatose",
+"synsfeltdefekter",
+"intrakranielle",
+"lidelser",
+"synsnerven",
+"synstab",
+"syre",
+"baseforstyrrelser",
+"syrebase",
+"syringomyeli",
+"lupus",
+"erytematosus",
+"sle",
+"sclerodermi",
+"inflammationer",
+"svampeinfektioner",
+"sygdomme",
+"traumatiske",
+"kirurgiske",
+"sårinfektioner",
+"sårlukning",
+"infektion",
+"sårskader",
+"søvnforstyrrelser",
+"søvnløshed",
+"søvnrædsel",
+"talassæmi",
+"sprogforstyrrelser",
+"kæbeskader"]
+"tandskader",
+"tandstatus",
+"tarminfektioner",
+"tarminvagination",
+"tarmiskæmi",
+"tarmobstruktion",
+"tarsal",
+"tbe",
+"tick",
+"borne",
+"encephalitis",
+"temporomandibulær",
+"tendinopatier",
+"terapeutisk",
+"aferese",
+"teratom",
+"cystisk",
+"testikelkræft",
+"testistorsion",
+"testosteronbehandling",
+"tetanus",
+"tfc",
+"skade",
+"læsio",
+"discus",
+"triangularis",
+"thoracale",
+"rygsmerter",
+"smerter", 
+"thoracic",
+"thoraxtraume",
+"thymom",
+"thyreoidea",
+"orbitopati",
+"tao",
+"thyreoideacancer",
+"thyreoideasygdomme",
+"thyreoidit",
+"tibialis",
+"posterior",
+"dysfunktion",
+"tibialis",
+"posteriorsyndrom",
+"tibiaperiostit",
+"tibiatorsion",
+"tics",
+"gilles",
+"tourettes",
+"syndrom",
+"tietzes",
+"tilbagefaldsfeber",
+"tilsætningsstoffer",
+"overfølsomhed",
+"tinea",
+"capitis",
+"corporis",
+"ringorm",
+"cruris",
+"pedis",
+"tms",
+"depression",
+"toddlers",
+"diarre",
+"patella",
+"bipartita",
+"toksisk",
+"epidermal",
+"nekrolyse",
+"shock",
+"tss",
+"tolosa",
+"hunt",
+"syndrom",
+"tonsilhypertrofi",
+"tonsillit",
+"torticollis",
+"toxoplasmose",
+"retinochoroiditis",
+"trachom",
+"tragtbryst",
+"trakeobronkial",
+"transfusion",
+"blodlegemer",
+"blodplader",
+"transfusionsreaktioner",
+"transposition",
+"arterier",
+"traumatologi",
+"tremor",
+"tricepstendinose",
+"trichomonas",
+"infektion",
+"trichuriasis",
+"piskeorm",
+"tricykliske",
+"antidepr",
+"tca",
+"forgiftning",
+"trigeminusneuralgi",
+"trikotillomani",
+"trokanterbursit",
+"gluteus",
+"medius",
+"tendinit",
+"trombocytopeni",
+"trombocytose",
+"trombofili",
+"tromboseprofylakse",
+"trombotisk",
+"trombocytopenisk",
+"purpura",
+"trombømboli",
+"trombømbolisk",
+"trommehinderuptur",
+"truncus",
+"arteriosus",
+"trykpneumothorax",
+"tryksår",
+"trypanosomiasis",
+"ischiadicum",
+"tuberositas",
+"ischii",
+"afrivningsbrud",
+"latent",
+"tuberkulose",
+"lunger",
+"lymfadenitis",
+"tuberkuløs",
+"spondylit",
+"tuberøs",
+"sklerose",
+"tularæmi",
+"harepest",
+"tungeforandringer",
+"tungiasis",
+"seksuelt"
+"turistdiarre",
+"tvangsindlæggelse",
+"tvangslidelse",
+"ocd",
+"tvangslidelser",
+"tvangspsykiatri",
+"tvangstanker",
+"tvangshandlinger",
+"tværleje",
+"tyfus",
+"paratyfus",
+"tyktarm",
+"tyndtarm",
+"diabetes",
+"dehydratio",
+"udadrettet",
+"urinrøret"
+"udlændingesager",
+"feber",
+"penis",
+"udstrækning",
+"udviklingsforstyrrelser",
+"cruris",
+"venøst",
+"bensår",
+"ulcus",
+"molle",
+"chanker",
+"ulna",
+"olecranon",
+"ulnar",
+"collateral",
+"ligamentskade",
+"ulnarisneuropati",
+"underbensbrud",
+"underekstremitets",
+"iskæmi",
+"underernæring", 
+"underkropspræsentation",
+"underlivsbetændelse", 
+"underlivssmerter",
+"univentrikulært",
+"ureterorenoskopi",
+"uretraskader",
+"uretrastriktur",
+"urgency",
+"urinblæresygdomme",
+"urininkontinens",
+"urinlækage",
+"urinretention",
+"asymptomatisk",
+"bakteriuri",
+"gravide",
+"urinvejsinfektion",
+"kateter",
+"urinvejssygdomme",
+"uroteliale",
+"tumorer",
+"urinveje",
+"urticaria",
+"angioødem",
+"vaginal",
+"varicer",
+"underekstremiteterne",
+"varicocele",
+"vasa",
+"prævia",
+"vaskulitter",
+"vasomotorisk",
+"rhinit",
+"vejrtrækningsbesvær",
+"vejrtrækningsproblemer",
+"åndedrætsbesvær",
+"vena",
+"cava",
+"ventralhernie",
+"ventrikelflimren",
+"ventrikelkræft",
+"ventrikelseptumdefekt",
+"ventrikulær",
+"takykardi",
+"venøs",
+"kronisk",
+"vertebralt",
+"kompressionsbrud",
+"vesikoureteral",
+"refluks",
+"vesikulære", 
+"vestibularisneurit",
+"vestibulær",
+"migræne",
+"vestnilfeber",
+"vibrio",
+"vulnificus",
+"villonodulær",
+"synovit",
+"virusinfektioner",
+"visdomstand",
+"retineret",
+"vitamin",
+"b12",
+"vitiligo",
+"volar",
+"pladelæsion",
+"voldtægt", "voldtægtslignende", "overgreb",
+"volvulus",
+"vorter",
+"vaginalkræft",
+"vulvodyni",
+"svie",
+"kløe",
+"smerte",
+"vulva",
+"vulvovaginitis",
+"biokemiske",
+"laboratorieprøver",
+"vægttab",
+"waldenstrøms",
+"makroglobulinæmi",
+"wernicke",
+"korsakoff",
+"syndrom",
+"whipples", 
+"wilms",
+"tumor",
+"wilsons",
+"wolff",
+"parkinson",
+"white",
+"yersiniainfektion",
+"zikavirus",
+"zoonoser",
+"zoster",
+"ophthalmicus",
+"åndedrætsbesvær",
+"ætsskade",
+"øjencancer",
+"øjengener"
+"øjenkomplikationer",
+"øjenlågssygdomme",
+"øjentraume",
+"øjentraumer",
+"øregang",
+"eksostose",
+"øregangsfurunkel",
+"øresekretion",
+"øresmerter",
+"øsofagusdivertikel",
+"øsofagusperforation",
+"iatrogen",
+"øsofagusvaricer",
