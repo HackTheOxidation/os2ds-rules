@@ -52,12 +52,17 @@ target_link_libraries(testaddress ${GTEST_LIBRARIES} os2dsrules os2dsrules_compi
 add_executable(testwordlist tests/testwordlist.cpp)
 target_include_directories(testwordlist PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
 target_link_libraries(testwordlist ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
+## HealthRule
+add_executable(testhealth tests/testhealth.cpp)
+target_include_directories(testhealth PUBLIC "${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR/include}")
+target_link_libraries(testhealth ${GTEST_LIBRARIES} os2dsrules os2dsrules_compiler_flags)
 
 add_test(cpr_unittests testcpr)
 add_test(datastructures_unittests testds)
 add_test(name_unittests testname)
 add_test(address_unittests testaddress)
 add_test(wordlist_unittests testwordlist)
+add_test(health_unittests testhealth)
 
 
 # Install library on system.

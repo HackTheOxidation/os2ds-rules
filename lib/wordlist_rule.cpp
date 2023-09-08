@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 #include <os2dsrules.hpp>
 #include <string_view>
@@ -21,18 +22,21 @@ void WordListRule::check_match(MatchResults &results,
 WordListRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
+  std::string content_lower = content;
+  std::transform(content_lower.begin(), content_lower.end(), content_lower.begin(), [](unsigned char ch) { return std::tolower(ch); });
+
   static const auto is_delimiter =
       make_predicate(' ', '\n', '.', ',', '\t', '!', '?');
 
   std::size_t start = 0;
-  for (std::size_t i = 0; i < content.size(); ++i) {
-    if (is_delimiter(content[i])) {
-      check_match(results, content.substr(start, i - start), start, i);
+  for (std::size_t i = 0; i < content_lower.size(); ++i) {
+    if (is_delimiter(content_lower[i])) {
+      check_match(results, content_lower.substr(start, i - start), start, i);
       start = i + 1;
     }
   }
 
-  check_match(results, content.substr(start), start, content.size() - 1);
+  check_match(results, content_lower.substr(start), start, content_lower.size() - 1);
 
   return results;
 }
