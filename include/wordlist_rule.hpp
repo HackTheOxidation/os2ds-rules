@@ -22,15 +22,17 @@ public:
       words_.insert(*iter);
     }
   }
-  WordListRule() noexcept = delete;
+  WordListRule() noexcept = default;
   WordListRule(const WordListRule &) noexcept = default;
   WordListRule(WordListRule &&) noexcept = default;
   ~WordListRule() noexcept = default;
 
   [[nodiscard]] MatchResults find_matches(const std::string &) const noexcept;
 
-private:
+protected:
   std::unordered_set<std::string_view> words_;
+  
+private:
   [[nodiscard]] bool contains(const std::string_view) const noexcept;
   [[nodiscard]] bool contains(const std::string) const noexcept;
   [[nodiscard]] bool contains(const std::string::const_iterator,

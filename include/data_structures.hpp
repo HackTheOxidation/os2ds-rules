@@ -164,6 +164,28 @@ public:
   }
 };
 
+  /*
+    This is a Suffix Tree for holding and searching for multiple strings
+    of varying length.
+   */
+  class SuffixTree {
+    public:
+    constexpr SuffixTree() noexcept = default;
+    constexpr SuffixTree(const SuffixTree &) noexcept = default;
+    constexpr SuffixTree(SuffixTree &&) noexcept = default;
+    constexpr SuffixTree &operator=(const SuffixTree &) noexcept = default;
+    constexpr SuffixTree &operator=(SuffixTree &&) noexcept = default;
+
+    constexpr std::size_t size() const noexcept;
+    
+    void insert(const std::string &) noexcept;
+    void remove(const std::string &) noexcept;
+
+  private:
+    std::size_t size_ = 0;
+
+  };
+
 }; // namespace DataStructures
 
 }; // namespace OS2DSRules
