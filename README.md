@@ -70,6 +70,12 @@ There are four preconfigured workflows that has been automated with cmake:
 - `windows-debug-workflow`: Configures, Builds and Tests the debug version of the library for `windows`.
 - `windows-release-workflow`: Configures, Builds and Packages the release version of the library for `windows`.
 
+For example, to run a debugging workflow on linux, use:
+
+```sh
+cmake --workflow --preset linux-debug-workflow
+```
+
 ### The Python extension: `os2ds-rules`
 
 You need the following:
