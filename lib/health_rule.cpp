@@ -3,8 +3,10 @@
 #include <string_view>
 #include <unordered_set>
 
-#include <os2dsrules.hpp>
 #include <health_rule.hpp>
+#include <os2dsrules.hpp>
+
+using namespace OS2DSRules::WordListRule;
 
 namespace OS2DSRules {
 
@@ -20,9 +22,12 @@ static const auto health_terms_set = std::unordered_set<std::string_view>(
     health_terms.cbegin(), health_terms.cend());
 } // namespace
 
-HealthRule::HealthRule() noexcept {
-  words_ = health_terms_set;
- }
+HealthRule::HealthRule() noexcept : rule_(health_terms_set) {}
+
+[[nodiscard]] MatchResults
+HealthRule::find_matches(const std::string &content) const noexcept {
+  return rule_.find_matches(content);
+}
 
 } // namespace HealthRule
 } // namespace OS2DSRules

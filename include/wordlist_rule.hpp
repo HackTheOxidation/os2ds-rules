@@ -13,6 +13,8 @@ namespace OS2DSRules {
 
 namespace WordListRule {
 
+using Words = std::unordered_set<std::string_view>;
+
 class WordListRule {
 public:
   template <typename Iter>
@@ -22,6 +24,7 @@ public:
       words_.insert(*iter);
     }
   }
+  WordListRule(Words words) noexcept : words_(words) {}
   WordListRule() noexcept = default;
   WordListRule(const WordListRule &) noexcept = default;
   WordListRule(WordListRule &&) noexcept = default;
@@ -30,7 +33,7 @@ public:
   [[nodiscard]] MatchResults find_matches(const std::string &) const noexcept;
 
 protected:
-  std::unordered_set<std::string_view> words_;
+  Words words_;
   
 private:
   [[nodiscard]] bool contains(const std::string_view) const noexcept;

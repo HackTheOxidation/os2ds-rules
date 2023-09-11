@@ -6,16 +6,21 @@
 #include <string_view>
 #include <wordlist_rule.hpp>
 
-using namespace OS2DSRules::WordListRule;
-
 namespace OS2DSRules {
 
 namespace HealthRule {
 
-class HealthRule final : public WordListRule {
+class HealthRule {
 public:
   HealthRule() noexcept;
+  HealthRule(const HealthRule &) noexcept = default;
+  HealthRule(HealthRule &&) noexcept = default;
   ~HealthRule() noexcept = default;
+
+  [[nodiscard]] MatchResults find_matches(const std::string &) const noexcept;
+
+private:
+  OS2DSRules::WordListRule::WordListRule rule_;
 };
 } // namespace HealthRule
 } // namespace OS2DSRules

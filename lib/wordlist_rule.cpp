@@ -23,7 +23,9 @@ WordListRule::find_matches(const std::string &content) const noexcept {
   MatchResults results;
 
   std::string content_lower = content;
-  std::transform(content_lower.begin(), content_lower.end(), content_lower.begin(), [](unsigned char ch) { return std::tolower(ch); });
+  std::transform(content_lower.begin(), content_lower.end(),
+                 content_lower.begin(),
+                 [](unsigned char ch) { return std::tolower(ch); });
 
   static const auto is_delimiter =
       make_predicate(' ', '\n', '.', ',', '\t', '!', '?');
@@ -36,7 +38,8 @@ WordListRule::find_matches(const std::string &content) const noexcept {
     }
   }
 
-  check_match(results, content_lower.substr(start), start, content_lower.size() - 1);
+  check_match(results, content_lower.substr(start), start,
+              content_lower.size() - 1);
 
   return results;
 }
